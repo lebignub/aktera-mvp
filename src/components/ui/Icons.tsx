@@ -127,9 +127,9 @@ export function IconFileStack({ size = 16, className = "" }: IconProps) {
 
 export function IconSettings({ size = 16, className = "" }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" className={className}>
-      <path d="M6.86 1.5h2.28l.32 1.6a5.5 5.5 0 011.32.76l1.54-.52 1.14 1.97-1.22 1.08a5.5 5.5 0 010 1.52l1.22 1.08-1.14 1.97-1.54-.52a5.5 5.5 0 01-1.32.76l-.32 1.6H6.86l-.32-1.6a5.5 5.5 0 01-1.32-.76l-1.54.52-1.14-1.97 1.22-1.08a5.5 5.5 0 010-1.52L2.54 5.31l1.14-1.97 1.54.52a5.5 5.5 0 011.32-.76l.32-1.6z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-      <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.2"/>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"/>
     </svg>
   );
 }

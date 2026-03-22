@@ -8,12 +8,10 @@ import { computeCompletion } from "@/lib/documents/config";
 
 interface DossierCardProps {
   property: Property;
-  index: number;
 }
 
-export function DossierCard({ property, index }: DossierCardProps) {
+export function DossierCard({ property }: DossierCardProps) {
   const completion = computeCompletion(property.documents);
-
   const uploaded = property.documents.filter((d) => d.status !== "missing").length;
   const verified = property.documents.filter((d) => d.status === "verified").length;
   const total = property.documents.length;
@@ -27,26 +25,24 @@ export function DossierCard({ property, index }: DossierCardProps) {
 
   return (
     <Link href={`/dossier/${property.id}`}>
-      <div
-        className="glass-card glass-card-hover p-6 cursor-pointer fade-in-up"
-        style={{ animationDelay: `${index * 80}ms`, animationFillMode: "backwards" }}
-      >
-        <div className="flex items-start justify-between mb-4">
+      <div className="bg-[#131316] border border-[#1E1E21] rounded-xl p-5 hover:border-[#27272A] hover:bg-[#18181B] transition-colors cursor-pointer group">
+        <div className="flex items-start justify-between mb-3">
           <div>
-            <h3 className="font-semibold text-white text-[15px] tracking-tight">{property.address}</h3>
-            <p className="text-[13px] text-[#576580] mt-0.5">
+            <h3 className="text-[13px] font-semibold text-[#FAFAFA] group-hover:text-white">
+              {property.address}
+            </h3>
+            <p className="text-[12px] text-[#52525B] mt-0.5">
               {property.postal_code} {property.city}
             </p>
           </div>
           <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
         </div>
 
-        <ProgressBar value={completion} className="mb-4" />
+        <ProgressBar value={completion} className="mb-3" />
 
-        <div className="flex items-center gap-4 text-[11px] text-[#576580] tracking-wide">
-          <span>{uploaded}/{total} documenten</span>
-          <span>{verified} geverifieerd</span>
-          <span className="ml-auto">
+        <div className="flex items-center justify-between text-[11px] text-[#52525B]">
+          <span>{uploaded}/{total} documenten &middot; {verified} geverifieerd</span>
+          <span>
             {new Date(property.updated_at).toLocaleDateString("nl-BE", {
               day: "numeric",
               month: "short",

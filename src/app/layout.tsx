@@ -19,15 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl" className={`${plusJakarta.variable} h-full antialiased`}>
-      <body className="grain-overlay min-h-full flex flex-col font-sans">
-        {/* Aurora gradient background layer */}
-        <div className="aurora-bg" />
-        {/* Content sits above the aurora */}
-        <div className="relative z-10 flex flex-col min-h-full">
-          {children}
-        </div>
-      </body>
+    <html lang="nl" className={`${plusJakarta.variable} h-full`}>
+      <body className="min-h-full font-sans antialiased">{children}</body>
     </html>
   );
 }

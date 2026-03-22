@@ -7,17 +7,17 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeProps["variant"], string> = {
-  success: "bg-[rgba(52,211,153,0.1)] text-[#34D399] border-[rgba(52,211,153,0.2)]",
-  warning: "bg-[rgba(251,191,36,0.1)] text-[#FBBF24] border-[rgba(251,191,36,0.2)]",
-  error: "bg-[rgba(248,113,113,0.1)] text-[#F87171] border-[rgba(248,113,113,0.2)]",
-  info: "bg-[rgba(126,180,255,0.1)] text-[#7EB4FF] border-[rgba(126,180,255,0.2)]",
-  neutral: "bg-[rgba(120,150,190,0.08)] text-[#8B9BB8] border-[rgba(120,150,190,0.15)]",
+  success: "bg-[rgba(34,197,94,0.1)] text-[#22C55E]",
+  warning: "bg-[rgba(234,179,8,0.1)] text-[#EAB308]",
+  error: "bg-[rgba(239,68,68,0.1)] text-[#EF4444]",
+  info: "bg-[rgba(59,130,246,0.1)] text-[#3B82F6]",
+  neutral: "bg-[#18181B] text-[#52525B]",
 };
 
 export function Badge({ variant, children, className = "" }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium border tracking-wide ${variantStyles[variant]} ${className}`}
+      className={`inline-flex items-center h-5 px-2 rounded text-[11px] font-medium ${variantStyles[variant]} ${className}`}
     >
       {children}
     </span>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { IconUpload } from "@/components/ui/Icons";
 
 interface UploadZoneProps {
   documentId: string;
@@ -17,119 +18,56 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
 
   const handleFile = useCallback(async (file: File) => {
     if (!file.type.includes("pdf")) return;
-
     setUploading(true);
     setProgress(0);
 
     const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 90) {
-          clearInterval(interval);
-          return 90;
-        }
-        return prev + 10;
-      });
-    }, 100);
+      setProgress((prev) => prev >= 90 ? (clearInterval(interval), 90) : prev + 12);
+    }, 80);
 
     try {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("document_id", documentId);
       formData.append("property_id", propertyId);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
+      await fetch("/api/upload", { method: "POST", body: formData }).catch(() => {});
       clearInterval(interval);
       setProgress(100);
       onUploadComplete(file);
-
-      if (!res.ok) {
-        // Still works in mock mode
-      }
     } catch {
       clearInterval(interval);
       setProgress(100);
       onUploadComplete(file);
     } finally {
-      setTimeout(() => {
-        setUploading(false);
-        setProgress(0);
-      }, 500);
+      setTimeout(() => { setUploading(false); setProgress(0); }, 400);
     }
   }, [documentId, propertyId, onUploadComplete]);
 
-  function handleDragOver(e: React.DragEvent) {
-    e.preventDefault();
-    if (!disabled) setIsDragging(true);
-  }
-
-  function handleDragLeave() {
-    setIsDragging(false);
-  }
-
-  function handleDrop(e: React.DragEvent) {
-    e.preventDefault();
-    setIsDragging(false);
-    if (disabled) return;
-    const file = e.dataTransfer.files[0];
-    if (file) handleFile(file);
-  }
-
-  function handleClick() {
-    if (!disabled && !uploading) fileInputRef.current?.click();
-  }
-
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) handleFile(file);
-    e.target.value = "";
-  }
-
   return (
     <div
-      className={`upload-zone p-10 text-center cursor-pointer ${
-        isDragging ? "drag-over" : ""
-      } ${disabled ? "opacity-35 cursor-not-allowed" : ""}`}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-      onClick={handleClick}
+      className={`upload-zone p-8 text-center cursor-pointer ${isDragging ? "drag-over" : ""} ${disabled ? "opacity-30 cursor-not-allowed" : ""}`}
+      onDragOver={(e) => { e.preventDefault(); if (!disabled) setIsDragging(true); }}
+      onDragLeave={() => setIsDragging(false)}
+      onDrop={(e) => { e.preventDefault(); setIsDragging(false); if (!disabled) { const f = e.dataTransfer.files[0]; if (f) handleFile(f); } }}
+      onClick={() => { if (!disabled && !uploading) fileInputRef.current?.click(); }}
     >
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".pdf,application/pdf"
-        className="hidden"
-        onChange={handleInputChange}
-      />
+      <input ref={fileInputRef} type="file" accept=".pdf" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); e.target.value = ""; }} />
 
       {uploading ? (
-        <div className="space-y-4">
-          <div className="w-10 h-10 mx-auto rounded-full border-2 border-[rgba(126,180,255,0.3)] border-t-[#7EB4FF] animate-spin" />
-          <p className="text-[13px] text-[#8B9BB8]">Uploaden...</p>
-          <div className="max-w-[200px] mx-auto h-1.5 bg-[rgba(120,150,190,0.1)] rounded-full overflow-hidden">
-            <div
-              className="h-full bg-[#7EB4FF] rounded-full transition-all duration-200"
-              style={{ width: `${progress}%` }}
-            />
+        <div className="space-y-3">
+          <div className="w-6 h-6 mx-auto rounded-full border-2 border-[#27272A] border-t-[#3B82F6] animate-spin" />
+          <p className="text-[12px] text-[#52525B]">Uploaden...</p>
+          <div className="max-w-[160px] mx-auto h-1 bg-[#18181B] rounded-full overflow-hidden">
+            <div className="h-full bg-[#3B82F6] rounded-full transition-all duration-150" style={{ width: `${progress}%` }} />
           </div>
         </div>
       ) : (
-        <div className="space-y-3">
-          {/* Upload icon */}
-          <div className="w-12 h-12 mx-auto rounded-2xl bg-[rgba(126,180,255,0.06)] border border-[rgba(126,180,255,0.12)] flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-[#7EB4FF]">
-              <path d="M10 14V3M10 3L6 7M10 3l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M3 14v1a2 2 0 002 2h10a2 2 0 002-2v-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <p className="text-[13px] text-[#8B9BB8]">
-            Sleep een PDF hierheen of <span className="text-[#7EB4FF]">blader</span>
+        <div className="space-y-2">
+          <IconUpload size={20} className="mx-auto text-[#52525B]" />
+          <p className="text-[13px] text-[#A1A1AA]">
+            Sleep een PDF hierheen of <span className="text-[#3B82F6]">blader</span>
           </p>
-          <p className="text-[11px] text-[#576580]">Alleen PDF-bestanden</p>
+          <p className="text-[11px] text-[#52525B]">PDF, max 20MB</p>
         </div>
       )}
     </div>

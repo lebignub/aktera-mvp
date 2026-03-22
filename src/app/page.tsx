@@ -3,11 +3,12 @@
 import { useState, useMemo } from "react";
 import { getProperties, createProperty, isMockMode } from "@/lib/store";
 import { computeCompletion } from "@/lib/documents/config";
-import { Logo } from "@/components/ui/Logo";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { KPIGrid } from "@/components/dashboard/KPIGrid";
 import { DossierCard } from "@/components/dashboard/DossierCard";
 import { CreateDossierModal } from "@/components/dashboard/CreateDossierModal";
 import { Button } from "@/components/ui/Button";
+import { IconPlus } from "@/components/ui/Icons";
 import { ToastContainer, showToast } from "@/components/ui/Toast";
 import type { Property, DossierStats, CreateDossierInput } from "@/lib/types";
 
@@ -39,73 +40,52 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Mock mode banner */}
-      {mockMode && (
-        <div className="mock-banner">
-          Demo-modus — data wordt lokaal opgeslagen
-        </div>
-      )}
+    <div className="flex min-h-screen">
+      <Sidebar />
 
-      {/* Top navigation bar */}
-      <header className="px-8 py-5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Logo size="md" />
-          <Button onClick={() => setShowCreate(true)} size="md">
-            Nieuw dossier
-          </Button>
-        </div>
-        <div className="max-w-6xl mx-auto mt-5">
-          <div className="separator" />
-        </div>
-      </header>
+      <div className="flex-1 flex flex-col min-w-0">
+        {mockMode && (
+          <div className="mock-banner"><span>Demo</span> — data wordt lokaal opgeslagen</div>
+        )}
 
-      <main className="flex-1 max-w-6xl mx-auto w-full px-8 pb-12">
-        {/* Page heading */}
-        <div className="mt-8 mb-10">
-          <h1 className="text-3xl font-bold text-white tracking-tight">
-            Dashboard
-          </h1>
-          <p className="text-[14px] text-[#576580] mt-1.5">
-            Beheer uw vastgoeddossiers
-          </p>
-        </div>
-
-        {/* KPI Cards */}
-        <KPIGrid stats={stats} />
-
-        {/* Dossier List */}
-        <section className="mt-10">
-          <h2 className="text-[12px] uppercase tracking-[0.08em] font-medium text-[#8B9BB8] mb-5">
-            Dossiers
-          </h2>
-
-          {properties.length === 0 ? (
-            <div className="glass-card p-16 text-center">
-              <p className="text-[#8B9BB8] text-lg mb-2">Nog geen dossiers</p>
-              <p className="text-[#576580] text-sm mb-8">
-                Maak uw eerste vastgoeddossier aan om te beginnen
-              </p>
-              <Button onClick={() => setShowCreate(true)}>
-                Nieuw dossier aanmaken
-              </Button>
+        <main className="flex-1 px-8 py-6 max-w-5xl">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-lg font-semibold text-[#FAFAFA]">Dossiers</h1>
+              <p className="text-[12px] text-[#52525B] mt-0.5">Beheer uw vastgoeddossiers</p>
             </div>
-          ) : (
-            <div className="grid gap-4 md:grid-cols-2">
-              {properties.map((property, i) => (
-                <DossierCard key={property.id} property={property} index={i} />
-              ))}
-            </div>
-          )}
-        </section>
-      </main>
+            <Button onClick={() => setShowCreate(true)} size="sm">
+              <IconPlus size={14} />
+              Nieuw dossier
+            </Button>
+          </div>
 
-      <CreateDossierModal
-        open={showCreate}
-        onClose={() => setShowCreate(false)}
-        onCreate={handleCreate}
-      />
+          {/* KPIs */}
+          <KPIGrid stats={stats} />
 
+          {/* List */}
+          <div className="mt-6">
+            {properties.length === 0 ? (
+              <div className="border border-[#1E1E21] border-dashed rounded-xl p-12 text-center">
+                <p className="text-[13px] text-[#52525B] mb-4">Nog geen dossiers aangemaakt</p>
+                <Button onClick={() => setShowCreate(true)} size="sm">
+                  <IconPlus size={14} />
+                  Nieuw dossier
+                </Button>
+              </div>
+            ) : (
+              <div className="grid gap-3 lg:grid-cols-2">
+                {properties.map((property) => (
+                  <DossierCard key={property.id} property={property} />
+                ))}
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+
+      <CreateDossierModal open={showCreate} onClose={() => setShowCreate(false)} onCreate={handleCreate} />
       <ToastContainer />
     </div>
   );

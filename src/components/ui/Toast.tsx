@@ -19,9 +19,9 @@ export function showToast(type: ToastType, message: string) {
 }
 
 const typeStyles: Record<ToastType, string> = {
-  success: "border-[rgba(52,211,153,0.25)] bg-[rgba(52,211,153,0.08)]",
-  error: "border-[rgba(248,113,113,0.25)] bg-[rgba(248,113,113,0.08)]",
-  info: "border-[rgba(126,180,255,0.25)] bg-[rgba(126,180,255,0.08)]",
+  success: "border-[#22C55E]/20 text-[#22C55E]",
+  error: "border-[#EF4444]/20 text-[#EF4444]",
+  info: "border-[#3B82F6]/20 text-[#3B82F6]",
 };
 
 export function ToastContainer() {
@@ -31,24 +31,22 @@ export function ToastContainer() {
     setToasts((prev) => [...prev, toast]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== toast.id));
-    }, 4000);
+    }, 3500);
   }, []);
 
   useEffect(() => {
     toastListeners.push(addToast);
-    return () => {
-      toastListeners = toastListeners.filter((fn) => fn !== addToast);
-    };
+    return () => { toastListeners = toastListeners.filter((fn) => fn !== addToast); };
   }, [addToast]);
 
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2">
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className={`toast backdrop-blur-xl border px-5 py-3 rounded-2xl text-sm font-medium text-white min-w-[280px] ${typeStyles[toast.type]}`}
+          className={`toast bg-[#131316] border rounded-lg px-4 py-2.5 text-[13px] font-medium shadow-lg min-w-[240px] ${typeStyles[toast.type]}`}
         >
           {toast.message}
         </div>

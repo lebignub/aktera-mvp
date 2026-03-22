@@ -14,9 +14,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
 
   useEffect(() => {
     if (!open) return;
-    function handleKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
-    }
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
   }, [open, onClose]);
@@ -26,17 +24,15 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
   return (
     <div
       ref={backdropRef}
-      className="fixed inset-0 z-40 flex items-center justify-center bg-[rgba(4,6,12,0.7)] backdrop-blur-md"
-      onClick={(e) => {
-        if (e.target === backdropRef.current) onClose();
-      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+      onClick={(e) => { if (e.target === backdropRef.current) onClose(); }}
     >
-      <div className="glass-card w-full max-w-lg mx-4 p-7 fade-in-up border border-[rgba(120,160,210,0.15)]">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-white tracking-tight">{title}</h2>
+      <div className="bg-[#131316] border border-[#27272A] rounded-xl w-full max-w-md mx-4 p-6 fade-in shadow-2xl">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-sm font-semibold text-[#FAFAFA]">{title}</h2>
           <button
             onClick={onClose}
-            className="text-[#576580] hover:text-white transition-colors text-xl leading-none cursor-pointer w-8 h-8 flex items-center justify-center rounded-full hover:bg-[rgba(120,160,210,0.1)]"
+            className="text-[#52525B] hover:text-[#A1A1AA] transition-colors w-6 h-6 flex items-center justify-center rounded hover:bg-[#18181B] cursor-pointer text-lg leading-none"
           >
             &times;
           </button>

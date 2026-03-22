@@ -27,7 +27,7 @@ export function DossierHeader({ property }: DossierHeaderProps) {
     <div className="mb-6">
       <Link
         href="/"
-        className="inline-flex items-center gap-1.5 text-[12px] text-[#555] hover:text-white transition-colors mb-4"
+        className="inline-flex items-center gap-1.5 text-[12px] text-[#666] hover:text-white transition-colors mb-4"
       >
         <IconArrowLeft size={12} />
         Dossiers
@@ -36,7 +36,7 @@ export function DossierHeader({ property }: DossierHeaderProps) {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">{property.address}</h1>
-          <p className="text-[12px] text-[#555] mt-0.5">
+          <p className="text-[12px] text-[#666] mt-0.5">
             {property.postal_code} {property.city}
           </p>
         </div>
@@ -45,7 +45,7 @@ export function DossierHeader({ property }: DossierHeaderProps) {
 
       <div className="mt-4 max-w-xs">
         <ProgressBar value={completion} className="mb-1.5" />
-        <p className="text-[11px] text-[#555]">
+        <p className="text-[11px] text-[#666]">
           {verified}/{total} documenten geverifieerd
         </p>
       </div>

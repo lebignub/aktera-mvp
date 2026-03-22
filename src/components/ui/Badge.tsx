@@ -12,7 +12,7 @@ const variantStyles: Record<BadgeProps["variant"], { dot: string; text: string }
   warning: { dot: "bg-[#FFB224]", text: "text-[#FFB224]" },
   error: { dot: "bg-[#FF4545]", text: "text-[#FF4545]" },
   info: { dot: "bg-white", text: "text-white" },
-  neutral: { dot: "bg-[#555]", text: "text-[#555]" },
+  neutral: { dot: "bg-[#666]", text: "text-[#666]" },
 };
 
 export function Badge({ variant, children, className = "" }: BadgeProps) {

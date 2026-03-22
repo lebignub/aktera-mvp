@@ -148,7 +148,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
                 />
               ) : (
                 <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl p-12 text-center">
-                  <p className="text-[12px] text-[#555]">Selecteer een document</p>
+                  <p className="text-[12px] text-[#666]">Selecteer een document</p>
                 </div>
               )}
             </div>

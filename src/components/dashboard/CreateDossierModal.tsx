@@ -33,16 +33,16 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
     <Modal open={open} onClose={onClose} title="Nieuw dossier">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-[11px] text-[#555] font-medium mb-2">Adres</label>
+          <label className="block text-[11px] text-[#666] font-medium mb-2">Adres</label>
           <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Kerkstraat 42" className={inputClass} autoFocus />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-[11px] text-[#555] font-medium mb-2">Stad</label>
+            <label className="block text-[11px] text-[#666] font-medium mb-2">Stad</label>
             <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Antwerpen" className={inputClass} />
           </div>
           <div>
-            <label className="block text-[11px] text-[#555] font-medium mb-2">Postcode</label>
+            <label className="block text-[11px] text-[#666] font-medium mb-2">Postcode</label>
             <input type="text" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} placeholder="2000" className={inputClass} />
           </div>
         </div>

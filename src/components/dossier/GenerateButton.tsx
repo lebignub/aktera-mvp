@@ -60,7 +60,7 @@ export function GenerateButton({ property }: GenerateButtonProps) {
 
   return (
     <>
-      <div className="mt-6 pt-5 border-t border-[rgba(255,255,255,0.06)]">
+      <div className="mt-6 pt-5 border-t border-[rgba(255,255,255,0.1)]">
         <Button onClick={() => setShowVerify(true)} disabled={!hasFields || generating} size="md" className="w-full">
           {generating ? "Genereren..." : "Genereer Compromis"}
         </Button>
@@ -72,10 +72,10 @@ export function GenerateButton({ property }: GenerateButtonProps) {
             const Icon = DOC_TYPE_ICONS[doc.type] || IconDocument;
             return (
               <div key={doc.label} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[rgba(255,255,255,0.02)]">
-                <Icon size={13} className="text-[#555] shrink-0" />
+                <Icon size={13} className="text-[#666] shrink-0" />
                 <span className="text-[13px] text-white flex-1">{doc.label}</span>
                 {doc.status === "missing" ? (
-                  <span className="text-[11px] text-[#555]">Ontbreekt</span>
+                  <span className="text-[11px] text-[#666]">Ontbreekt</span>
                 ) : doc.ready ? (
                   <span className="flex items-center gap-1 text-[11px] text-[#00D47E]">
                     <IconCheck size={11} /> Klaar
@@ -88,12 +88,12 @@ export function GenerateButton({ property }: GenerateButtonProps) {
           })}
         </div>
 
-        <div className="text-[11px] text-[#666] mb-5 p-3 border border-[rgba(255,255,255,0.06)] rounded-lg leading-relaxed">
+        <div className="text-[11px] text-[#666] mb-5 p-3 border border-[rgba(255,255,255,0.1)] rounded-lg leading-relaxed">
           Dit document wordt automatisch gegenereerd. Controleer alle gegevens zorgvuldig voor gebruik. Aktera is niet aansprakelijk voor fouten.
         </div>
 
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[11px] text-[#555]">{verifiedFields.length}/{allFields.length} velden geverifieerd</span>
+          <span className="text-[11px] text-[#666]">{verifiedFields.length}/{allFields.length} velden geverifieerd</span>
         </div>
 
         <div className="flex justify-end gap-2">

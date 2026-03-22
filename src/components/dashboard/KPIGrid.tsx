@@ -18,7 +18,7 @@ function KPICard({ label, value, delay }: KPICardProps) {
       className="fade-in"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <p className="text-[11px] text-[#555] font-medium tracking-[-0.01em] mb-2">{label}</p>
+      <p className="text-[11px] text-[#666] font-medium tracking-[-0.01em] mb-2">{label}</p>
       <p className="text-[28px] font-semibold text-white tabular-nums leading-none tracking-[-0.03em]">
         {value}
       </p>
@@ -28,7 +28,7 @@ function KPICard({ label, value, delay }: KPICardProps) {
 
 export function KPIGrid({ stats }: KPIGridProps) {
   return (
-    <div className="grid grid-cols-4 gap-8 py-6 border-y border-[rgba(255,255,255,0.06)]">
+    <div className="grid grid-cols-4 gap-8 py-6 border-y border-[rgba(255,255,255,0.1)]">
       <KPICard label="Totaal" value={stats.total} delay={0} />
       <KPICard label="Voltooid" value={stats.complete} delay={50} />
       <KPICard label="In behandeling" value={stats.inProgress} delay={100} />

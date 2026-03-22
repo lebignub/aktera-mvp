@@ -29,10 +29,10 @@ export function ExtractionPanel({ document: doc, propertyId, onFieldUpdate, onUp
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-[14px] font-semibold text-white tracking-[-0.01em]">{config.label}</h3>
-            <p className="text-[11px] text-[#555] mt-0.5">{config.description}</p>
+            <p className="text-[11px] text-[#666] mt-0.5">{config.description}</p>
           </div>
           {(doc.status === "extracted" || doc.status === "verified") && (
-            <span className="text-[11px] text-[#555] tabular-nums">
+            <span className="text-[11px] text-[#666] tabular-nums">
               {doc.fields.filter((f) => f.verified).length}/{doc.fields.length}
             </span>
           )}
@@ -46,8 +46,8 @@ export function ExtractionPanel({ document: doc, propertyId, onFieldUpdate, onUp
 
         {doc.status === "uploaded" && doc.file_name && (
           <div className="space-y-4">
-            <div className="flex items-center gap-3 px-3.5 py-3 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.06)]">
-              <IconDocument size={14} className="text-[#555] shrink-0" />
+            <div className="flex items-center gap-3 px-3.5 py-3 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.1)]">
+              <IconDocument size={14} className="text-[#666] shrink-0" />
               <span className="text-[13px] text-[#999] flex-1 truncate">{doc.file_name}</span>
               <Badge variant="warning">Geupload</Badge>
             </div>
@@ -60,10 +60,10 @@ export function ExtractionPanel({ document: doc, propertyId, onFieldUpdate, onUp
 
         {doc.status === "extracting" && (
           <div className="text-center py-14 space-y-4">
-            <div className="w-8 h-8 mx-auto rounded-full border-2 border-[rgba(255,255,255,0.08)] border-t-white animate-spin" />
+            <div className="w-8 h-8 mx-auto rounded-full border-2 border-[rgba(255,255,255,0.12)] border-t-white animate-spin" />
             <div>
               <p className="text-[13px] text-[#999]">AI analyseert het document</p>
-              <p className="text-[11px] text-[#555] mt-1">Dit duurt meestal een paar seconden...</p>
+              <p className="text-[11px] text-[#666] mt-1">Dit duurt meestal een paar seconden...</p>
             </div>
           </div>
         )}
@@ -71,8 +71,8 @@ export function ExtractionPanel({ document: doc, propertyId, onFieldUpdate, onUp
         {(doc.status === "extracted" || doc.status === "verified") && doc.fields.length > 0 && (
           <div>
             {doc.file_name && (
-              <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.06)] mb-5">
-                <IconDocument size={13} className="text-[#555] shrink-0" />
+              <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.1)] mb-5">
+                <IconDocument size={13} className="text-[#666] shrink-0" />
                 <span className="text-[12px] text-[#999] flex-1 truncate">{doc.file_name}</span>
                 <Badge variant={doc.status === "verified" ? "success" : "info"}>
                   {doc.status === "verified" ? "Geverifieerd" : "Geextraheerd"}
@@ -90,7 +90,7 @@ export function ExtractionPanel({ document: doc, propertyId, onFieldUpdate, onUp
 
         {(doc.status === "extracted" || doc.status === "verified") && doc.fields.length === 0 && (
           <div className="text-center py-14">
-            <p className="text-[13px] text-[#555]">Geen velden geextraheerd</p>
+            <p className="text-[13px] text-[#666]">Geen velden geextraheerd</p>
           </div>
         )}
       </div>
@@ -131,7 +131,7 @@ function FieldRow({ field, onUpdate }: FieldRowProps) {
         <ConfidenceDot level={field.confidence} />
       )}
 
-      <span className="text-[11px] text-[#555] w-[100px] shrink-0 truncate" title={field.field_label}>
+      <span className="text-[11px] text-[#666] w-[100px] shrink-0 truncate" title={field.field_label}>
         {field.field_label}
       </span>
 
@@ -157,7 +157,7 @@ function FieldRow({ field, onUpdate }: FieldRowProps) {
       {!editing && !field.verified && (
         <button
           onClick={() => { setEditValue(field.field_value || ""); setEditing(true); }}
-          className="text-[#555] hover:text-white transition-colors shrink-0 cursor-pointer"
+          className="text-[#666] hover:text-white transition-colors shrink-0 cursor-pointer"
         >
           <IconPencil size={12} />
         </button>

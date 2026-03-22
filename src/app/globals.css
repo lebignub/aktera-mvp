@@ -7,12 +7,12 @@
   --color-bg-elevated: #111111;
   --color-bg-hover: #191919;
   --color-bg-input: #0A0A0A;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(255, 255, 255, 0.14);
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-hover: rgba(255, 255, 255, 0.2);
   --color-accent: #FFFFFF;
   --color-text-primary: #FFFFFF;
   --color-text-secondary: #999999;
-  --color-text-muted: #555555;
+  --color-text-muted: #666666;
   --color-success: #00D47E;
   --color-warning: #FFB224;
   --color-error: #FF4545;
@@ -31,24 +31,24 @@ body {
 /* ── Card ── */
 .card {
   background: #0A0A0A;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   transition: border-color 0.15s ease;
 }
 .card:hover {
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 /* ── Panel — extraction panel ── */
 .panel {
   background: #0A0A0A;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   overflow: hidden;
 }
 .panel-header {
   background: #0A0A0A;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ── Verified field ── */
@@ -60,7 +60,7 @@ body {
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.14); }
 
 /* ── Animations ── */
@@ -124,5 +124,5 @@ body {
 /* ── Gradient divider (peec.ai-style) ── */
 .divider-gradient {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
 }

@@ -49,7 +49,7 @@ export default function Dashboard() {
           <div className="flex items-end justify-between mb-8">
             <div>
               <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">Dossiers</h1>
-              <p className="text-[13px] text-[#555] mt-1 tracking-[-0.01em]">Overzicht van uw vastgoeddossiers</p>
+              <p className="text-[13px] text-[#666] mt-1 tracking-[-0.01em]">Overzicht van uw vastgoeddossiers</p>
             </div>
             <Button onClick={() => setShowCreate(true)} size="md">
               <IconPlus size={13} />
@@ -65,7 +65,7 @@ export default function Dashboard() {
             {properties.length === 0 ? (
               <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl py-16 text-center">
                 <p className="text-[14px] text-[#999] mb-1">Geen dossiers</p>
-                <p className="text-[12px] text-[#555] mb-6">Maak uw eerste dossier aan om te beginnen</p>
+                <p className="text-[12px] text-[#666] mb-6">Maak uw eerste dossier aan om te beginnen</p>
                 <Button onClick={() => setShowCreate(true)} size="md">
                   <IconPlus size={13} />
                   Nieuw dossier

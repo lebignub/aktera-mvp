@@ -37,13 +37,13 @@ export function DossierCard({ property, index }: DossierCardProps) {
           <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
         </div>
 
-        <p className="text-[12px] text-[#555] mb-4">
+        <p className="text-[12px] text-[#666] mb-4">
           {property.postal_code} {property.city}
         </p>
 
         <ProgressBar value={completion} className="mb-2.5" />
 
-        <div className="flex items-center justify-between text-[11px] text-[#555]">
+        <div className="flex items-center justify-between text-[11px] text-[#666]">
           <span>{uploaded}/{total} documenten &middot; {verified} geverifieerd</span>
           <span>
             {new Date(property.updated_at).toLocaleDateString("nl-BE", { day: "numeric", month: "short" })}

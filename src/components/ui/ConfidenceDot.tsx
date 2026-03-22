@@ -18,7 +18,7 @@ export function ConfidenceDot({ level, showLabel = false }: ConfidenceDotProps) 
   return (
     <span className="inline-flex items-center gap-1.5 shrink-0">
       <span className={`w-1.5 h-1.5 rounded-full ${color}`} title={`Betrouwbaarheid: ${label}`} />
-      {showLabel && <span className="text-[11px] text-[#555]">{label}</span>}
+      {showLabel && <span className="text-[11px] text-[#666]">{label}</span>}
     </span>
   );
 }

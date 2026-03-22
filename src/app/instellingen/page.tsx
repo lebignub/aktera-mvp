@@ -27,7 +27,7 @@ export default function InstellingenPage() {
           <div className="mock-banner"><strong>Demo</strong> &mdash; data wordt lokaal opgeslagen</div>
         )}
 
-        <main className="flex-1 px-10 py-8 max-w-[640px]">
+        <main className="flex-1 px-10 py-8 max-w-[900px]">
           {/* Page header */}
           <div className="mb-8">
             <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">Instellingen</h1>

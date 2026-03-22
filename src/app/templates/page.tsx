@@ -56,7 +56,7 @@ export default function TemplatesPage() {
           <div className="mock-banner"><strong>Demo</strong> &mdash; data wordt lokaal opgeslagen</div>
         )}
 
-        <main className="flex-1 px-10 py-8 max-w-[900px]">
+        <main className="flex-1 px-10 py-8">
           {/* Page header */}
           <div className="flex items-end justify-between mb-8">
             <div>

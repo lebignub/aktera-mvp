@@ -63,8 +63,14 @@ export function Sidebar() {
         </Link>
       </nav>
 
-      {/* Bottom — user info */}
+      {/* Bottom */}
       <div className="px-5 py-4 border-t border-[rgba(255,255,255,0.1)]">
+        <Link
+          href="/pitch"
+          className="text-[11px] text-[#666] hover:text-white transition-colors mb-3 block"
+        >
+          Pitch bekijken →
+        </Link>
         <div className="flex items-center gap-2.5">
           <div className="w-6 h-6 rounded-full bg-[#222] flex items-center justify-center text-[9px] font-medium text-[#999]">
             MA

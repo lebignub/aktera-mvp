@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
-import { IconFolder } from "@/components/ui/Icons";
+import { IconFolder, IconGlobe } from "@/components/ui/Icons";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -34,6 +34,19 @@ export function Sidebar() {
         >
           <IconFolder size={15} className="shrink-0" />
           Dossiers
+        </Link>
+        <Link
+          href="/pitch"
+          className={`
+            flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150
+            ${pathname === "/pitch"
+              ? "text-white bg-[rgba(255,255,255,0.1)]"
+              : "text-[#666] hover:text-white"
+            }
+          `}
+        >
+          <IconGlobe size={15} className="shrink-0" />
+          Pitch
         </Link>
       </nav>
 

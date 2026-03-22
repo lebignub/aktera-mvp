@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
-import { IconFolder, IconGlobe } from "@/components/ui/Icons";
+import { IconFolder, IconFileStack, IconSettings } from "@/components/ui/Icons";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -36,17 +36,30 @@ export function Sidebar() {
           Dossiers
         </Link>
         <Link
-          href="/pitch"
+          href="/templates"
           className={`
             flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150
-            ${pathname === "/pitch"
+            ${pathname === "/templates"
               ? "text-white bg-[rgba(255,255,255,0.1)]"
               : "text-[#666] hover:text-white"
             }
           `}
         >
-          <IconGlobe size={15} className="shrink-0" />
-          Pitch
+          <IconFileStack size={15} className="shrink-0" />
+          Templates
+        </Link>
+        <Link
+          href="/instellingen"
+          className={`
+            flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150
+            ${pathname === "/instellingen"
+              ? "text-white bg-[rgba(255,255,255,0.1)]"
+              : "text-[#666] hover:text-white"
+            }
+          `}
+        >
+          <IconSettings size={15} className="shrink-0" />
+          Instellingen
         </Link>
       </nav>
 

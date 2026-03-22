@@ -7,6 +7,8 @@ import { Modal } from "@/components/ui/Modal";
 import { DOCUMENT_CONFIGS } from "@/lib/documents/config";
 import { IconCheck, DOC_TYPE_ICONS, IconDocument } from "@/components/ui/Icons";
 import { showToast } from "@/components/ui/Toast";
+import { getTemplates, markTemplateUsed } from "@/lib/store";
+import type { Template } from "@/lib/types";
 
 interface GenerateButtonProps {
   property: Property;
@@ -15,6 +17,17 @@ interface GenerateButtonProps {
 export function GenerateButton({ property }: GenerateButtonProps) {
   const [showVerify, setShowVerify] = useState(false);
   const [generating, setGenerating] = useState(false);
+
+  // Template selection — default to most recently used, then first available
+  const templates = getTemplates().filter((t) => t.type === "compromis");
+  const defaultTemplate = templates.sort((a, b) => {
+    // Most recently used first, then most recently uploaded
+    if (a.last_used_at && !b.last_used_at) return -1;
+    if (!a.last_used_at && b.last_used_at) return 1;
+    if (a.last_used_at && b.last_used_at) return b.last_used_at.localeCompare(a.last_used_at);
+    return b.uploaded_at.localeCompare(a.uploaded_at);
+  })[0];
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(defaultTemplate?.id ?? "");
 
   const allFields = property.documents.flatMap((d) => d.fields);
   const verifiedFields = allFields.filter((f) => f.verified);
@@ -30,11 +43,13 @@ export function GenerateButton({ property }: GenerateButtonProps) {
   async function handleGenerate() {
     setGenerating(true);
     setShowVerify(false);
+    // Mark the selected template as used so it becomes the default next time
+    if (selectedTemplateId) markTemplateUsed(selectedTemplateId);
     try {
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ property_id: property.id }),
+        body: JSON.stringify({ property_id: property.id, template_id: selectedTemplateId || undefined }),
       });
       if (res.ok) {
         const blob = await res.blob();
@@ -87,6 +102,34 @@ export function GenerateButton({ property }: GenerateButtonProps) {
             );
           })}
         </div>
+
+        {/* Template picker */}
+        {templates.length > 0 && (
+          <div className="mb-5">
+            <label className="block text-[11px] text-[#666] font-medium mb-2">Template</label>
+            <div className="space-y-1">
+              {templates.map((tpl) => (
+                <button
+                  key={tpl.id}
+                  onClick={() => setSelectedTemplateId(tpl.id)}
+                  className={`
+                    w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors
+                    ${selectedTemplateId === tpl.id
+                      ? "bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.2)]"
+                      : "border border-transparent hover:bg-[rgba(255,255,255,0.03)]"
+                    }
+                  `}
+                >
+                  <IconDocument size={13} className="text-[#666] shrink-0" />
+                  <span className="text-[13px] text-white flex-1 truncate">{tpl.name}</span>
+                  {selectedTemplateId === tpl.id && (
+                    <IconCheck size={12} className="text-[#00D47E] shrink-0" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="text-[11px] text-[#666] mb-5 p-3 border border-[rgba(255,255,255,0.1)] rounded-lg leading-relaxed">
           Dit document wordt automatisch gegenereerd. Controleer alle gegevens zorgvuldig voor gebruik. Aktera is niet aansprakelijk voor fouten.

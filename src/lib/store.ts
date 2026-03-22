@@ -4,7 +4,7 @@
  * When missing, they operate on in-memory mock data + localStorage.
  */
 
-import { Property, Document, ExtractedField, CreateDossierInput } from "@/lib/types";
+import { Property, Document, ExtractedField, CreateDossierInput, Template, TemplateType } from "@/lib/types";
 import { MOCK_PROPERTIES } from "@/lib/mock/data";
 
 // Check if we're running with real backend
@@ -149,4 +149,91 @@ export function setDocumentFields(
   property.updated_at = new Date().toISOString();
   saveToStorage(properties);
   return doc;
+}
+
+// ── Template store (localStorage-backed) ──
+
+const TEMPLATES_KEY = "aktera_templates";
+
+// Seed data so the demo doesn't start empty
+const SEED_TEMPLATES: Template[] = [
+  {
+    id: "tpl-seed-1",
+    name: "CIV Compromis",
+    type: "compromis",
+    file_name: "CIV_Compromis_2024.docx",
+    file_size: 245_000,
+    uploaded_at: "2026-03-15T10:30:00.000Z",
+    last_used_at: "2026-03-20T14:15:00.000Z",
+  },
+  {
+    id: "tpl-seed-2",
+    name: "Samenwerkingsovereenkomst",
+    type: "samenwerkingsovereenkomst",
+    file_name: "Samenwerking_Template.docx",
+    file_size: 182_000,
+    uploaded_at: "2026-03-18T09:00:00.000Z",
+    last_used_at: null,
+  },
+];
+
+function loadTemplates(): Template[] {
+  if (typeof window === "undefined") return SEED_TEMPLATES;
+  try {
+    const stored = localStorage.getItem(TEMPLATES_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch {
+    // fall back to seed
+  }
+  return SEED_TEMPLATES;
+}
+
+function saveTemplates(templates: Template[]) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(TEMPLATES_KEY, JSON.stringify(templates));
+  } catch {
+    // silently ignore
+  }
+}
+
+export function getTemplates(): Template[] {
+  return loadTemplates();
+}
+
+export function getTemplate(id: string): Template | undefined {
+  return loadTemplates().find((t) => t.id === id);
+}
+
+export function addTemplate(input: { name: string; type: TemplateType; file_name: string; file_size: number }): Template {
+  const templates = loadTemplates();
+  const template: Template = {
+    id: `tpl-${Date.now()}`,
+    name: input.name,
+    type: input.type,
+    file_name: input.file_name,
+    file_size: input.file_size,
+    uploaded_at: new Date().toISOString(),
+    last_used_at: null,
+  };
+  templates.unshift(template);
+  saveTemplates(templates);
+  return template;
+}
+
+export function deleteTemplate(id: string): boolean {
+  const templates = loadTemplates();
+  const filtered = templates.filter((t) => t.id !== id);
+  if (filtered.length === templates.length) return false;
+  saveTemplates(filtered);
+  return true;
+}
+
+export function markTemplateUsed(id: string): void {
+  const templates = loadTemplates();
+  const tpl = templates.find((t) => t.id === id);
+  if (tpl) {
+    tpl.last_used_at = new Date().toISOString();
+    saveTemplates(templates);
+  }
 }

@@ -5,13 +5,20 @@ import { getProperty } from "@/lib/store";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { property_id } = body;
+    const { property_id, template_id } = body;
 
     if (!property_id) {
       return NextResponse.json(
         { error: "property_id is required" },
         { status: 400 }
       );
+    }
+
+    // template_id is accepted but not yet used — when real template storage
+    // is wired up, this will load the agency's .docx and use it as the base.
+    // For now, generateCompromis uses the bundled default template.
+    if (template_id) {
+      console.log(`[generate] Using template: ${template_id}`);
     }
 
     const property = getProperty(property_id);
@@ -31,7 +38,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const docBuffer = await generateCompromis(property);
+    const docBuffer = await generateCompromis(property, template_id);
 
     // Return the .docx as a downloadable file
     // Convert Buffer to Uint8Array for NextResponse compatibility

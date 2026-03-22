@@ -241,7 +241,7 @@ const STEPS = [
   {
     title: "AI extraheert — u verifieert",
     description:
-      "Claude AI leest elk document en extraheert gestructureerde velden met betrouwbaarheidsniveaus. U houdt de controle: corrigeer waar nodig, bevestig met één klik.",
+      "AKTERA's AI leest elk document en extraheert gestructureerde velden met betrouwbaarheidsniveaus. U houdt de controle: corrigeer waar nodig, bevestig met één klik.",
   },
   {
     title: "Genereer uw compromis",
@@ -260,12 +260,12 @@ const FEATURES = [
   {
     title: "Werkt met uw eigen templates",
     description:
-      "AKTERA vult uw bestaande CIV/CEB Word-templates in. Geen nieuw formaat, geen leercurve. Uw notaris ontvangt exact wat hij verwacht.",
+      "AKTERA vult uw bestaande CIV/CEB Word-templates in — ook als uw kantoor een aangepaste versie gebruikt. Geen nieuw formaat, geen leercurve. Uw notaris ontvangt exact wat hij verwacht.",
   },
   {
     title: "6 documenttypes, één dossier",
     description:
-      "EPC, bodemattest, kadastrale legger, elektrische keuring, eigendomsakte, asbestattest — allemaal verwerkt en gecentraliseerd.",
+      "EPC, bodemattest, kadastrale legger, elektrische keuring, eigendomsakte, asbestattest — elk met een eigen structuur en formaat, allemaal automatisch verwerkt en gecentraliseerd in één dossier.",
   },
   {
     title: "Past in uw bestaande workflow",
@@ -344,7 +344,7 @@ export default function PitchPage() {
             </h1>
             <p className="text-[16px] leading-[1.6] text-[#999] tracking-[-0.01em] mb-8 max-w-[440px]">
               U werd makelaar om mensen te verbinden met hun droomwoning — niet om dezelfde gegevens
-              vier keer over te typen. AKTERA neemt het administratieve werk over.
+              vier keer over te typen. AKTERA neemt het administratieve werk over, voor u én uw team.
             </p>
             <div className="flex items-center gap-4">
               <Link

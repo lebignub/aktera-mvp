@@ -36,8 +36,14 @@ function gatherFieldValues(property: Property): Record<string, string> {
 /**
  * Generates a pre-filled .docx compromis from the template.
  * Returns the filled document as a Buffer.
+ *
+ * @param templateId — when real template storage is wired up, this will
+ *   load the agency's uploaded .docx from storage instead of the bundled default.
+ *   For now it's accepted but ignored.
  */
-export async function generateCompromis(property: Property): Promise<Buffer> {
+export async function generateCompromis(property: Property, templateId?: string): Promise<Buffer> {
+  // TODO: when template storage exists, use templateId to fetch the agency's
+  // uploaded .docx from Supabase Storage instead of the local fallback.
   const templatePath = join(process.cwd(), "templates", "compromis.docx");
 
   let template: Buffer;

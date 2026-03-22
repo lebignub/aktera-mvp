@@ -67,6 +67,19 @@ export interface CreateDossierInput {
   postal_code: string;
 }
 
+// Template management — agencies upload their own .docx templates
+export type TemplateType = "compromis" | "samenwerkingsovereenkomst" | "bod";
+
+export interface Template {
+  id: string;
+  name: string;           // user-given name, e.g. "CIV Compromis 2024"
+  type: TemplateType;
+  file_name: string;      // original .docx filename
+  file_size: number;       // bytes
+  uploaded_at: string;
+  last_used_at: string | null;
+}
+
 // Contract generation
 export interface Contract {
   id: string;

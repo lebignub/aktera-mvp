@@ -115,6 +115,33 @@ export function IconClipboard({ size = 16, className = "" }: IconProps) {
   );
 }
 
+export function IconFileStack({ size = 16, className = "" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" className={className}>
+      <path d="M10 1.5H5A1.5 1.5 0 003.5 3v9A1.5 1.5 0 005 13.5h6A1.5 1.5 0 0012.5 12V4l-2.5-2.5z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M10 1.5v2.5h2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M6 6.5h4M6 9h2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+export function IconSettings({ size = 16, className = "" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" className={className}>
+      <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.2"/>
+      <path d="M8 1.5v1.25M8 13.25v1.25M3.4 3.4l.884.884M11.716 11.716l.884.884M1.5 8h1.25M13.25 8h1.25M3.4 12.6l.884-.884M11.716 4.284l.884-.884" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+export function IconTrash({ size = 16, className = "" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" className={className}>
+      <path d="M3 4.5h10M5.5 4.5V3a1 1 0 011-1h3a1 1 0 011 1v1.5M12 4.5l-.5 8a1.5 1.5 0 01-1.5 1.5H6a1.5 1.5 0 01-1.5-1.5L4 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
 // Document type icon mapping — returns the appropriate icon for each doc type
 export const DOC_TYPE_ICONS: Record<string, (props: IconProps) => React.ReactElement> = {
   epc: IconBolt,

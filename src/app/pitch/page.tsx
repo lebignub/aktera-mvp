@@ -6,73 +6,78 @@ import { Logo } from "@/components/ui/Logo";
 /* ── Data ── */
 
 const STATS = [
-  { value: "8/10", label: "makelaars noemen herhaalde data-invoer als #1 pijnpunt" },
-  { value: "70–80%", label: "van de werktijd gaat naar administratie, niet naar verkoop" },
-  { value: "~2u", label: "bespaard per dossier door automatische extractie en pre-fill" },
-  { value: "0", label: "manuele herinvoer voor geverifieerde velden" },
+  { value: "70–80%", label: "van de werktijd gaat naar administratie — niet naar klanten, niet naar verkoop" },
+  { value: "8/10", label: "makelaars noemen herhaalde data-invoer als hun grootste frustratie" },
+  { value: "3–4u", label: "administratief werk per transactie dat niet bij de makelaar hoort" },
+  { value: "0", label: "manuele herinvoer nodig voor geverifieerde velden met AKTERA" },
 ];
 
 const STEPS = [
   {
     number: "01",
-    title: "Upload documenten",
+    title: "Upload uw documenten",
     description:
-      "Sleep uw EPC, bodemattest, kadastrale legger, eigendomsakte en andere vereiste documenten in het dossier. PDF's worden direct verwerkt.",
+      "Sleep uw EPC, bodemattest, kadastrale legger, eigendomsakte en andere dossier-documenten naar het platform. PDF's worden direct verwerkt.",
   },
   {
     number: "02",
-    title: "AI extraheert & u verifieert",
+    title: "AI extraheert — u verifieert",
     description:
-      "Claude AI leest elk document en extraheert gestructureerde velden met betrouwbaarheidsniveaus. U controleert, corrigeert waar nodig, en bevestigt.",
+      "Claude AI leest elk document en extraheert gestructureerde velden met betrouwbaarheidsniveaus. U houdt de controle: corrigeer waar nodig, bevestig met één klik.",
   },
   {
     number: "03",
     title: "Genereer uw compromis",
     description:
-      "Eén klik. Alle geverifieerde data vloeit automatisch in uw CIV/CEB-template. Download een volledig ingevuld Word-document, klaar voor de notaris.",
+      "Alle geverifieerde data vloeit automatisch in uw CIV/CEB-template. Download een volledig ingevuld Word-document, klaar voor de notaris. Nul herinvoer.",
   },
 ];
 
 const FEATURES = [
   {
-    title: "AI-extractie met betrouwbaarheidsscore",
+    title: "Vertrouwen staat voorop",
     description:
-      "Elk geëxtraheerd veld toont een betrouwbaarheidsniveau — hoog, gemiddeld of laag. U beslist, niet de machine. Handmatige correctie is altijd mogelijk.",
+      "Elk geëxtraheerd veld toont een betrouwbaarheidsniveau — hoog, gemiddeld of laag. U beslist altijd, niet de machine. Handmatige correctie is altijd mogelijk. Geen verborgen automatisering.",
+  },
+  {
+    title: "Werkt met uw eigen templates",
+    description:
+      "AKTERA vult uw bestaande CIV/CEB Word-templates in. Geen nieuw formaat, geen leercurve. Uw notaris ontvangt exact wat hij verwacht — maar sneller en foutloos.",
   },
   {
     title: "6 documenttypes, één dossier",
     description:
-      "EPC, bodemattest, kadastrale legger, elektrische keuring, eigendomsakte, asbestattest — allemaal verwerkt en gecentraliseerd per vastgoeddossier.",
+      "EPC, bodemattest, kadastrale legger, elektrische keuring, eigendomsakte, asbestattest — allemaal verwerkt en gecentraliseerd. Geen mappen meer op Google Drive.",
   },
   {
-    title: "Werkt met uw templates",
+    title: "Past in uw bestaande workflow",
     description:
-      "AKTERA vult uw bestaande CIV/CEB Word-templates in. Geen nieuw formaat, geen leercurve. Uw notaris ontvangt exact wat hij verwacht.",
-  },
-  {
-    title: "Geen CRM, geen overlap",
-    description:
-      "AKTERA vervangt Whise niet, concurreert niet met Omnicasa. Het vult de leegte tussen Realsmart (documenten verzamelen) en uw compromis-template (handmatig invullen).",
+      "AKTERA vervangt niets. Het vult de leegte tussen Realsmart (documenten verzamelen) en uw compromis-template (handmatig invullen). Geen CRM, geen overlap.",
   },
 ];
 
 const QUOTES = [
   {
+    quote:
+      "Ik zie mezelf in de eerste plaats als verkoper, maar in de praktijk gaat er veel tijd naar administratieve taken.",
+    author: "Makelaar, Vlaanderen",
+  },
+  {
     quote: "70 à 80% du temps, c'est du travail administratif.",
-    author: "Mike Doolaeghe",
+    author: "Mike",
     role: "Makelaar",
     translation: "70 tot 80% van de tijd is administratief werk.",
   },
   {
     quote:
-      "Dat het automatisch, wanneer je een document hebt, de informatie eruit extracteert en de variabelen invult. Dat zou best handig zijn.",
+      "Dat het automatisch de informatie eruit extracteert en de variabelen invult. Dat zou best handig zijn — maar dat is een beetje utopie, denk ik.",
     author: "An-Marie",
     role: "Makelaar, Vlaanderen",
   },
   {
     quote:
       "Gegevens één keer invoeren en automatisch doorvloeien in alle documenten van het transactiedossier.",
-    author: "Veerle Viérin",
+    author: "Veerle",
     role: "Sotheby's International Realty",
   },
 ];
@@ -80,8 +85,8 @@ const QUOTES = [
 const LANDSCAPE = [
   { tool: "Whise", does: "CRM, lead tracking, listings", gap: "Geen document-extractie, geen compromis-generatie" },
   { tool: "Omnicasa", does: "CRM, vastgoedbeheer", gap: "Geen AI-extractie, geen documentworkflow" },
-  { tool: "Realsmart", does: "Kadastrale docs, bodemattest aanvragen", gap: "Geen extractie, geen pre-fill — AKTERA consumeert Realsmart output" },
-  { tool: "CIV/CEB", does: "Juridisch gevalideerde Word-templates", gap: "Nul automatisering — AKTERA vult hun templates in" },
+  { tool: "Realsmart", does: "Kadastrale docs, bodemattest aanvragen", gap: "Geen extractie, geen pre-fill" },
+  { tool: "CIV/CEB", does: "Juridisch gevalideerde Word-templates", gap: "Nul automatisering — puur handmatig invullen" },
 ];
 
 /* ── Page ── */
@@ -111,16 +116,19 @@ export default function PitchPage() {
       <section className="max-w-[1100px] mx-auto px-6 pt-28 pb-20">
         <div className="max-w-[680px]">
           <p className="text-[13px] text-[#666] font-medium tracking-[-0.01em] mb-4">
-            AI-powered dossier platform voor Belgische vastgoedmakelaars
+            Voor vastgoedmakelaars die liever verkopen dan administreren
           </p>
           <h1 className="text-[44px] leading-[1.1] font-semibold tracking-[-0.03em] mb-6">
-            Van document naar compromis.
+            Terug naar wat u
             <br />
-            <span className="text-[#999]">Automatisch.</span>
+            het beste doet.
+            <br />
+            <span className="text-[#999]">Verkopen.</span>
           </h1>
           <p className="text-[17px] leading-[1.6] text-[#999] tracking-[-0.01em] mb-10 max-w-[520px]">
-            Upload uw dossier-documenten. AI extraheert de data. U verifieert. Eén klik genereert een
-            volledig ingevuld compromis — nul herinvoer.
+            U werd makelaar om mensen te verbinden met hun droomwoning — niet om dezelfde gegevens
+            vier keer over te typen. AKTERA neemt het administratieve werk over, zodat u zich kan
+            focussen op relaties en deals.
           </p>
           <div className="flex items-center gap-4">
             <Link
@@ -144,8 +152,19 @@ export default function PitchPage() {
         <div className="h-px bg-[rgba(255,255,255,0.08)]" />
       </div>
 
-      {/* ── Stats ── */}
+      {/* ── The problem ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
+        <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
+          Het probleem
+        </p>
+        <h2 className="text-[28px] font-semibold tracking-[-0.02em] mb-4 max-w-[560px]">
+          Makelaars zijn verkopers. Hun agenda zegt iets anders.
+        </h2>
+        <p className="text-[14px] text-[#999] leading-[1.6] mb-12 max-w-[520px]">
+          Dezelfde adres-, kadaster- en eigendomsgegevens worden handmatig overgetypt van PDF naar
+          bod, van bod naar samenwerkingsovereenkomst, van overeenkomst naar compromis. Drie
+          documenten, drie keer hetzelfde werk. Ondertussen wachten klanten.
+        </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           {STATS.map((stat) => (
             <div key={stat.value}>
@@ -161,10 +180,48 @@ export default function PitchPage() {
         <div className="h-px bg-[rgba(255,255,255,0.08)]" />
       </div>
 
-      {/* ── How it works ── */}
+      {/* ── Quotes ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-10">
-          Hoe het werkt
+          Uit de praktijk — 10 interviews met Vlaamse makelaars
+        </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          {QUOTES.map((q, i) => (
+            <div
+              key={i}
+              className="border border-[rgba(255,255,255,0.08)] rounded-xl p-6"
+            >
+              <p className="text-[15px] text-[#999] leading-[1.6] italic mb-5">
+                &ldquo;{q.quote}&rdquo;
+              </p>
+              {q.translation && (
+                <p className="text-[12px] text-[#666] mb-4 -mt-2">{q.translation}</p>
+              )}
+              <div>
+                <p className="text-[13px] font-medium">{q.author}</p>
+                {q.role && <p className="text-[11px] text-[#666]">{q.role}</p>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Divider ── */}
+      <div className="max-w-[1100px] mx-auto px-6">
+        <div className="h-px bg-[rgba(255,255,255,0.08)]" />
+      </div>
+
+      {/* ── The solution ── */}
+      <section className="max-w-[1100px] mx-auto px-6 py-20">
+        <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
+          De oplossing
+        </p>
+        <h2 className="text-[28px] font-semibold tracking-[-0.02em] mb-4 max-w-[520px]">
+          Eén keer invoeren. Overal doorvloeien.
+        </h2>
+        <p className="text-[14px] text-[#999] leading-[1.6] mb-12 max-w-[520px]">
+          AKTERA leest uw documenten, extraheert de data, en laat u verifiëren met volle controle.
+          Het resultaat: een kant-en-klaar compromis zonder één veld opnieuw te typen.
         </p>
         <div className="grid md:grid-cols-3 gap-12">
           {STEPS.map((step) => (
@@ -187,7 +244,7 @@ export default function PitchPage() {
       {/* ── Features ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
-          Kenmerken
+          Waarom AKTERA
         </p>
         <h2 className="text-[28px] font-semibold tracking-[-0.02em] mb-12 max-w-[480px]">
           Gebouwd voor vertrouwen, niet voor snelheid alleen.
@@ -207,37 +264,6 @@ export default function PitchPage() {
         <div className="h-px bg-[rgba(255,255,255,0.08)]" />
       </div>
 
-      {/* ── Quotes ── */}
-      <section className="max-w-[1100px] mx-auto px-6 py-20">
-        <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-10">
-          Uit de praktijk
-        </p>
-        <div className="grid md:grid-cols-3 gap-8">
-          {QUOTES.map((q) => (
-            <div
-              key={q.author}
-              className="border border-[rgba(255,255,255,0.08)] rounded-xl p-6"
-            >
-              <p className="text-[14px] text-[#999] leading-[1.6] italic mb-5">
-                &ldquo;{q.quote}&rdquo;
-              </p>
-              {q.translation && (
-                <p className="text-[12px] text-[#666] mb-4 -mt-2">{q.translation}</p>
-              )}
-              <div>
-                <p className="text-[13px] font-medium">{q.author}</p>
-                <p className="text-[11px] text-[#666]">{q.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Divider ── */}
-      <div className="max-w-[1100px] mx-auto px-6">
-        <div className="h-px bg-[rgba(255,255,255,0.08)]" />
-      </div>
-
       {/* ── Competitive positioning ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
@@ -247,19 +273,16 @@ export default function PitchPage() {
           AKTERA concurreert niet. Het vult de leegte.
         </h2>
         <p className="text-[14px] text-[#999] leading-[1.6] mb-10 max-w-[520px]">
-          Geen CRM. Geen listing-tool. De brug tussen document-gathering en contract-drafting die
-          vandaag niet bestaat in de Belgische markt.
+          De brug tussen document-gathering en contract-drafting die vandaag niet bestaat in de
+          Belgische markt. Geen CRM. Geen listing-tool. Puur focus.
         </p>
 
-        {/* Table */}
         <div className="border border-[rgba(255,255,255,0.08)] rounded-xl overflow-hidden">
-          {/* Header */}
           <div className="grid grid-cols-3 gap-px bg-[rgba(255,255,255,0.08)]">
             <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">Tool</div>
             <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">Wat het doet</div>
             <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">Wat het niet doet</div>
           </div>
-          {/* Rows */}
           {LANDSCAPE.map((row) => (
             <div key={row.tool} className="grid grid-cols-3 gap-px bg-[rgba(255,255,255,0.08)]">
               <div className="bg-black px-5 py-3.5 text-[13px] font-medium">{row.tool}</div>
@@ -267,11 +290,10 @@ export default function PitchPage() {
               <div className="bg-black px-5 py-3.5 text-[13px] text-[#999]">{row.gap}</div>
             </div>
           ))}
-          {/* AKTERA row — highlighted */}
           <div className="grid grid-cols-3 gap-px bg-[rgba(255,255,255,0.08)]">
             <div className="bg-black px-5 py-3.5 text-[13px] font-semibold">AKTERA</div>
             <div className="bg-black px-5 py-3.5 text-[13px] text-white font-medium">
-              Dossier → Compromis pipeline
+              Document → Compromis pipeline
             </div>
             <div className="bg-black px-5 py-3.5 text-[13px] text-[#666] italic">
               Niet een CRM. Niet een listing-tool. Gefocust.
@@ -288,11 +310,11 @@ export default function PitchPage() {
       {/* ── CTA ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-24 text-center">
         <h2 className="text-[32px] font-semibold tracking-[-0.03em] mb-4">
-          Klaar om de brug te slaan?
+          Meer tijd voor wat ertoe doet.
         </h2>
-        <p className="text-[15px] text-[#999] mb-10 max-w-[440px] mx-auto leading-[1.6]">
-          AKTERA is in actieve ontwikkeling met een select aantal Vlaamse agentschappen. Vraag
-          vroege toegang aan.
+        <p className="text-[15px] text-[#999] mb-10 max-w-[460px] mx-auto leading-[1.6]">
+          AKTERA is in actieve ontwikkeling met een select aantal Vlaamse agentschappen.
+          Wij zoeken makelaars die terug willen focussen op verkopen.
         </p>
         <div className="flex items-center justify-center gap-4">
           <a

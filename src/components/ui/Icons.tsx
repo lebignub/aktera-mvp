@@ -128,8 +128,8 @@ export function IconFileStack({ size = 16, className = "" }: IconProps) {
 export function IconSettings({ size = 16, className = "" }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none" className={className}>
+      <path d="M6.86 1.5h2.28l.32 1.6a5.5 5.5 0 011.32.76l1.54-.52 1.14 1.97-1.22 1.08a5.5 5.5 0 010 1.52l1.22 1.08-1.14 1.97-1.54-.52a5.5 5.5 0 01-1.32.76l-.32 1.6H6.86l-.32-1.6a5.5 5.5 0 01-1.32-.76l-1.54.52-1.14-1.97 1.22-1.08a5.5 5.5 0 010-1.52L2.54 5.31l1.14-1.97 1.54.52a5.5 5.5 0 011.32-.76l.32-1.6z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
       <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.2"/>
-      <path d="M8 1.5v1.25M8 13.25v1.25M3.4 3.4l.884.884M11.716 11.716l.884.884M1.5 8h1.25M13.25 8h1.25M3.4 12.6l.884-.884M11.716 4.284l.884-.884" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
     </svg>
   );
 }

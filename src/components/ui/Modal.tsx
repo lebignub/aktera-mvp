@@ -12,7 +12,6 @@ interface ModalProps {
 export function Modal({ open, onClose, title, children }: ModalProps) {
   const backdropRef = useRef<HTMLDivElement>(null);
 
-  // Close on Escape
   useEffect(() => {
     if (!open) return;
     function handleKey(e: KeyboardEvent) {
@@ -27,17 +26,17 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
   return (
     <div
       ref={backdropRef}
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-40 flex items-center justify-center bg-[rgba(4,6,12,0.7)] backdrop-blur-md"
       onClick={(e) => {
         if (e.target === backdropRef.current) onClose();
       }}
     >
-      <div className="glass-card w-full max-w-lg mx-4 p-6 fade-in-up">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-semibold text-[#F1F5F9]">{title}</h2>
+      <div className="glass-card w-full max-w-lg mx-4 p-7 fade-in-up border border-[rgba(120,160,210,0.15)]">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-lg font-semibold text-white tracking-tight">{title}</h2>
           <button
             onClick={onClose}
-            className="text-[#64748B] hover:text-[#F1F5F9] transition-colors text-xl leading-none cursor-pointer"
+            className="text-[#576580] hover:text-white transition-colors text-xl leading-none cursor-pointer w-8 h-8 flex items-center justify-center rounded-full hover:bg-[rgba(120,160,210,0.1)]"
           >
             &times;
           </button>

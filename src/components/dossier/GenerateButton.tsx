@@ -15,12 +15,10 @@ export function GenerateButton({ property }: GenerateButtonProps) {
   const [showVerify, setShowVerify] = useState(false);
   const [generating, setGenerating] = useState(false);
 
-  // Gather all fields across all documents
   const allFields = property.documents.flatMap((d) => d.fields);
   const verifiedFields = allFields.filter((f) => f.verified);
   const hasFields = allFields.length > 0;
 
-  // Check readiness per document type
   const docReadiness = property.documents.map((doc) => {
     const config = DOCUMENT_CONFIGS[doc.type];
     const total = doc.fields.length;
@@ -47,7 +45,6 @@ export function GenerateButton({ property }: GenerateButtonProps) {
       });
 
       if (res.ok) {
-        // Download the generated .docx
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -57,7 +54,7 @@ export function GenerateButton({ property }: GenerateButtonProps) {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast("success", "Compromis succesvol gegenereerd!");
+        showToast("success", "Compromis succesvol gegenereerd");
       } else {
         const data = await res.json().catch(() => ({ error: "Generatie mislukt" }));
         showToast("error", data.error || "Generatie mislukt");
@@ -71,35 +68,36 @@ export function GenerateButton({ property }: GenerateButtonProps) {
 
   return (
     <>
-      <Button
-        onClick={() => setShowVerify(true)}
-        disabled={!hasFields || generating}
-        size="lg"
-        className="w-full mt-6"
-      >
-        {generating ? "Genereren..." : "📝 Genereer Compromis"}
-      </Button>
+      <div className="mt-8">
+        <Button
+          onClick={() => setShowVerify(true)}
+          disabled={!hasFields || generating}
+          size="lg"
+          className="w-full"
+        >
+          {generating ? "Genereren..." : "Genereer Compromis"}
+        </Button>
+      </div>
 
-      {/* Pre-generation verification modal */}
       <Modal
         open={showVerify}
         onClose={() => setShowVerify(false)}
         title="Controleer voor generatie"
       >
-        <div className="space-y-3 mb-6">
+        <div className="space-y-2 mb-6">
           {docReadiness.map((doc) => (
             <div
               key={doc.label}
-              className="flex items-center gap-3 p-3 rounded-xl border border-[#1E293B] bg-[#0D1225]"
+              className="flex items-center gap-3 p-3.5 rounded-xl border border-[rgba(120,160,210,0.08)] bg-[rgba(8,14,28,0.3)]"
             >
               <span>{doc.icon}</span>
-              <span className="text-sm text-[#F1F5F9] flex-1">{doc.label}</span>
+              <span className="text-[13px] text-white flex-1">{doc.label}</span>
               {doc.status === "missing" ? (
-                <span className="text-xs text-[#64748B]">Ontbreekt</span>
+                <span className="text-[11px] text-[#576580]">Ontbreekt</span>
               ) : doc.ready ? (
-                <span className="text-xs text-[#22C55E]">✓ Klaar</span>
+                <span className="text-[11px] text-[#34D399]">&#10003; Klaar</span>
               ) : (
-                <span className="text-xs text-[#F59E0B]">
+                <span className="text-[11px] text-[#FBBF24]">
                   {doc.verified}/{doc.total} geverifieerd
                 </span>
               )}
@@ -107,13 +105,13 @@ export function GenerateButton({ property }: GenerateButtonProps) {
           ))}
         </div>
 
-        <div className="text-xs text-[#64748B] mb-4 p-3 border border-[#F59E0B]/20 bg-[#F59E0B]/5 rounded-xl">
-          ⚠️ Dit document wordt automatisch gegenereerd op basis van geëxtraheerde gegevens.
+        <div className="text-[11px] text-[#8B9BB8] mb-5 p-4 border border-[rgba(251,191,36,0.15)] bg-[rgba(251,191,36,0.04)] rounded-xl leading-relaxed">
+          Dit document wordt automatisch gegenereerd op basis van geextraheerde gegevens.
           Controleer alle gegevens zorgvuldig voor gebruik. Aktera is niet aansprakelijk voor
           fouten in het gegenereerde document.
         </div>
 
-        <div className="flex items-center justify-between text-sm text-[#94A3B8] mb-4">
+        <div className="flex items-center justify-between text-[12px] text-[#8B9BB8] mb-5">
           <span>{verifiedFields.length}/{allFields.length} velden geverifieerd</span>
         </div>
 

@@ -16,14 +16,11 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = useCallback(async (file: File) => {
-    if (!file.type.includes("pdf")) {
-      return; // Only accept PDFs
-    }
+    if (!file.type.includes("pdf")) return;
 
     setUploading(true);
     setProgress(0);
 
-    // Simulate upload progress (real upload would use XMLHttpRequest or fetch with progress)
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 90) {
@@ -35,7 +32,6 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
     }, 100);
 
     try {
-      // Try real upload first
       const formData = new FormData();
       formData.append("file", file);
       formData.append("document_id", documentId);
@@ -47,17 +43,13 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
       });
 
       clearInterval(interval);
+      setProgress(100);
+      onUploadComplete(file);
 
-      if (res.ok) {
-        setProgress(100);
-        onUploadComplete(file);
-      } else {
-        // Fallback: treat as mock upload success
-        setProgress(100);
-        onUploadComplete(file);
+      if (!res.ok) {
+        // Still works in mock mode
       }
     } catch {
-      // Network error / mock mode — still mark as uploaded locally
       clearInterval(interval);
       setProgress(100);
       onUploadComplete(file);
@@ -82,7 +74,6 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
     e.preventDefault();
     setIsDragging(false);
     if (disabled) return;
-
     const file = e.dataTransfer.files[0];
     if (file) handleFile(file);
   }
@@ -94,15 +85,14 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) handleFile(file);
-    // Reset input so re-uploading the same file works
     e.target.value = "";
   }
 
   return (
     <div
-      className={`upload-zone p-8 text-center cursor-pointer transition-all duration-200 ${
+      className={`upload-zone p-10 text-center cursor-pointer ${
         isDragging ? "drag-over" : ""
-      } ${disabled ? "opacity-40 cursor-not-allowed" : ""}`}
+      } ${disabled ? "opacity-35 cursor-not-allowed" : ""}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -117,23 +107,29 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
       />
 
       {uploading ? (
-        <div className="space-y-3">
-          <div className="text-2xl">📤</div>
-          <p className="text-sm text-[#94A3B8]">Uploaden...</p>
-          <div className="max-w-xs mx-auto h-2 bg-[#1E293B] rounded-full overflow-hidden">
+        <div className="space-y-4">
+          <div className="w-10 h-10 mx-auto rounded-full border-2 border-[rgba(126,180,255,0.3)] border-t-[#7EB4FF] animate-spin" />
+          <p className="text-[13px] text-[#8B9BB8]">Uploaden...</p>
+          <div className="max-w-[200px] mx-auto h-1.5 bg-[rgba(120,150,190,0.1)] rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#4F8EFF] rounded-full transition-all duration-200"
+              className="h-full bg-[#7EB4FF] rounded-full transition-all duration-200"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
       ) : (
-        <div className="space-y-2">
-          <div className="text-3xl opacity-60">📄</div>
-          <p className="text-sm text-[#94A3B8]">
-            Sleep een PDF hierheen of <span className="text-[#4F8EFF]">klik om te uploaden</span>
+        <div className="space-y-3">
+          {/* Upload icon */}
+          <div className="w-12 h-12 mx-auto rounded-2xl bg-[rgba(126,180,255,0.06)] border border-[rgba(126,180,255,0.12)] flex items-center justify-center">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-[#7EB4FF]">
+              <path d="M10 14V3M10 3L6 7M10 3l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M3 14v1a2 2 0 002 2h10a2 2 0 002-2v-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <p className="text-[13px] text-[#8B9BB8]">
+            Sleep een PDF hierheen of <span className="text-[#7EB4FF]">blader</span>
           </p>
-          <p className="text-xs text-[#64748B]">Alleen PDF-bestanden</p>
+          <p className="text-[11px] text-[#576580]">Alleen PDF-bestanden</p>
         </div>
       )}
     </div>

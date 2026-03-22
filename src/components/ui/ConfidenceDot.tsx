@@ -8,9 +8,9 @@ interface ConfidenceDotProps {
 }
 
 const config: Record<ConfidenceLevel, { color: string; label: string }> = {
-  high: { color: "bg-[#22C55E]", label: "Hoog" },
-  medium: { color: "bg-[#F59E0B]", label: "Gemiddeld" },
-  low: { color: "bg-[#EF4444]", label: "Laag" },
+  high: { color: "bg-[#34D399]", label: "Hoog" },
+  medium: { color: "bg-[#FBBF24]", label: "Gemiddeld" },
+  low: { color: "bg-[#F87171]", label: "Laag" },
 };
 
 export function ConfidenceDot({ level, showLabel = false }: ConfidenceDotProps) {
@@ -18,11 +18,11 @@ export function ConfidenceDot({ level, showLabel = false }: ConfidenceDotProps) 
   return (
     <span className="inline-flex items-center gap-1.5">
       <span
-        className={`w-2 h-2 rounded-full ${color}`}
+        className={`w-1.5 h-1.5 rounded-full ${color}`}
         title={`Betrouwbaarheid: ${label}`}
       />
       {showLabel && (
-        <span className="text-xs text-[#64748B]">{label}</span>
+        <span className="text-[11px] text-[#576580]">{label}</span>
       )}
     </span>
   );

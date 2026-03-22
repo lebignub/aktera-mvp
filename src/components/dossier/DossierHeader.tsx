@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { Property } from "@/lib/types";
+import { Logo } from "@/components/ui/Logo";
 import { Badge } from "@/components/ui/Badge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { computeCompletion } from "@/lib/documents/config";
@@ -23,35 +24,46 @@ export function DossierHeader({ property }: DossierHeaderProps) {
         : { variant: "neutral" as const, label: "Nieuw" };
 
   return (
-    <div className="glass-card p-6 mb-6 fade-in-up">
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <Link
-            href="/"
-            className="text-xs text-[#4F8EFF] hover:text-[#6BA1FF] transition-colors mb-2 inline-block"
-          >
-            ← Terug naar dashboard
+    <>
+      {/* Top bar */}
+      <header className="px-8 py-5 -mx-8">
+        <div className="flex items-center justify-between">
+          <Link href="/">
+            <Logo size="md" />
           </Link>
-          <h1 className="text-2xl font-bold text-[#F1F5F9]">{property.address}</h1>
-          <p className="text-sm text-[#64748B] mt-0.5">
-            {property.postal_code} {property.city}
-          </p>
+          <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
         </div>
-        <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
-      </div>
+        <div className="mt-5 separator" />
+      </header>
 
-      <ProgressBar value={completion} className="mb-2" />
-      <div className="flex items-center gap-4 text-xs text-[#64748B]">
-        <span>{verified}/{total} documenten geverifieerd</span>
-        <span>
-          Aangemaakt op{" "}
-          {new Date(property.created_at).toLocaleDateString("nl-BE", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-        </span>
+      {/* Dossier info */}
+      <div className="mb-8 mt-4 fade-in-up">
+        <Link
+          href="/"
+          className="text-[12px] uppercase tracking-[0.08em] text-[#576580] hover:text-[#8B9BB8] transition-colors mb-4 inline-block font-medium"
+        >
+          ← Dashboard
+        </Link>
+        <h1 className="text-3xl font-bold text-white tracking-tight">{property.address}</h1>
+        <p className="text-[14px] text-[#576580] mt-1">
+          {property.postal_code} {property.city}
+        </p>
+
+        <div className="mt-5 max-w-md">
+          <ProgressBar value={completion} className="mb-2" />
+          <div className="flex items-center gap-4 text-[11px] text-[#576580] tracking-wide">
+            <span>{verified}/{total} documenten geverifieerd</span>
+            <span>
+              Aangemaakt{" "}
+              {new Date(property.created_at).toLocaleDateString("nl-BE", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </span>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

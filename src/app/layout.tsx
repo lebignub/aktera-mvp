@@ -21,7 +21,12 @@ export default function RootLayout({
   return (
     <html lang="nl" className={`${plusJakarta.variable} h-full antialiased`}>
       <body className="grain-overlay min-h-full flex flex-col font-sans">
-        {children}
+        {/* Aurora gradient background layer */}
+        <div className="aurora-bg" />
+        {/* Content sits above the aurora */}
+        <div className="relative z-10 flex flex-col min-h-full">
+          {children}
+        </div>
       </body>
     </html>
   );

@@ -11,6 +11,9 @@ interface CreateDossierModalProps {
   onCreate: (input: CreateDossierInput) => void;
 }
 
+const inputClass =
+  "w-full bg-[rgba(8,14,28,0.5)] border border-[rgba(120,160,210,0.12)] rounded-xl px-4 py-2.5 text-sm text-white placeholder-[#576580] focus:outline-none focus:border-[rgba(126,180,255,0.35)] transition-colors";
+
 export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierModalProps) {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -28,7 +31,6 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
       postal_code: postalCode.trim(),
     });
 
-    // Reset form
     setAddress("");
     setCity("");
     setPostalCode("");
@@ -37,9 +39,9 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
 
   return (
     <Modal open={open} onClose={onClose} title="Nieuw dossier aanmaken">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm font-medium text-[#94A3B8] mb-1.5">
+          <label className="block text-[12px] uppercase tracking-[0.08em] font-medium text-[#8B9BB8] mb-2">
             Adres
           </label>
           <input
@@ -47,14 +49,14 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             placeholder="bv. Kerkstraat 42"
-            className="w-full bg-[#0D1225] border border-[#1E293B] rounded-xl px-4 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#4F8EFF] transition-colors"
+            className={inputClass}
             autoFocus
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-[#94A3B8] mb-1.5">
+            <label className="block text-[12px] uppercase tracking-[0.08em] font-medium text-[#8B9BB8] mb-2">
               Stad
             </label>
             <input
@@ -62,11 +64,11 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="bv. Antwerpen"
-              className="w-full bg-[#0D1225] border border-[#1E293B] rounded-xl px-4 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#4F8EFF] transition-colors"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-[#94A3B8] mb-1.5">
+            <label className="block text-[12px] uppercase tracking-[0.08em] font-medium text-[#8B9BB8] mb-2">
               Postcode
             </label>
             <input
@@ -74,12 +76,12 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
               placeholder="bv. 2000"
-              className="w-full bg-[#0D1225] border border-[#1E293B] rounded-xl px-4 py-2.5 text-sm text-[#F1F5F9] placeholder-[#64748B] focus:outline-none focus:border-[#4F8EFF] transition-colors"
+              className={inputClass}
             />
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 pt-2">
+        <div className="flex justify-end gap-3 pt-3">
           <Button variant="ghost" type="button" onClick={onClose}>
             Annuleren
           </Button>

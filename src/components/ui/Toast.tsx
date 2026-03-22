@@ -10,7 +10,6 @@ interface ToastMessage {
   message: string;
 }
 
-// Simple global toast state
 let toastListeners: ((toast: ToastMessage) => void)[] = [];
 let toastId = 0;
 
@@ -20,9 +19,9 @@ export function showToast(type: ToastType, message: string) {
 }
 
 const typeStyles: Record<ToastType, string> = {
-  success: "border-[#22C55E]/30 bg-[#22C55E]/10",
-  error: "border-[#EF4444]/30 bg-[#EF4444]/10",
-  info: "border-[#4F8EFF]/30 bg-[#4F8EFF]/10",
+  success: "border-[rgba(52,211,153,0.25)] bg-[rgba(52,211,153,0.08)]",
+  error: "border-[rgba(248,113,113,0.25)] bg-[rgba(248,113,113,0.08)]",
+  info: "border-[rgba(126,180,255,0.25)] bg-[rgba(126,180,255,0.08)]",
 };
 
 export function ToastContainer() {
@@ -30,7 +29,6 @@ export function ToastContainer() {
 
   const addToast = useCallback((toast: ToastMessage) => {
     setToasts((prev) => [...prev, toast]);
-    // Auto-remove after 4s
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== toast.id));
     }, 4000);
@@ -50,7 +48,7 @@ export function ToastContainer() {
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className={`toast glass-card border px-4 py-3 rounded-xl text-sm font-medium text-[#F1F5F9] min-w-[280px] ${typeStyles[toast.type]}`}
+          className={`toast backdrop-blur-xl border px-5 py-3 rounded-2xl text-sm font-medium text-white min-w-[280px] ${typeStyles[toast.type]}`}
         >
           {toast.message}
         </div>

@@ -10,6 +10,7 @@ import { ExtractionPanel } from "@/components/dossier/ExtractionPanel";
 import { GenerateButton } from "@/components/dossier/GenerateButton";
 import { ToastContainer, showToast } from "@/components/ui/Toast";
 import type { Property, ExtractedField } from "@/lib/types";
+import { isMockMode } from "@/lib/store";
 
 export default function DossierPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -17,10 +18,9 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
   const [property, setProperty] = useState<Property | null>(null);
   const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
   const [extracting, setExtracting] = useState(false);
-  // Store base64 of uploaded PDFs for extraction (keyed by document ID)
   const [pdfDataMap, setPdfDataMap] = useState<Record<string, string>>({});
+  const mockMode = isMockMode();
 
-  // Load property data
   useEffect(() => {
     const prop = getProperty(id);
     if (!prop) {
@@ -28,31 +28,25 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
       return;
     }
     setProperty(prop);
-
-    // Auto-select first non-missing document, or first document
     const firstActive = prop.documents.find((d) => d.status !== "missing");
     setSelectedDocId(firstActive?.id || prop.documents[0]?.id || null);
   }, [id, router]);
 
-  // Refresh property from store
   const refresh = useCallback(() => {
     const prop = getProperty(id);
     if (prop) setProperty(prop);
   }, [id]);
 
-  // Handle PDF upload — also read as base64 for later extraction
   function handleUpload(file: File) {
     if (!property || !selectedDocId) return;
 
-    // Read file as base64 for extraction
     const reader = new FileReader();
     reader.onload = () => {
-      const base64 = (reader.result as string).split(",")[1]; // strip data:...;base64, prefix
+      const base64 = (reader.result as string).split(",")[1];
       setPdfDataMap((prev) => ({ ...prev, [selectedDocId]: base64 }));
     };
     reader.readAsDataURL(file);
 
-    // Update document status to "uploaded"
     updateDocument(property.id, selectedDocId, {
       status: "uploaded",
       file_name: file.name,
@@ -61,23 +55,20 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
     });
 
     refresh();
-    showToast("success", `${file.name} geüpload`);
+    showToast("success", `${file.name} geupload`);
   }
 
-  // Handle AI extraction
   async function handleExtract() {
     if (!property || !selectedDocId) return;
 
     const doc = property.documents.find((d) => d.id === selectedDocId);
     if (!doc) return;
 
-    // Set status to extracting
     updateDocument(property.id, selectedDocId, { status: "extracting" });
     refresh();
     setExtracting(true);
 
     try {
-      // Include base64 PDF data if we have it (from the upload)
       const pdf_base64 = pdfDataMap[selectedDocId] || null;
 
       const res = await fetch("/api/extract", {
@@ -93,17 +84,14 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
 
       if (res.ok) {
         const data = await res.json();
-        // Save extracted fields to store
         setDocumentFields(property.id, selectedDocId, data.fields);
         refresh();
-        showToast("success", "Data succesvol geëxtraheerd!");
+        showToast("success", "Data succesvol geextraheerd");
       } else {
-        // Fallback: generate mock extraction fields
         generateMockFields(doc.type);
         showToast("info", "Demo-extractie voltooid (geen API key)");
       }
     } catch {
-      // Network error: fall back to mock fields
       generateMockFields(doc.type);
       showToast("info", "Demo-extractie voltooid (offline modus)");
     } finally {
@@ -111,7 +99,6 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
     }
   }
 
-  // Generate mock extracted fields when Claude API isn't available
   function generateMockFields(docType: string) {
     if (!property || !selectedDocId) return;
 
@@ -134,7 +121,6 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
     refresh();
   }
 
-  // Handle field edit/verification
   function handleFieldUpdate(fieldId: string, newValue: string) {
     if (!property || !selectedDocId) return;
 
@@ -146,7 +132,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
   if (!property) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="skeleton w-64 h-8" />
+        <div className="w-10 h-10 rounded-full border-2 border-[rgba(126,180,255,0.2)] border-t-[#7EB4FF] animate-spin" />
       </div>
     );
   }
@@ -154,12 +140,17 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
   const selectedDoc = property.documents.find((d) => d.id === selectedDocId) || null;
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 py-8">
+    <div className="min-h-screen flex flex-col">
+      {mockMode && (
+        <div className="mock-banner">
+          Demo-modus — data wordt lokaal opgeslagen
+        </div>
+      )}
+
+      <main className="flex-1 max-w-6xl mx-auto w-full px-8 pb-12">
         <DossierHeader property={property} />
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* Left column: document checklist */}
           <div className="lg:col-span-2">
             <DocumentChecklist
               documents={property.documents}
@@ -169,7 +160,6 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
             <GenerateButton property={property} />
           </div>
 
-          {/* Right column: extraction panel for selected doc */}
           <div className="lg:col-span-3">
             {selectedDoc ? (
               <ExtractionPanel
@@ -181,13 +171,13 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
                 extracting={extracting}
               />
             ) : (
-              <div className="glass-card p-12 text-center">
-                <p className="text-[#64748B]">Selecteer een document om te beginnen</p>
+              <div className="glass-card p-16 text-center">
+                <p className="text-[#576580]">Selecteer een document om te beginnen</p>
               </div>
             )}
           </div>
         </div>
-      </div>
+      </main>
 
       <ToastContainer />
     </div>

@@ -14,12 +14,10 @@ interface DossierCardProps {
 export function DossierCard({ property, index }: DossierCardProps) {
   const completion = computeCompletion(property.documents);
 
-  // Count document statuses
   const uploaded = property.documents.filter((d) => d.status !== "missing").length;
   const verified = property.documents.filter((d) => d.status === "verified").length;
   const total = property.documents.length;
 
-  // Determine overall status
   const statusBadge =
     completion === 100
       ? { variant: "success" as const, label: "Voltooid" }
@@ -30,22 +28,22 @@ export function DossierCard({ property, index }: DossierCardProps) {
   return (
     <Link href={`/dossier/${property.id}`}>
       <div
-        className="glass-card glass-card-hover p-5 cursor-pointer fade-in-up"
+        className="glass-card glass-card-hover p-6 cursor-pointer fade-in-up"
         style={{ animationDelay: `${index * 80}ms`, animationFillMode: "backwards" }}
       >
-        <div className="flex items-start justify-between mb-3">
+        <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="font-semibold text-[#F1F5F9] text-base">{property.address}</h3>
-            <p className="text-sm text-[#64748B] mt-0.5">
+            <h3 className="font-semibold text-white text-[15px] tracking-tight">{property.address}</h3>
+            <p className="text-[13px] text-[#576580] mt-0.5">
               {property.postal_code} {property.city}
             </p>
           </div>
           <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
         </div>
 
-        <ProgressBar value={completion} className="mb-3" />
+        <ProgressBar value={completion} className="mb-4" />
 
-        <div className="flex items-center gap-4 text-xs text-[#64748B]">
+        <div className="flex items-center gap-4 text-[11px] text-[#576580] tracking-wide">
           <span>{uploaded}/{total} documenten</span>
           <span>{verified} geverifieerd</span>
           <span className="ml-auto">

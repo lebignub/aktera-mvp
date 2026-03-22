@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { getProperties, createProperty, isMockMode } from "@/lib/store";
 import { computeCompletion } from "@/lib/documents/config";
+import { Logo } from "@/components/ui/Logo";
 import { KPIGrid } from "@/components/dashboard/KPIGrid";
 import { DossierCard } from "@/components/dashboard/DossierCard";
 import { CreateDossierModal } from "@/components/dashboard/CreateDossierModal";
@@ -15,7 +16,6 @@ export default function Dashboard() {
   const [showCreate, setShowCreate] = useState(false);
   const mockMode = isMockMode();
 
-  // Compute KPI stats from properties
   const stats: DossierStats = useMemo(() => {
     const total = properties.length;
     let complete = 0;
@@ -39,47 +39,55 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       {/* Mock mode banner */}
       {mockMode && (
         <div className="mock-banner">
-          Demo-modus — data wordt lokaal opgeslagen. Configureer Supabase voor productie.
+          Demo-modus — data wordt lokaal opgeslagen
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-[#F1F5F9] tracking-tight">
-              <span className="text-[#4F8EFF]">Aktera</span> Dashboard
-            </h1>
-            <p className="text-sm text-[#64748B] mt-1">
-              Beheer uw vastgoeddossiers
-            </p>
-          </div>
-          <Button onClick={() => setShowCreate(true)} size="lg">
-            + Nieuw dossier
+      {/* Top navigation bar */}
+      <header className="px-8 py-5">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <Logo size="md" />
+          <Button onClick={() => setShowCreate(true)} size="md">
+            Nieuw dossier
           </Button>
-        </header>
+        </div>
+        <div className="max-w-6xl mx-auto mt-5">
+          <div className="separator" />
+        </div>
+      </header>
+
+      <main className="flex-1 max-w-6xl mx-auto w-full px-8 pb-12">
+        {/* Page heading */}
+        <div className="mt-8 mb-10">
+          <h1 className="text-3xl font-bold text-white tracking-tight">
+            Dashboard
+          </h1>
+          <p className="text-[14px] text-[#576580] mt-1.5">
+            Beheer uw vastgoeddossiers
+          </p>
+        </div>
 
         {/* KPI Cards */}
         <KPIGrid stats={stats} />
 
         {/* Dossier List */}
-        <section className="mt-8">
-          <h2 className="text-lg font-semibold text-[#F1F5F9] mb-4">
+        <section className="mt-10">
+          <h2 className="text-[12px] uppercase tracking-[0.08em] font-medium text-[#8B9BB8] mb-5">
             Dossiers
           </h2>
 
           {properties.length === 0 ? (
-            <div className="glass-card p-12 text-center">
-              <p className="text-[#64748B] text-lg mb-2">Nog geen dossiers</p>
-              <p className="text-[#4B5563] text-sm mb-6">
+            <div className="glass-card p-16 text-center">
+              <p className="text-[#8B9BB8] text-lg mb-2">Nog geen dossiers</p>
+              <p className="text-[#576580] text-sm mb-8">
                 Maak uw eerste vastgoeddossier aan om te beginnen
               </p>
               <Button onClick={() => setShowCreate(true)}>
-                + Nieuw dossier aanmaken
+                Nieuw dossier aanmaken
               </Button>
             </div>
           ) : (
@@ -90,9 +98,8 @@ export default function Dashboard() {
             </div>
           )}
         </section>
-      </div>
+      </main>
 
-      {/* Create modal */}
       <CreateDossierModal
         open={showCreate}
         onClose={() => setShowCreate(false)}

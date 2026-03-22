@@ -21,7 +21,6 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
     setUploading(true);
     setProgress(0);
 
-    /* Simulate upload progress while the request is in flight */
     const interval = setInterval(() => {
       setProgress((prev) => prev >= 90 ? (clearInterval(interval), 90) : prev + 12);
     }, 80);
@@ -56,20 +55,19 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
 
       {uploading ? (
         <div className="space-y-3">
-          {/* Spinning loader matching the accent color */}
-          <div className="w-6 h-6 mx-auto rounded-full border-2 border-[rgba(59,130,246,0.15)] border-t-[#3B82F6] animate-spin" />
-          <p className="text-[12px] text-[#7C8494]">Uploaden...</p>
-          <div className="max-w-[160px] mx-auto h-[3px] bg-[rgba(255,255,255,0.04)] rounded-full overflow-hidden">
-            <div className="h-full bg-[#3B82F6] rounded-full transition-all duration-150" style={{ width: `${progress}%` }} />
+          <div className="w-5 h-5 mx-auto rounded-full border-2 border-[rgba(255,255,255,0.1)] border-t-white animate-spin" />
+          <p className="text-[12px] text-[#999]">Uploaden...</p>
+          <div className="max-w-[140px] mx-auto h-[2px] bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
+            <div className="h-full bg-white rounded-full transition-all duration-150" style={{ width: `${progress}%` }} />
           </div>
         </div>
       ) : (
         <div className="space-y-2">
-          <IconUpload size={20} className="mx-auto text-[#454D5E]" />
-          <p className="text-[13px] text-[#7C8494]">
-            Sleep een PDF hierheen of <span className="text-[#3B82F6] font-medium">blader</span>
+          <IconUpload size={18} className="mx-auto text-[#555]" />
+          <p className="text-[13px] text-[#999]">
+            Sleep een PDF hierheen of <span className="text-white font-medium">blader</span>
           </p>
-          <p className="text-[11px] text-[#454D5E]">PDF, max 20MB</p>
+          <p className="text-[11px] text-[#555]">PDF, max 20MB</p>
         </div>
       )}
     </div>

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta",
+  variable: "--font-geist",
   display: "swap",
 });
 
@@ -19,11 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl" className={`${plusJakarta.variable} h-full`}>
-      <body className="min-h-full font-sans antialiased">
-        <div className="ambient-glow" />
-        <div className="relative z-10 min-h-full">{children}</div>
-      </body>
+    <html lang="nl" className={`${geist.variable} h-full`}>
+      <body className="min-h-full font-sans antialiased">{children}</body>
     </html>
   );
 }

@@ -13,10 +13,10 @@ export function showToast(type: ToastType, message: string) {
   toastListeners.forEach((fn) => fn({ id: ++toastId, type, message }));
 }
 
-const icons: Record<ToastType, string> = {
-  success: "text-[#10B981]",
-  error: "text-[#EF4444]",
-  info: "text-[#3B82F6]",
+const dotColor: Record<ToastType, string> = {
+  success: "bg-[#00D47E]",
+  error: "bg-[#FF4545]",
+  info: "bg-white",
 };
 
 export function ToastContainer() {
@@ -39,10 +39,10 @@ export function ToastContainer() {
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className="toast bg-[#11151E] border border-[rgba(255,255,255,0.06)] rounded-xl px-4 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.4)] flex items-center gap-3 min-w-[260px]"
+          className="toast bg-[#111] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 flex items-center gap-3 min-w-[240px]"
         >
-          <div className={`w-1.5 h-1.5 rounded-full ${icons[toast.type]} bg-current shrink-0`} />
-          <span className="text-[13px] text-[#F0F2F5]">{toast.message}</span>
+          <div className={`w-1.5 h-1.5 rounded-full ${dotColor[toast.type]} shrink-0`} />
+          <span className="text-[13px] text-white">{toast.message}</span>
         </div>
       ))}
     </div>

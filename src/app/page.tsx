@@ -44,15 +44,15 @@ export default function Dashboard() {
           <div className="mock-banner"><strong>Demo</strong> &mdash; data wordt lokaal opgeslagen</div>
         )}
 
-        <main className="flex-1 px-10 py-8 max-w-[960px]">
+        <main className="flex-1 px-10 py-8 max-w-[900px]">
           {/* Page header */}
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h1 className="text-[22px] font-bold text-white tracking-tight">Dossiers</h1>
-              <p className="text-[13px] text-[#454D5E] mt-1">Overzicht van uw vastgoeddossiers</p>
+              <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">Dossiers</h1>
+              <p className="text-[13px] text-[#555] mt-1 tracking-[-0.01em]">Overzicht van uw vastgoeddossiers</p>
             </div>
             <Button onClick={() => setShowCreate(true)} size="md">
-              <IconPlus size={14} />
+              <IconPlus size={13} />
               Nieuw dossier
             </Button>
           </div>
@@ -62,16 +62,12 @@ export default function Dashboard() {
 
           {/* Dossier list */}
           <div className="mt-8">
-            <p className="text-[10px] uppercase tracking-[0.12em] text-[#454D5E] font-semibold mb-4">
-              Alle dossiers
-            </p>
-
             {properties.length === 0 ? (
-              <div className="card p-14 text-center">
-                <p className="text-[14px] text-[#7C8494] mb-1">Geen dossiers</p>
-                <p className="text-[12px] text-[#454D5E] mb-6">Maak uw eerste dossier aan om te beginnen</p>
+              <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl py-16 text-center">
+                <p className="text-[14px] text-[#999] mb-1">Geen dossiers</p>
+                <p className="text-[12px] text-[#555] mb-6">Maak uw eerste dossier aan om te beginnen</p>
                 <Button onClick={() => setShowCreate(true)} size="md">
-                  <IconPlus size={14} />
+                  <IconPlus size={13} />
                   Nieuw dossier
                 </Button>
               </div>

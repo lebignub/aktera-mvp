@@ -7,11 +7,10 @@ interface ConfidenceDotProps {
   showLabel?: boolean;
 }
 
-/* Color-coded dots matching the design system palette */
 const config: Record<ConfidenceLevel, { color: string; label: string }> = {
-  high: { color: "bg-[#10B981]", label: "Hoog" },
-  medium: { color: "bg-[#F59E0B]", label: "Gemiddeld" },
-  low: { color: "bg-[#EF4444]", label: "Laag" },
+  high: { color: "bg-[#00D47E]", label: "Hoog" },
+  medium: { color: "bg-[#FFB224]", label: "Gemiddeld" },
+  low: { color: "bg-[#FF4545]", label: "Laag" },
 };
 
 export function ConfidenceDot({ level, showLabel = false }: ConfidenceDotProps) {
@@ -19,7 +18,7 @@ export function ConfidenceDot({ level, showLabel = false }: ConfidenceDotProps) 
   return (
     <span className="inline-flex items-center gap-1.5 shrink-0">
       <span className={`w-1.5 h-1.5 rounded-full ${color}`} title={`Betrouwbaarheid: ${label}`} />
-      {showLabel && <span className="text-[11px] text-[#454D5E]">{label}</span>}
+      {showLabel && <span className="text-[11px] text-[#555]">{label}</span>}
     </span>
   );
 }

@@ -111,7 +111,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
       <div className="flex min-h-screen">
         <Sidebar />
         <div className="flex-1 flex items-center justify-center">
-          <div className="w-6 h-6 rounded-full border-2 border-[#27272A] border-t-[#3B82F6] animate-spin" />
+          <div className="w-5 h-5 rounded-full border-2 border-[rgba(255,255,255,0.1)] border-t-white animate-spin" />
         </div>
       </div>
     );
@@ -128,10 +128,10 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
           <div className="mock-banner"><span>Demo</span> — data wordt lokaal opgeslagen</div>
         )}
 
-        <main className="flex-1 px-8 py-6">
+        <main className="flex-1 px-10 py-8">
           <DossierHeader property={property} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-2">
             <div className="lg:col-span-2">
               <DocumentChecklist documents={property.documents} selectedDocId={selectedDocId} onSelect={setSelectedDocId} />
               <GenerateButton property={property} />
@@ -147,8 +147,8 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
                   extracting={extracting}
                 />
               ) : (
-                <div className="border border-[#1E1E21] border-dashed rounded-xl p-12 text-center">
-                  <p className="text-[12px] text-[#52525B]">Selecteer een document</p>
+                <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl p-12 text-center">
+                  <p className="text-[12px] text-[#555]">Selecteer een document</p>
                 </div>
               )}
             </div>

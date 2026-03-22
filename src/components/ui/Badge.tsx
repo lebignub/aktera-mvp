@@ -6,19 +6,20 @@ interface BadgeProps {
   className?: string;
 }
 
-const variantStyles: Record<BadgeProps["variant"], string> = {
-  success: "bg-[rgba(16,185,129,0.1)] text-[#10B981] border-[rgba(16,185,129,0.15)]",
-  warning: "bg-[rgba(245,158,11,0.1)] text-[#F59E0B] border-[rgba(245,158,11,0.15)]",
-  error: "bg-[rgba(239,68,68,0.1)] text-[#EF4444] border-[rgba(239,68,68,0.15)]",
-  info: "bg-[rgba(59,130,246,0.1)] text-[#3B82F6] border-[rgba(59,130,246,0.15)]",
-  neutral: "bg-[rgba(255,255,255,0.04)] text-[#454D5E] border-[rgba(255,255,255,0.04)]",
+/* Restrained badges — just a dot + text, no colored backgrounds */
+const variantStyles: Record<BadgeProps["variant"], { dot: string; text: string }> = {
+  success: { dot: "bg-[#00D47E]", text: "text-[#00D47E]" },
+  warning: { dot: "bg-[#FFB224]", text: "text-[#FFB224]" },
+  error: { dot: "bg-[#FF4545]", text: "text-[#FF4545]" },
+  info: { dot: "bg-white", text: "text-white" },
+  neutral: { dot: "bg-[#555]", text: "text-[#555]" },
 };
 
 export function Badge({ variant, children, className = "" }: BadgeProps) {
+  const style = variantStyles[variant];
   return (
-    <span
-      className={`inline-flex items-center h-[22px] px-2 rounded-md text-[11px] font-semibold border ${variantStyles[variant]} ${className}`}
-    >
+    <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium ${style.text} ${className}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />
       {children}
     </span>
   );

@@ -25,29 +25,27 @@ export function DossierHeader({ property }: DossierHeaderProps) {
 
   return (
     <div className="mb-6">
-      {/* Back link with subtle hover effect */}
       <Link
         href="/"
-        className="inline-flex items-center gap-1.5 text-[12px] text-[#454D5E] hover:text-[#7C8494] transition-colors mb-4"
+        className="inline-flex items-center gap-1.5 text-[12px] text-[#555] hover:text-white transition-colors mb-4"
       >
-        <IconArrowLeft size={13} />
+        <IconArrowLeft size={12} />
         Dossiers
       </Link>
 
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-[20px] font-bold text-white tracking-tight">{property.address}</h1>
-          <p className="text-[12px] text-[#454D5E] mt-0.5">
+          <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">{property.address}</h1>
+          <p className="text-[12px] text-[#555] mt-0.5">
             {property.postal_code} {property.city}
           </p>
         </div>
         <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
       </div>
 
-      {/* Completion progress with glow effect on full completion */}
-      <div className="mt-4 max-w-sm">
+      <div className="mt-4 max-w-xs">
         <ProgressBar value={completion} className="mb-1.5" />
-        <p className="text-[11px] text-[#454D5E]">
+        <p className="text-[11px] text-[#555]">
           {verified}/{total} documenten geverifieerd
         </p>
       </div>

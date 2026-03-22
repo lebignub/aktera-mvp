@@ -12,10 +12,7 @@ interface CreateDossierModalProps {
 }
 
 const inputClass =
-  "w-full bg-[#0F0F12] border border-[#27272A] rounded-lg h-9 px-3 text-[13px] text-[#FAFAFA] placeholder-[#52525B] focus:outline-none focus:border-[#3B82F6] transition-colors";
-
-const labelClass =
-  "block text-[11px] text-[#52525B] font-medium mb-1.5";
+  "w-full bg-[#0A0D14] border border-[rgba(255,255,255,0.06)] rounded-xl h-10 px-3.5 text-[13px] text-white placeholder-[#454D5E] focus:outline-none focus:border-[#3B82F6] focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all";
 
 export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierModalProps) {
   const [address, setAddress] = useState("");
@@ -28,9 +25,7 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
     e.preventDefault();
     if (!canSubmit) return;
     onCreate({ address: address.trim(), city: city.trim(), postal_code: postalCode.trim() });
-    setAddress("");
-    setCity("");
-    setPostalCode("");
+    setAddress(""); setCity(""); setPostalCode("");
     onClose();
   }
 
@@ -38,22 +33,22 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
     <Modal open={open} onClose={onClose} title="Nieuw dossier">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className={labelClass}>Adres</label>
+          <label className="block text-[11px] text-[#454D5E] font-medium mb-2">Adres</label>
           <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Kerkstraat 42" className={inputClass} autoFocus />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className={labelClass}>Stad</label>
+            <label className="block text-[11px] text-[#454D5E] font-medium mb-2">Stad</label>
             <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Antwerpen" className={inputClass} />
           </div>
           <div>
-            <label className={labelClass}>Postcode</label>
+            <label className="block text-[11px] text-[#454D5E] font-medium mb-2">Postcode</label>
             <input type="text" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} placeholder="2000" className={inputClass} />
           </div>
         </div>
-        <div className="flex justify-end gap-2 pt-2">
-          <Button variant="ghost" type="button" onClick={onClose} size="sm">Annuleren</Button>
-          <Button type="submit" disabled={!canSubmit} size="sm">Aanmaken</Button>
+        <div className="flex justify-end gap-2 pt-3">
+          <Button variant="ghost" type="button" onClick={onClose}>Annuleren</Button>
+          <Button type="submit" disabled={!canSubmit}>Aanmaken</Button>
         </div>
       </form>
     </Modal>

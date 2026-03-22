@@ -9,14 +9,21 @@ interface KPIGridProps {
 interface KPICardProps {
   label: string;
   value: number;
-  color?: string;
+  color: string;
+  delay: number;
+  accent?: boolean;
 }
 
-function KPICard({ label, value, color = "#FAFAFA" }: KPICardProps) {
+function KPICard({ label, value, color, delay, accent }: KPICardProps) {
   return (
-    <div className="bg-[#131316] border border-[#1E1E21] rounded-xl p-5 fade-in">
-      <p className="text-[11px] text-[#52525B] font-medium mb-1.5">{label}</p>
-      <p className="text-2xl font-semibold tabular-nums" style={{ color }}>{value}</p>
+    <div
+      className={`rounded-xl p-5 count-up ${accent ? "card-accent" : "card"}`}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <p className="text-[11px] text-[#454D5E] font-medium tracking-wide mb-3">{label}</p>
+      <p className="text-[32px] font-bold tabular-nums leading-none tracking-tight" style={{ color }}>
+        {value}
+      </p>
     </div>
   );
 }
@@ -24,10 +31,10 @@ function KPICard({ label, value, color = "#FAFAFA" }: KPICardProps) {
 export function KPIGrid({ stats }: KPIGridProps) {
   return (
     <div className="grid grid-cols-4 gap-3">
-      <KPICard label="Totaal" value={stats.total} />
-      <KPICard label="Voltooid" value={stats.complete} color="#22C55E" />
-      <KPICard label="In behandeling" value={stats.inProgress} color="#3B82F6" />
-      <KPICard label="Nieuw" value={stats.pending} color="#EAB308" />
+      <KPICard label="Totaal dossiers" value={stats.total} color="#F0F2F5" delay={0} />
+      <KPICard label="Voltooid" value={stats.complete} color="#10B981" delay={60} />
+      <KPICard label="In behandeling" value={stats.inProgress} color="#3B82F6" delay={120} accent />
+      <KPICard label="Nieuw" value={stats.pending} color="#F59E0B" delay={180} />
     </div>
   );
 }

@@ -3,25 +3,23 @@
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost" | "danger";
+  variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";
 }
 
 const variantStyles: Record<string, string> = {
   primary:
-    "bg-[#3B82F6] text-white hover:bg-[#2563EB] active:bg-[#1D4ED8]",
+    "bg-[#3B82F6] text-white hover:bg-[#2563EB] btn-glow",
   secondary:
-    "bg-[#18181B] text-[#FAFAFA] border border-[#27272A] hover:bg-[#27272A] hover:border-[#3F3F46]",
+    "bg-[#11151E] text-[#F0F2F5] border border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,255,255,0.1)] hover:bg-[#161B26]",
   ghost:
-    "text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-[#18181B]",
-  danger:
-    "bg-[#18181B] text-[#EF4444] border border-[#27272A] hover:bg-[#EF4444]/10 hover:border-[#EF4444]/30",
+    "text-[#7C8494] hover:text-[#F0F2F5] hover:bg-[rgba(255,255,255,0.04)]",
 };
 
 const sizeStyles: Record<string, string> = {
-  sm: "h-7 px-3 text-xs rounded-md gap-1.5",
-  md: "h-8 px-3.5 text-[13px] rounded-lg gap-2",
-  lg: "h-9 px-4 text-[13px] rounded-lg gap-2",
+  sm: "h-8 px-3.5 text-[13px] rounded-lg gap-1.5",
+  md: "h-9 px-4 text-[13px] rounded-lg gap-2",
+  lg: "h-10 px-5 text-[14px] rounded-xl gap-2",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -31,9 +29,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled}
         className={`
-          inline-flex items-center justify-center font-medium
-          transition-colors duration-150 cursor-pointer
-          disabled:opacity-40 disabled:cursor-not-allowed
+          inline-flex items-center justify-center font-semibold
+          transition-all duration-200 cursor-pointer
+          disabled:opacity-35 disabled:cursor-not-allowed disabled:pointer-events-none
           ${variantStyles[variant]}
           ${sizeStyles[size]}
           ${className}

@@ -20,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl" className={`${plusJakarta.variable} h-full`}>
-      <body className="min-h-full font-sans antialiased">{children}</body>
+      <body className="min-h-full font-sans antialiased">
+        <div className="ambient-glow" />
+        <div className="relative z-10 min-h-full">{children}</div>
+      </body>
     </html>
   );
 }

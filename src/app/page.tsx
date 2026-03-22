@@ -19,17 +19,13 @@ export default function Dashboard() {
 
   const stats: DossierStats = useMemo(() => {
     const total = properties.length;
-    let complete = 0;
-    let inProgress = 0;
-    let pending = 0;
-
+    let complete = 0, inProgress = 0, pending = 0;
     for (const p of properties) {
-      const completion = computeCompletion(p.documents);
-      if (completion === 100) complete++;
+      const c = computeCompletion(p.documents);
+      if (c === 100) complete++;
       else if (p.documents.some((d) => d.status !== "missing")) inProgress++;
       else pending++;
     }
-
     return { total, complete, inProgress, pending };
   }, [properties]);
 
@@ -45,17 +41,17 @@ export default function Dashboard() {
 
       <div className="flex-1 flex flex-col min-w-0">
         {mockMode && (
-          <div className="mock-banner"><span>Demo</span> — data wordt lokaal opgeslagen</div>
+          <div className="mock-banner"><strong>Demo</strong> &mdash; data wordt lokaal opgeslagen</div>
         )}
 
-        <main className="flex-1 px-8 py-6 max-w-5xl">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6">
+        <main className="flex-1 px-10 py-8 max-w-[960px]">
+          {/* Page header */}
+          <div className="flex items-end justify-between mb-8">
             <div>
-              <h1 className="text-lg font-semibold text-[#FAFAFA]">Dossiers</h1>
-              <p className="text-[12px] text-[#52525B] mt-0.5">Beheer uw vastgoeddossiers</p>
+              <h1 className="text-[22px] font-bold text-white tracking-tight">Dossiers</h1>
+              <p className="text-[13px] text-[#454D5E] mt-1">Overzicht van uw vastgoeddossiers</p>
             </div>
-            <Button onClick={() => setShowCreate(true)} size="sm">
+            <Button onClick={() => setShowCreate(true)} size="md">
               <IconPlus size={14} />
               Nieuw dossier
             </Button>
@@ -64,20 +60,25 @@ export default function Dashboard() {
           {/* KPIs */}
           <KPIGrid stats={stats} />
 
-          {/* List */}
-          <div className="mt-6">
+          {/* Dossier list */}
+          <div className="mt-8">
+            <p className="text-[10px] uppercase tracking-[0.12em] text-[#454D5E] font-semibold mb-4">
+              Alle dossiers
+            </p>
+
             {properties.length === 0 ? (
-              <div className="border border-[#1E1E21] border-dashed rounded-xl p-12 text-center">
-                <p className="text-[13px] text-[#52525B] mb-4">Nog geen dossiers aangemaakt</p>
-                <Button onClick={() => setShowCreate(true)} size="sm">
+              <div className="card p-14 text-center">
+                <p className="text-[14px] text-[#7C8494] mb-1">Geen dossiers</p>
+                <p className="text-[12px] text-[#454D5E] mb-6">Maak uw eerste dossier aan om te beginnen</p>
+                <Button onClick={() => setShowCreate(true)} size="md">
                   <IconPlus size={14} />
                   Nieuw dossier
                 </Button>
               </div>
             ) : (
               <div className="grid gap-3 lg:grid-cols-2">
-                {properties.map((property) => (
-                  <DossierCard key={property.id} property={property} />
+                {properties.map((property, i) => (
+                  <DossierCard key={property.id} property={property} index={i} />
                 ))}
               </div>
             )}

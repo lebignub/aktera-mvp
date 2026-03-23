@@ -17,10 +17,12 @@ Regels:
 - "medium" = leesbaar maar mogelijk onvolledig of ambigu
 - "low" = moeilijk leesbaar, afgeleid, of onzeker
 - Behoud het originele formaat (datums in dd/mm/yyyy, bedragen met punt als duizendtalsscheidingsteken)
+- Geef voor elk veld het paginanummer (source_page) waar de waarde gevonden werd
+- Geef voor elk veld het exacte tekstfragment (source_snippet) uit het document waaruit de waarde is afgeleid
 
 Output formaat (strict JSON, geen markdown):
 [
-  { "field_name": "...", "field_value": "..." of null, "confidence": "high"|"medium"|"low" }
+  { "field_name": "...", "field_value": "..." of null, "confidence": "high"|"medium"|"low", "source_page": 1, "source_snippet": "exact tekst uit het document" }
 ]`;
 
 const PROMPTS: Record<DocumentType, string> = {

@@ -17,6 +17,8 @@ interface RawExtractedField {
   field_name: string;
   field_value: string | null;
   confidence: ConfidenceLevel;
+  source_page?: number | null;
+  source_snippet?: string | null;
 }
 
 /**
@@ -99,6 +101,8 @@ export async function extractFromPdf(
     confidence: raw.confidence || "medium",
     verified: false,
     updated_at: new Date().toISOString(),
+    source_page: raw.source_page ?? null,
+    source_snippet: raw.source_snippet ?? null,
   }));
 
   return fields;

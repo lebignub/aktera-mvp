@@ -28,6 +28,8 @@ export interface ExtractedField {
   confidence: ConfidenceLevel;
   verified: boolean;
   updated_at: string;
+  source_page?: number | null;    // page number in source PDF where this field was found
+  source_snippet?: string | null; // exact text snippet from the source document
 }
 
 export interface Document {

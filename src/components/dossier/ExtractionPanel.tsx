@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { IconDocument, IconPencil, IconCheck, IconSparkle, DOC_TYPE_ICONS } from "@/components/ui/Icons";
 import { UploadZone } from "./UploadZone";
+import { SourcePreview } from "./SourcePreview";
 
 interface ExtractionPanelProps {
   document: Document;
@@ -21,6 +22,18 @@ interface ExtractionPanelProps {
 export function ExtractionPanel({ document: doc, propertyId, onFieldUpdate, onUpload, onExtract, extracting }: ExtractionPanelProps) {
   const config = DOCUMENT_CONFIGS[doc.type];
   const Icon = DOC_TYPE_ICONS[doc.type] || IconDocument;
+  const [previewField, setPreviewField] = useState<ExtractedField | null>(null);
+
+  // If a field is selected for preview, show the SourcePreview panel instead
+  if (previewField) {
+    return (
+      <SourcePreview
+        field={previewField}
+        document={doc}
+        onClose={() => setPreviewField(null)}
+      />
+    );
+  }
 
   return (
     <div className="panel slide-in">
@@ -82,7 +95,7 @@ export function ExtractionPanel({ document: doc, propertyId, onFieldUpdate, onUp
 
             <div className="space-y-px">
               {doc.fields.map((field) => (
-                <FieldRow key={field.id} field={field} onUpdate={(v) => onFieldUpdate(field.id, v)} />
+                <FieldRow key={field.id} field={field} onUpdate={(v) => onFieldUpdate(field.id, v)} onShowSource={field.source_page ? () => setPreviewField(field) : undefined} />
               ))}
             </div>
           </div>
@@ -103,9 +116,10 @@ export function ExtractionPanel({ document: doc, propertyId, onFieldUpdate, onUp
 interface FieldRowProps {
   field: ExtractedField;
   onUpdate: (newValue: string) => void;
+  onShowSource?: () => void;
 }
 
-function FieldRow({ field, onUpdate }: FieldRowProps) {
+function FieldRow({ field, onUpdate, onShowSource }: FieldRowProps) {
   const [editing, setEditing] = useState(false);
   const [editValue, setEditValue] = useState(field.field_value || "");
 
@@ -152,6 +166,17 @@ function FieldRow({ field, onUpdate }: FieldRowProps) {
         >
           {field.field_value || "—"}
         </span>
+      )}
+
+      {/* Source citation badge */}
+      {!editing && onShowSource && (
+        <button
+          onClick={onShowSource}
+          className="text-[9px] text-[#666] border border-[rgba(255,255,255,0.1)] rounded px-1.5 py-0.5 hover:text-white hover:border-[rgba(255,255,255,0.25)] transition-colors shrink-0 cursor-pointer tabular-nums"
+          title={field.source_snippet ? `"${field.source_snippet}"` : `Bron: pagina ${field.source_page}`}
+        >
+          p.{field.source_page}
+        </button>
       )}
 
       {!editing && !field.verified && (

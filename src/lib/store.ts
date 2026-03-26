@@ -4,7 +4,7 @@
  * When missing, they operate on in-memory mock data + localStorage.
  */
 
-import { Property, Document, ExtractedField, CreateDossierInput, Template, TemplateType } from "@/lib/types";
+import { Property, Document, ExtractedField, CreateDossierInput, Template, TemplateType, Party, PartyRole } from "@/lib/types";
 import { MOCK_PROPERTIES } from "@/lib/mock/data";
 
 // Check if we're running with real backend
@@ -79,6 +79,7 @@ export function createProperty(input: CreateDossierInput): Property {
     created_at: now,
     updated_at: now,
     documents,
+    parties: [],
   };
 
   properties.unshift(property);
@@ -151,6 +152,73 @@ export function setDocumentFields(
   return doc;
 }
 
+// ── Party store ──
+
+export function getParties(propertyId: string): Party[] {
+  const property = getProperty(propertyId);
+  return property?.parties ?? [];
+}
+
+function createEmptyParty(propertyId: string, role: PartyRole): Party {
+  return {
+    id: `party-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+    property_id: propertyId,
+    role,
+    first_name: "",
+    last_name: "",
+    address: "",
+    postal_code: "",
+    city: "",
+    birth_date: "",
+    birth_place: "",
+    national_register: "",
+    email: "",
+    phone: "",
+    ...(role === "notary" ? { office_name: "" } : {}),
+  };
+}
+
+export function addParty(propertyId: string, role: PartyRole): Party | null {
+  properties = loadFromStorage();
+  const property = properties.find((p) => p.id === propertyId);
+  if (!property) return null;
+
+  const party = createEmptyParty(propertyId, role);
+  if (!property.parties) property.parties = [];
+  property.parties.push(party);
+  property.updated_at = new Date().toISOString();
+  saveToStorage(properties);
+  return party;
+}
+
+export function updateParty(propertyId: string, partyId: string, updates: Partial<Party>): Party | null {
+  properties = loadFromStorage();
+  const property = properties.find((p) => p.id === propertyId);
+  if (!property || !property.parties) return null;
+
+  const idx = property.parties.findIndex((p) => p.id === partyId);
+  if (idx === -1) return null;
+
+  property.parties[idx] = { ...property.parties[idx], ...updates };
+  property.updated_at = new Date().toISOString();
+  saveToStorage(properties);
+  return property.parties[idx];
+}
+
+export function removeParty(propertyId: string, partyId: string): boolean {
+  properties = loadFromStorage();
+  const property = properties.find((p) => p.id === propertyId);
+  if (!property || !property.parties) return false;
+
+  const before = property.parties.length;
+  property.parties = property.parties.filter((p) => p.id !== partyId);
+  if (property.parties.length === before) return false;
+
+  property.updated_at = new Date().toISOString();
+  saveToStorage(properties);
+  return true;
+}
+
 // ── Template store (localStorage-backed) ──
 
 const TEMPLATES_KEY = "aktera_templates";
@@ -173,6 +241,15 @@ const SEED_TEMPLATES: Template[] = [
     file_name: "Samenwerking_Template.docx",
     file_size: 182_000,
     uploaded_at: "2026-03-18T09:00:00.000Z",
+    last_used_at: null,
+  },
+  {
+    id: "tpl-seed-3",
+    name: "CEB Compromis (FR)",
+    type: "compromis",
+    file_name: "CEB_Compromis_2024_FR.docx",
+    file_size: 239_000,
+    uploaded_at: "2026-03-25T09:00:00.000Z",
     last_used_at: null,
   },
 ];

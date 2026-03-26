@@ -52,6 +52,7 @@ export interface Property {
   created_at: string;
   updated_at: string;
   documents: Document[];
+  parties: Party[];
 }
 
 // Derived stats for dashboard display
@@ -60,6 +61,27 @@ export interface DossierStats {
   complete: number;     // all docs verified
   inProgress: number;   // at least one doc uploaded
   pending: number;      // no docs uploaded yet
+}
+
+// Party info — buyer, seller, notary details for the transaction
+export type PartyRole = "seller" | "buyer" | "notary";
+
+export interface Party {
+  id: string;
+  property_id: string;
+  role: PartyRole;
+  first_name: string;
+  last_name: string;
+  address: string;
+  postal_code: string;
+  city: string;
+  birth_date: string;       // DD/MM/YYYY
+  birth_place: string;
+  national_register: string; // rijksregisternummer / numéro de registre national
+  email: string;
+  phone: string;
+  // Notary-specific fields
+  office_name?: string;     // kantoor / étude
 }
 
 // For the create dossier form

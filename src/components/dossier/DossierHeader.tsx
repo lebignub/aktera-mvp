@@ -6,22 +6,24 @@ import { Badge } from "@/components/ui/Badge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { IconArrowLeft } from "@/components/ui/Icons";
 import { computeCompletion } from "@/lib/documents/config";
+import { useT } from "@/lib/i18n";
 
 interface DossierHeaderProps {
   property: Property;
 }
 
 export function DossierHeader({ property }: DossierHeaderProps) {
+  const t = useT();
   const completion = computeCompletion(property.documents);
   const verified = property.documents.filter((d) => d.status === "verified").length;
   const total = property.documents.length;
 
   const statusBadge =
     completion === 100
-      ? { variant: "success" as const, label: "Voltooid" }
+      ? { variant: "success" as const, label: t("status.complete") }
       : verified > 0 || property.documents.some((d) => d.status !== "missing")
-        ? { variant: "info" as const, label: "In behandeling" }
-        : { variant: "neutral" as const, label: "Nieuw" };
+        ? { variant: "info" as const, label: t("status.inProgress") }
+        : { variant: "neutral" as const, label: t("status.new") };
 
   return (
     <div className="mb-6">
@@ -30,7 +32,7 @@ export function DossierHeader({ property }: DossierHeaderProps) {
         className="inline-flex items-center gap-1.5 text-[12px] text-[#666] hover:text-white transition-colors mb-4"
       >
         <IconArrowLeft size={12} />
-        Dossiers
+        {t("dossier.back")}
       </Link>
 
       <div className="flex items-start justify-between">
@@ -46,7 +48,7 @@ export function DossierHeader({ property }: DossierHeaderProps) {
       <div className="mt-4 max-w-xs">
         <ProgressBar value={completion} className="mb-1.5" />
         <p className="text-[11px] text-[#666]">
-          {verified}/{total} documenten geverifieerd
+          {t("dossier.documentsVerified", { verified: String(verified), total: String(total) })}
         </p>
       </div>
     </div>

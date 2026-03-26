@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { IconUpload } from "@/components/ui/Icons";
+import { useT } from "@/lib/i18n";
 
 interface UploadZoneProps {
   documentId: string;
@@ -11,6 +12,7 @@ interface UploadZoneProps {
 }
 
 export function UploadZone({ documentId, propertyId, onUploadComplete, disabled }: UploadZoneProps) {
+  const t = useT();
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -30,7 +32,14 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
       formData.append("file", file);
       formData.append("document_id", documentId);
       formData.append("property_id", propertyId);
-      await fetch("/api/upload", { method: "POST", body: formData }).catch(() => {});
+      const res = await fetch("/api/upload", { method: "POST", body: formData }).catch(() => null);
+      // If the server returned the base64, attach it to the file object for extraction
+      if (res?.ok) {
+        const data = await res.json();
+        if (data.pdf_base64) {
+          (file as File & { _base64?: string })._base64 = data.pdf_base64;
+        }
+      }
       clearInterval(interval);
       setProgress(100);
       onUploadComplete(file);
@@ -56,7 +65,7 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
       {uploading ? (
         <div className="space-y-3">
           <div className="w-5 h-5 mx-auto rounded-full border-2 border-[rgba(255,255,255,0.1)] border-t-white animate-spin" />
-          <p className="text-[12px] text-[#999]">Uploaden...</p>
+          <p className="text-[12px] text-[#999]">{t("upload.uploading")}</p>
           <div className="max-w-[140px] mx-auto h-[2px] bg-[rgba(255,255,255,0.1)] rounded-full overflow-hidden">
             <div className="h-full bg-white rounded-full transition-all duration-150" style={{ width: `${progress}%` }} />
           </div>
@@ -65,9 +74,9 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
         <div className="space-y-2">
           <IconUpload size={18} className="mx-auto text-[#666]" />
           <p className="text-[13px] text-[#999]">
-            Sleep een PDF hierheen of <span className="text-white font-medium">blader</span>
+            {t("upload.dropzone")} {t("upload.dropzoneOr")} <span className="text-white font-medium">{t("upload.browse")}</span>
           </p>
-          <p className="text-[11px] text-[#666]">PDF, max 20MB</p>
+          <p className="text-[11px] text-[#666]">{t("upload.maxSize")}</p>
         </div>
       )}
     </div>

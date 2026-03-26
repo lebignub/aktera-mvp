@@ -7,14 +7,8 @@ import { Modal } from "@/components/ui/Modal";
 import { ToastContainer, showToast } from "@/components/ui/Toast";
 import { IconPlus, IconDocument, IconTrash, IconUpload } from "@/components/ui/Icons";
 import { getTemplates, addTemplate, deleteTemplate, isMockMode } from "@/lib/store";
+import { useI18n } from "@/lib/i18n";
 import type { Template, TemplateType } from "@/lib/types";
-
-// Human-readable labels for template types
-const TYPE_LABELS: Record<TemplateType, string> = {
-  compromis: "Compromis",
-  samenwerkingsovereenkomst: "Samenwerkingsovereenkomst",
-  bod: "Bod",
-};
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -22,30 +16,43 @@ function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("nl-BE", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
 export default function TemplatesPage() {
+  const { locale, t } = useI18n();
   const [templates, setTemplates] = useState<Template[]>(() => getTemplates());
   const [showUpload, setShowUpload] = useState(false);
   const mockMode = isMockMode();
 
+  const dateLocale = locale === "fr" ? "fr-BE" : "nl-BE";
+
+  function formatDate(iso: string): string {
+    return new Date(iso).toLocaleDateString(dateLocale, {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  }
+
   function handleDelete(id: string) {
     deleteTemplate(id);
     setTemplates(getTemplates());
-    showToast("success", "Template verwijderd");
+    showToast("success", t("templates.deleted"));
   }
 
   function handleUploaded(template: Template) {
-    setTemplates([template, ...templates.filter((t) => t.id !== template.id)]);
+    setTemplates([template, ...templates.filter((tpl) => tpl.id !== template.id)]);
     setShowUpload(false);
-    showToast("success", `"${template.name}" opgeslagen`);
+    showToast("success", t("templates.saved", { name: template.name }));
   }
+
+  // Type labels are i18n-driven
+  const typeLabel = (type: TemplateType) => {
+    const map: Record<TemplateType, string> = {
+      compromis: t("templates.typeCompromis"),
+      samenwerkingsovereenkomst: t("templates.typeSamenwerkingsovereenkomst"),
+      bod: t("templates.typeBod"),
+    };
+    return map[type];
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -53,32 +60,32 @@ export default function TemplatesPage() {
 
       <div className="flex-1 flex flex-col min-w-0">
         {mockMode && (
-          <div className="mock-banner"><strong>Demo</strong> &mdash; data wordt lokaal opgeslagen</div>
+          <div className="mock-banner"><strong>Demo</strong> &mdash; {t("mock.banner").replace("Demo — ", "").replace("Démo — ", "")}</div>
         )}
 
         <main className="flex-1 px-10 py-8">
           {/* Page header */}
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">Templates</h1>
+              <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">{t("templates.title")}</h1>
               <p className="text-[13px] text-[#666] mt-1 tracking-[-0.01em]">
-                Uw Word-templates voor compromis, bod en overeenkomsten
+                {t("templates.subtitle")}
               </p>
             </div>
             <Button onClick={() => setShowUpload(true)} size="md">
               <IconPlus size={13} />
-              Template uploaden
+              {t("templates.upload")}
             </Button>
           </div>
 
           {/* Template list */}
           {templates.length === 0 ? (
             <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl py-16 text-center">
-              <p className="text-[14px] text-[#999] mb-1">Geen templates</p>
-              <p className="text-[12px] text-[#666] mb-6">Upload uw eerste Word-template om te beginnen</p>
+              <p className="text-[14px] text-[#999] mb-1">{t("templates.noTemplates")}</p>
+              <p className="text-[12px] text-[#666] mb-6">{t("templates.noTemplatesHint")}</p>
               <Button onClick={() => setShowUpload(true)} size="md">
                 <IconPlus size={13} />
-                Template uploaden
+                {t("templates.upload")}
               </Button>
             </div>
           ) : (
@@ -100,12 +107,12 @@ export default function TemplatesPage() {
                     <div className="flex items-center gap-2.5">
                       <p className="text-[13px] font-medium text-white truncate">{tpl.name}</p>
                       <span className="text-[10px] text-[#666] border border-[rgba(255,255,255,0.1)] rounded px-1.5 py-0.5 shrink-0">
-                        {TYPE_LABELS[tpl.type]}
+                        {typeLabel(tpl.type)}
                       </span>
                     </div>
                     <p className="text-[11px] text-[#666] mt-0.5">
-                      {tpl.file_name} · {formatFileSize(tpl.file_size)} · Geüpload {formatDate(tpl.uploaded_at)}
-                      {tpl.last_used_at && ` · Laatst gebruikt ${formatDate(tpl.last_used_at)}`}
+                      {tpl.file_name} · {formatFileSize(tpl.file_size)} · {t("templates.uploaded")} {formatDate(tpl.uploaded_at)}
+                      {tpl.last_used_at && ` · ${t("templates.lastUsed")} ${formatDate(tpl.last_used_at)}`}
                     </p>
                   </div>
 
@@ -142,10 +149,18 @@ interface UploadModalProps {
 }
 
 function UploadTemplateModal({ open, onClose, onUploaded }: UploadModalProps) {
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [type, setType] = useState<TemplateType>("compromis");
   const [file, setFile] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
+
+  // Type labels for the picker buttons
+  const typeLabels: Record<TemplateType, string> = {
+    compromis: t("templates.typeCompromis"),
+    samenwerkingsovereenkomst: t("templates.typeSamenwerkingsovereenkomst"),
+    bod: t("templates.typeBod"),
+  };
 
   function reset() {
     setName("");
@@ -162,7 +177,7 @@ function UploadTemplateModal({ open, onClose, onUploaded }: UploadModalProps) {
   function handleFile(f: File) {
     // Only accept .docx files
     if (!f.name.endsWith(".docx")) {
-      showToast("error", "Alleen .docx bestanden toegestaan");
+      showToast("error", t("templates.docxOnly"));
       return;
     }
     setFile(f);
@@ -187,7 +202,7 @@ function UploadTemplateModal({ open, onClose, onUploaded }: UploadModalProps) {
   }
 
   return (
-    <Modal open={open} onClose={handleClose} title="Template uploaden">
+    <Modal open={open} onClose={handleClose} title={t("templates.upload")}>
       {/* Drop zone */}
       <div
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
@@ -222,46 +237,46 @@ function UploadTemplateModal({ open, onClose, onUploaded }: UploadModalProps) {
           <>
             <IconDocument size={20} className="text-white mx-auto mb-2" />
             <p className="text-[13px] text-white">{file.name}</p>
-            <p className="text-[11px] text-[#666] mt-1">{formatFileSize(file.size)} · Klik om te wijzigen</p>
+            <p className="text-[11px] text-[#666] mt-1">{formatFileSize(file.size)} · {t("templates.clickToChange")}</p>
           </>
         ) : (
           <>
             <IconUpload size={20} className="text-[#666] mx-auto mb-2" />
-            <p className="text-[13px] text-[#999]">Sleep uw .docx template hierheen</p>
-            <p className="text-[11px] text-[#666] mt-1">of klik om te selecteren</p>
+            <p className="text-[13px] text-[#999]">{t("templates.dropDocx")}</p>
+            <p className="text-[11px] text-[#666] mt-1">{t("templates.orClick")}</p>
           </>
         )}
       </div>
 
       {/* Name */}
       <div className="mb-4">
-        <label className="block text-[11px] text-[#666] font-medium mb-1.5">Naam</label>
+        <label className="block text-[11px] text-[#666] font-medium mb-1.5">{t("templates.name")}</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Bijv. CIV Compromis 2024"
+          placeholder={t("templates.namePlaceholder")}
           className="w-full bg-transparent border border-[rgba(255,255,255,0.12)] rounded-lg px-3 py-2 text-[13px] text-white placeholder-[#444] focus:outline-none focus:border-[rgba(255,255,255,0.3)] transition-colors"
         />
       </div>
 
       {/* Type */}
       <div className="mb-6">
-        <label className="block text-[11px] text-[#666] font-medium mb-1.5">Type</label>
+        <label className="block text-[11px] text-[#666] font-medium mb-1.5">{t("templates.type")}</label>
         <div className="flex gap-2">
-          {(Object.keys(TYPE_LABELS) as TemplateType[]).map((t) => (
+          {(Object.keys(typeLabels) as TemplateType[]).map((tplType) => (
             <button
-              key={t}
-              onClick={() => setType(t)}
+              key={tplType}
+              onClick={() => setType(tplType)}
               className={`
                 text-[12px] px-3 py-1.5 rounded-lg border transition-colors
-                ${type === t
+                ${type === tplType
                   ? "border-white text-white bg-[rgba(255,255,255,0.06)]"
                   : "border-[rgba(255,255,255,0.1)] text-[#666] hover:text-white hover:border-[rgba(255,255,255,0.2)]"
                 }
               `}
             >
-              {TYPE_LABELS[t]}
+              {typeLabels[tplType]}
             </button>
           ))}
         </div>
@@ -269,8 +284,8 @@ function UploadTemplateModal({ open, onClose, onUploaded }: UploadModalProps) {
 
       {/* Actions */}
       <div className="flex justify-end gap-2">
-        <Button variant="ghost" onClick={handleClose} size="sm">Annuleren</Button>
-        <Button onClick={handleSubmit} disabled={!file || !name.trim()} size="sm">Opslaan</Button>
+        <Button variant="ghost" onClick={handleClose} size="sm">{t("templates.cancelTpl")}</Button>
+        <Button onClick={handleSubmit} disabled={!file || !name.trim()} size="sm">{t("templates.saveTpl")}</Button>
       </div>
     </Modal>
   );

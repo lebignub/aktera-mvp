@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
+import { useI18n } from "@/lib/i18n";
+import type { Locale, TFunction } from "@/lib/i18n";
 
 /* ── Inline SVG icons for steps ── */
 
@@ -83,7 +85,15 @@ function IconPlug({ className = "" }: { className?: string }) {
 
 /* ── Stylized browser mockup showing the dashboard ── */
 
-function BrowserMockup() {
+function BrowserMockup({ t }: { t: TFunction }) {
+  const kpiLabels = [t("kpi.total"), t("kpi.complete"), t("kpi.inProgress"), t("kpi.new")];
+  const cards = [
+    { addr: "Kerkstraat 42", pct: 100, color: "#00D47E", status: t("pitch.mockup.complete") },
+    { addr: "Meir 15", pct: 67, color: "#fff", status: t("pitch.mockup.inProgress") },
+    { addr: "Grote Markt 1", pct: 33, color: "#fff", status: t("pitch.mockup.inProgress") },
+    { addr: "Veldstraat 8", pct: 0, color: "#333", status: t("pitch.mockup.new") },
+  ];
+
   return (
     <div className="border border-[rgba(255,255,255,0.12)] rounded-xl overflow-hidden bg-[#0A0A0A]">
       {/* Browser chrome */}
@@ -108,7 +118,7 @@ function BrowserMockup() {
             </div>
             <span className="text-[10px] font-semibold text-white">Aktera</span>
           </div>
-          <div className="bg-[rgba(255,255,255,0.06)] rounded-md px-2 py-1.5 text-[9px] text-white mb-1">Dossiers</div>
+          <div className="bg-[rgba(255,255,255,0.06)] rounded-md px-2 py-1.5 text-[9px] text-white mb-1">{t("nav.dossiers")}</div>
           <div className="px-2 py-1.5 text-[9px] text-[#666]">Pitch</div>
         </div>
 
@@ -121,7 +131,7 @@ function BrowserMockup() {
               <div className="h-2 w-32 bg-[#151515] rounded" />
             </div>
             <div className="bg-white text-black text-[8px] font-medium px-2.5 py-1 rounded-md">
-              + Nieuw dossier
+              {t("pitch.mockup.newDossier")}
             </div>
           </div>
 
@@ -129,7 +139,7 @@ function BrowserMockup() {
           <div className="grid grid-cols-4 gap-2 mb-4 py-3 border-y border-[rgba(255,255,255,0.06)]">
             {["4", "1", "2", "1"].map((v, i) => (
               <div key={i}>
-                <div className="text-[8px] text-[#666] mb-1">{["Totaal", "Voltooid", "In behandeling", "Nieuw"][i]}</div>
+                <div className="text-[8px] text-[#666] mb-1">{kpiLabels[i]}</div>
                 <div className="text-[16px] font-semibold text-white">{v}</div>
               </div>
             ))}
@@ -137,19 +147,14 @@ function BrowserMockup() {
 
           {/* Dossier cards */}
           <div className="grid grid-cols-2 gap-2">
-            {[
-              { addr: "Kerkstraat 42", pct: 100, color: "#00D47E" },
-              { addr: "Meir 15", pct: 67, color: "#fff" },
-              { addr: "Grote Markt 1", pct: 33, color: "#fff" },
-              { addr: "Veldstraat 8", pct: 0, color: "#333" },
-            ].map((d) => (
+            {cards.map((d) => (
               <div key={d.addr} className="border border-[rgba(255,255,255,0.08)] rounded-lg p-2.5">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-[9px] font-medium text-white">{d.addr}</span>
                   <div className="flex items-center gap-1">
-                    <div className={`w-1 h-1 rounded-full`} style={{ background: d.color }} />
+                    <div className="w-1 h-1 rounded-full" style={{ background: d.color }} />
                     <span className="text-[7px]" style={{ color: d.color }}>
-                      {d.pct === 100 ? "Voltooid" : d.pct > 0 ? "Bezig" : "Nieuw"}
+                      {d.status}
                     </span>
                   </div>
                 </div>
@@ -168,14 +173,17 @@ function BrowserMockup() {
 
 /* ── Flow diagram: before → AKTERA → after ── */
 
-function FlowDiagram() {
+function FlowDiagram({ t }: { t: TFunction }) {
+  const beforeSteps = [t("pitch.before.1"), t("pitch.before.2"), t("pitch.before.3"), t("pitch.before.4"), t("pitch.before.5")];
+  const afterSteps = [t("pitch.after.1"), t("pitch.after.2"), t("pitch.after.3"), t("pitch.after.4"), t("pitch.after.5")];
+
   return (
     <div className="grid md:grid-cols-3 gap-4 items-stretch">
       {/* Before */}
       <div className="border border-[rgba(255,255,255,0.08)] rounded-xl p-5">
-        <p className="text-[10px] text-[#FF4545] font-medium tracking-[0.08em] uppercase mb-3">Vandaag</p>
+        <p className="text-[10px] text-[#FF4545] font-medium tracking-[0.08em] uppercase mb-3">{t("pitch.before.label")}</p>
         <div className="space-y-2">
-          {["EPC openen, data aflezen", "Kadaster kopiëren naar Word", "Bodemattest handmatig invoeren", "Compromis veld per veld invullen", "Herhalen voor bod & overeenkomst"].map((s, i) => (
+          {beforeSteps.map((s, i) => (
             <div key={i} className="flex items-start gap-2">
               <span className="text-[#FF4545] text-[10px] mt-0.5 shrink-0">—</span>
               <span className="text-[12px] text-[#999] leading-[1.5]">{s}</span>
@@ -183,8 +191,8 @@ function FlowDiagram() {
           ))}
         </div>
         <div className="mt-4 pt-3 border-t border-[rgba(255,255,255,0.06)]">
-          <span className="text-[24px] font-semibold text-[#FF4545]">3–4u</span>
-          <span className="text-[11px] text-[#666] ml-2">per transactie</span>
+          <span className="text-[24px] font-semibold text-[#FF4545]">{t("pitch.before.time")}</span>
+          <span className="text-[11px] text-[#666] ml-2">{t("pitch.before.timeLabel")}</span>
         </div>
       </div>
 
@@ -197,14 +205,14 @@ function FlowDiagram() {
           </svg>
         </div>
         <p className="text-[13px] font-semibold text-white mb-1">AKTERA</p>
-        <p className="text-[11px] text-[#666] text-center">Upload → Extract → Verify → Generate</p>
+        <p className="text-[11px] text-[#666] text-center">{t("pitch.flow.subtitle")}</p>
       </div>
 
       {/* After */}
       <div className="border border-[rgba(255,255,255,0.08)] rounded-xl p-5">
-        <p className="text-[10px] text-[#00D47E] font-medium tracking-[0.08em] uppercase mb-3">Met AKTERA</p>
+        <p className="text-[10px] text-[#00D47E] font-medium tracking-[0.08em] uppercase mb-3">{t("pitch.after.label")}</p>
         <div className="space-y-2">
-          {["Documenten uploaden", "AI extraheert alle velden", "Verifiëren met betrouwbaarheidsscore", "Eén klik: compromis gegenereerd", "Terug naar de klant"].map((s, i) => (
+          {afterSteps.map((s, i) => (
             <div key={i} className="flex items-start gap-2">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00D47E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
                 <path d="M20 6 9 17l-5-5" />
@@ -214,65 +222,15 @@ function FlowDiagram() {
           ))}
         </div>
         <div className="mt-4 pt-3 border-t border-[rgba(255,255,255,0.06)]">
-          <span className="text-[24px] font-semibold text-[#00D47E]">15 min</span>
-          <span className="text-[11px] text-[#666] ml-2">per transactie</span>
+          <span className="text-[24px] font-semibold text-[#00D47E]">{t("pitch.after.time")}</span>
+          <span className="text-[11px] text-[#666] ml-2">{t("pitch.after.timeLabel")}</span>
         </div>
       </div>
     </div>
   );
 }
 
-/* ── Data ── */
-
-const STATS = [
-  { value: "70–80%", label: "van de werktijd gaat naar administratie — niet naar klanten, niet naar verkoop" },
-  { value: "8/10", label: "makelaars noemen herhaalde data-invoer als hun grootste frustratie" },
-  { value: "3–4u", label: "administratief werk per transactie dat niet bij de makelaar hoort" },
-  { value: "0", label: "manuele herinvoer nodig voor geverifieerde velden met AKTERA" },
-];
-
-const STEP_ICONS = [IconUploadCloud, IconScan, IconFileDown];
-const STEPS = [
-  {
-    title: "Upload uw documenten",
-    description:
-      "Sleep uw EPC, bodemattest, kadastrale legger, eigendomsakte en andere dossier-documenten naar het platform. PDF's worden direct verwerkt.",
-  },
-  {
-    title: "AI extraheert — u verifieert",
-    description:
-      "AKTERA's AI leest elk document en extraheert gestructureerde velden met betrouwbaarheidsniveaus. U houdt de controle: corrigeer waar nodig, bevestig met één klik.",
-  },
-  {
-    title: "Genereer uw compromis",
-    description:
-      "Alle geverifieerde data vloeit automatisch in uw CIV/CEB-template. Download een volledig ingevuld Word-document, klaar voor de notaris. Nul herinvoer.",
-  },
-];
-
-const FEATURE_ICONS = [IconShield, IconFileText, IconLayers, IconPlug];
-const FEATURES = [
-  {
-    title: "Vertrouwen staat voorop",
-    description:
-      "Elk geëxtraheerd veld toont een betrouwbaarheidsniveau — hoog, gemiddeld of laag. U beslist altijd, niet de machine. Handmatige correctie is altijd mogelijk.",
-  },
-  {
-    title: "Werkt met uw eigen templates",
-    description:
-      "AKTERA vult uw bestaande CIV/CEB Word-templates in — ook als uw kantoor een aangepaste versie gebruikt. Geen nieuw formaat, geen leercurve. Uw notaris ontvangt exact wat hij verwacht.",
-  },
-  {
-    title: "6 documenttypes, één dossier",
-    description:
-      "EPC, bodemattest, kadastrale legger, elektrische keuring, eigendomsakte, asbestattest — elk met een eigen structuur en formaat, allemaal automatisch verwerkt en gecentraliseerd in één dossier.",
-  },
-  {
-    title: "Past in uw bestaande workflow",
-    description:
-      "AKTERA vervangt niets. Het vult de leegte tussen Realsmart (documenten verzamelen) en uw compromis-template (handmatig invullen).",
-  },
-];
+/* ── Data (quotes stay authentic — not translated) ── */
 
 const QUOTES = [
   {
@@ -297,31 +255,80 @@ const QUOTES = [
   },
 ];
 
-const LANDSCAPE = [
-  { tool: "Whise", does: "CRM, lead tracking, listings", gap: "Geen document-extractie, geen compromis-generatie" },
-  { tool: "Omnicasa", does: "CRM, vastgoedbeheer", gap: "Geen AI-extractie, geen documentworkflow" },
-  { tool: "Realsmart", does: "Kadastrale docs, bodemattest aanvragen", gap: "Geen extractie, geen pre-fill" },
-  { tool: "CIV/CEB", does: "Juridisch gevalideerde Word-templates", gap: "Nul automatisering — puur handmatig invullen" },
-];
+const STEP_ICONS = [IconUploadCloud, IconScan, IconFileDown];
+const FEATURE_ICONS = [IconShield, IconFileText, IconLayers, IconPlug];
 
 /* ── Page ── */
 
 export default function PitchPage() {
+  const { locale, setLocale, t } = useI18n();
+
+  // Structured data driven by i18n
+  const stats = [
+    { value: t("pitch.stat1.value"), label: t("pitch.stat1.label") },
+    { value: t("pitch.stat2.value"), label: t("pitch.stat2.label") },
+    { value: t("pitch.stat3.value"), label: t("pitch.stat3.label") },
+    { value: t("pitch.stat4.value"), label: t("pitch.stat4.label") },
+  ];
+
+  const steps = [
+    { title: t("pitch.step1.title"), description: t("pitch.step1.description") },
+    { title: t("pitch.step2.title"), description: t("pitch.step2.description") },
+    { title: t("pitch.step3.title"), description: t("pitch.step3.description") },
+  ];
+
+  const features = [
+    { title: t("pitch.feature1.title"), description: t("pitch.feature1.description") },
+    { title: t("pitch.feature2.title"), description: t("pitch.feature2.description") },
+    { title: t("pitch.feature3.title"), description: t("pitch.feature3.description") },
+    { title: t("pitch.feature4.title"), description: t("pitch.feature4.description") },
+  ];
+
+  const landscape = [
+    { tool: "Whise", does: t("pitch.whise.does"), gap: t("pitch.whise.gap") },
+    { tool: "Omnicasa", does: t("pitch.omnicasa.does"), gap: t("pitch.omnicasa.gap") },
+    { tool: "Realsmart", does: t("pitch.realsmart.does"), gap: t("pitch.realsmart.gap") },
+    { tool: "CIV/CEB", does: t("pitch.civ.does"), gap: t("pitch.civ.gap") },
+  ];
+
+  // Email subject changes per locale
+  const emailSubject = locale === "fr"
+    ? "Demande%20d'accès%20anticipé"
+    : "Vroege%20toegang%20aanvragen";
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* ── Nav ── */}
       <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-[rgba(255,255,255,0.06)]">
         <div className="max-w-[1100px] mx-auto px-6 h-14 flex items-center justify-between">
           <Logo size="md" />
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
+            {/* Language toggle */}
+            <div className="flex items-center gap-0.5 border border-[rgba(255,255,255,0.1)] rounded-lg overflow-hidden">
+              {(["nl", "fr"] as Locale[]).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setLocale(lang)}
+                  className={`
+                    px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.04em] transition-colors
+                    ${locale === lang
+                      ? "bg-[rgba(255,255,255,0.1)] text-white"
+                      : "text-[#666] hover:text-white"
+                    }
+                  `}
+                >
+                  {lang}
+                </button>
+              ))}
+            </div>
             <Link href="/" className="text-[13px] text-[#999] hover:text-white transition-colors">
-              Platform
+              {t("pitch.nav.platform")}
             </Link>
             <a
-              href="mailto:matteo@aktera.ai?subject=Vroege%20toegang%20aanvragen"
+              href={`mailto:matteo@aktera.ai?subject=${emailSubject}`}
               className="text-[13px] font-medium bg-white text-black px-4 py-1.5 rounded-lg hover:bg-[#E5E5E5] transition-colors"
             >
-              Vroege toegang
+              {t("pitch.nav.earlyAccess")}
             </a>
           </div>
         </div>
@@ -333,38 +340,37 @@ export default function PitchPage() {
           {/* Copy */}
           <div>
             <p className="text-[13px] text-[#666] font-medium tracking-[-0.01em] mb-4">
-              Voor vastgoedmakelaars die liever verkopen dan administreren
+              {t("pitch.hero.tagline")}
             </p>
             <h1 className="text-[40px] leading-[1.1] font-semibold tracking-[-0.03em] mb-6">
-              Terug naar wat u
+              {t("pitch.hero.title1")}
               <br />
-              het beste doet.
+              {t("pitch.hero.title2")}
               <br />
-              <span className="text-[#999]">Verkopen.</span>
+              <span className="text-[#999]">{t("pitch.hero.title3")}</span>
             </h1>
             <p className="text-[16px] leading-[1.6] text-[#999] tracking-[-0.01em] mb-8 max-w-[440px]">
-              U werd makelaar om mensen te verbinden met hun droomwoning — niet om dezelfde gegevens
-              vier keer over te typen. AKTERA neemt het administratieve werk over, voor u én uw team.
+              {t("pitch.hero.description")}
             </p>
             <div className="flex items-center gap-4">
               <Link
                 href="/"
                 className="text-[14px] font-medium bg-white text-black px-6 py-2.5 rounded-lg hover:bg-[#E5E5E5] transition-colors"
               >
-                Bekijk de demo
+                {t("pitch.hero.viewDemo")}
               </Link>
               <a
-                href="mailto:matteo@aktera.ai?subject=Vroege%20toegang%20aanvragen"
+                href={`mailto:matteo@aktera.ai?subject=${emailSubject}`}
                 className="text-[14px] font-medium text-[#999] border border-[rgba(255,255,255,0.14)] px-6 py-2.5 rounded-lg hover:text-white hover:border-[rgba(255,255,255,0.3)] transition-colors"
               >
-                Vroege toegang
+                {t("pitch.nav.earlyAccess")}
               </a>
             </div>
           </div>
 
           {/* Browser mockup */}
           <div>
-            <BrowserMockup />
+            <BrowserMockup t={t} />
           </div>
         </div>
       </section>
@@ -377,18 +383,16 @@ export default function PitchPage() {
       {/* ── The problem ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
-          Het probleem
+          {t("pitch.problem.label")}
         </p>
         <h2 className="text-[28px] font-semibold tracking-[-0.02em] mb-4 max-w-[560px]">
-          Makelaars zijn verkopers. Hun agenda zegt iets anders.
+          {t("pitch.problem.title")}
         </h2>
         <p className="text-[14px] text-[#999] leading-[1.6] mb-12 max-w-[520px]">
-          Dezelfde adres-, kadaster- en eigendomsgegevens worden handmatig overgetypt van PDF naar
-          bod, van bod naar samenwerkingsovereenkomst, van overeenkomst naar compromis. Drie
-          documenten, drie keer hetzelfde werk. Ondertussen wachten klanten.
+          {t("pitch.problem.description")}
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
-          {STATS.map((stat) => (
+          {stats.map((stat) => (
             <div key={stat.value}>
               <p className="text-[32px] font-semibold tracking-[-0.03em] mb-2">{stat.value}</p>
               <p className="text-[13px] text-[#666] leading-[1.5]">{stat.label}</p>
@@ -405,12 +409,12 @@ export default function PitchPage() {
       {/* ── Before / After flow ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
-          Het verschil
+          {t("pitch.diff.label")}
         </p>
         <h2 className="text-[28px] font-semibold tracking-[-0.02em] mb-12 max-w-[520px]">
-          Van uren copy-paste naar één klik.
+          {t("pitch.diff.title")}
         </h2>
-        <FlowDiagram />
+        <FlowDiagram t={t} />
       </section>
 
       {/* ── Divider ── */}
@@ -418,10 +422,10 @@ export default function PitchPage() {
         <div className="h-px bg-[rgba(255,255,255,0.08)]" />
       </div>
 
-      {/* ── Quotes ── */}
+      {/* ── Quotes (authentic — not translated) ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-10">
-          Uit de praktijk — 10 interviews met Vlaamse makelaars
+          {t("pitch.quotes.label")}
         </p>
         <div className="grid md:grid-cols-2 gap-6">
           {QUOTES.map((q, i) => (
@@ -449,13 +453,13 @@ export default function PitchPage() {
       {/* ── How it works ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
-          Hoe het werkt
+          {t("pitch.how.label")}
         </p>
         <h2 className="text-[28px] font-semibold tracking-[-0.02em] mb-12 max-w-[520px]">
-          Eén keer invoeren. Overal doorvloeien.
+          {t("pitch.how.title")}
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
-          {STEPS.map((step, i) => {
+          {steps.map((step, i) => {
             const StepIcon = STEP_ICONS[i];
             return (
               <div key={i} className="border border-[rgba(255,255,255,0.08)] rounded-xl p-6">
@@ -481,13 +485,13 @@ export default function PitchPage() {
       {/* ── Features ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
-          Waarom AKTERA
+          {t("pitch.features.label")}
         </p>
         <h2 className="text-[28px] font-semibold tracking-[-0.02em] mb-12 max-w-[480px]">
-          Gebouwd voor vertrouwen, niet voor snelheid alleen.
+          {t("pitch.features.title")}
         </h2>
         <div className="grid md:grid-cols-2 gap-px bg-[rgba(255,255,255,0.08)] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.08)]">
-          {FEATURES.map((feature, i) => {
+          {features.map((feature, i) => {
             const FeatureIcon = FEATURE_ICONS[i];
             return (
               <div key={feature.title} className="bg-black p-8">
@@ -510,23 +514,22 @@ export default function PitchPage() {
       {/* ── Competitive positioning ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-20">
         <p className="text-[11px] text-[#666] font-medium tracking-[0.08em] uppercase mb-4">
-          Positionering
+          {t("pitch.positioning.label")}
         </p>
         <h2 className="text-[28px] font-semibold tracking-[-0.02em] mb-4 max-w-[560px]">
-          AKTERA concurreert niet. Het vult de leegte.
+          {t("pitch.positioning.title")}
         </h2>
         <p className="text-[14px] text-[#999] leading-[1.6] mb-10 max-w-[520px]">
-          De brug tussen document-gathering en contract-drafting die vandaag niet bestaat in de
-          Belgische markt. Geen CRM. Geen listing-tool. Puur focus.
+          {t("pitch.positioning.description")}
         </p>
 
         <div className="border border-[rgba(255,255,255,0.08)] rounded-xl overflow-hidden">
           <div className="grid grid-cols-3 gap-px bg-[rgba(255,255,255,0.08)]">
-            <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">Tool</div>
-            <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">Wat het doet</div>
-            <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">Wat het niet doet</div>
+            <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">{t("pitch.table.tool")}</div>
+            <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">{t("pitch.table.does")}</div>
+            <div className="bg-[#0A0A0A] px-5 py-3 text-[11px] text-[#666] font-medium">{t("pitch.table.gap")}</div>
           </div>
-          {LANDSCAPE.map((row) => (
+          {landscape.map((row) => (
             <div key={row.tool} className="grid grid-cols-3 gap-px bg-[rgba(255,255,255,0.08)]">
               <div className="bg-black px-5 py-3.5 text-[13px] font-medium">{row.tool}</div>
               <div className="bg-black px-5 py-3.5 text-[13px] text-[#999]">{row.does}</div>
@@ -536,10 +539,10 @@ export default function PitchPage() {
           <div className="grid grid-cols-3 gap-px bg-[rgba(255,255,255,0.08)]">
             <div className="bg-black px-5 py-3.5 text-[13px] font-semibold">AKTERA</div>
             <div className="bg-black px-5 py-3.5 text-[13px] text-white font-medium">
-              Document → Compromis pipeline
+              {t("pitch.aktera.does")}
             </div>
             <div className="bg-black px-5 py-3.5 text-[13px] text-[#666] italic">
-              Niet een CRM. Niet een listing-tool. Gefocust.
+              {t("pitch.aktera.gap")}
             </div>
           </div>
         </div>
@@ -553,24 +556,23 @@ export default function PitchPage() {
       {/* ── CTA ── */}
       <section className="max-w-[1100px] mx-auto px-6 py-24 text-center">
         <h2 className="text-[32px] font-semibold tracking-[-0.03em] mb-4">
-          Meer tijd voor wat ertoe doet.
+          {t("pitch.cta.title")}
         </h2>
         <p className="text-[15px] text-[#999] mb-10 max-w-[460px] mx-auto leading-[1.6]">
-          AKTERA is in actieve ontwikkeling met een select aantal Vlaamse agentschappen.
-          Wij zoeken makelaars die terug willen focussen op verkopen.
+          {t("pitch.cta.description")}
         </p>
         <div className="flex items-center justify-center gap-4">
           <a
-            href="mailto:matteo@aktera.ai?subject=Vroege%20toegang%20aanvragen"
+            href={`mailto:matteo@aktera.ai?subject=${emailSubject}`}
             className="text-[14px] font-medium bg-white text-black px-6 py-2.5 rounded-lg hover:bg-[#E5E5E5] transition-colors"
           >
-            Vroege toegang aanvragen
+            {t("pitch.cta.earlyAccess")}
           </a>
           <Link
             href="/"
             className="text-[14px] font-medium text-[#999] border border-[rgba(255,255,255,0.14)] px-6 py-2.5 rounded-lg hover:text-white hover:border-[rgba(255,255,255,0.3)] transition-colors"
           >
-            Bekijk de demo
+            {t("pitch.cta.viewDemo")}
           </Link>
         </div>
       </section>
@@ -581,18 +583,18 @@ export default function PitchPage() {
           <div className="flex items-center gap-6">
             <Logo size="sm" />
             <span className="text-[12px] text-[#666]">
-              &copy; {new Date().getFullYear()} Aktera. Alle rechten voorbehouden.
+              &copy; {new Date().getFullYear()} Aktera. {t("pitch.footer.rights")}
             </span>
           </div>
           <div className="flex items-center gap-5">
             <Link href="/" className="text-[12px] text-[#666] hover:text-white transition-colors">
-              Platform
+              {t("pitch.nav.platform")}
             </Link>
             <a
               href="mailto:matteo@aktera.ai"
               className="text-[12px] text-[#666] hover:text-white transition-colors"
             >
-              Contact
+              {t("pitch.footer.contact")}
             </a>
           </div>
         </div>

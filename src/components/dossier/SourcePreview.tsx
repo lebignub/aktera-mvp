@@ -3,6 +3,7 @@
 import type { ExtractedField, Document } from "@/lib/types";
 import { DOCUMENT_CONFIGS } from "@/lib/documents/config";
 import { IconArrowLeft } from "@/components/ui/Icons";
+import { useT } from "@/lib/i18n";
 
 interface SourcePreviewProps {
   field: ExtractedField;
@@ -16,6 +17,7 @@ interface SourcePreviewProps {
  * page using a library like react-pdf or pdfjs-dist.
  */
 export function SourcePreview({ field, document: doc, onClose }: SourcePreviewProps) {
+  const t = useT();
   const config = DOCUMENT_CONFIGS[doc.type];
   const page = field.source_page ?? 1;
 
@@ -36,7 +38,7 @@ export function SourcePreview({ field, document: doc, onClose }: SourcePreviewPr
         <div className="flex-1 min-w-0">
           <p className="text-[13px] font-medium text-white truncate">{doc.file_name}</p>
           <p className="text-[10px] text-[#666] mt-0.5">
-            {config.label} — Pagina {page}
+            {config.label} — {t("source.page", { page: String(page) })}
           </p>
         </div>
         <span className="text-[10px] text-[#666] border border-[rgba(255,255,255,0.1)] rounded px-2 py-0.5 shrink-0">
@@ -52,7 +54,7 @@ export function SourcePreview({ field, document: doc, onClose }: SourcePreviewPr
             {/* Document header */}
             <div className="mb-6 pb-4 border-b border-gray-200">
               <p className="text-[9px] text-gray-400 uppercase tracking-wider">{config.label}</p>
-              <p className="text-[7px] text-gray-300 mt-1">Pagina {page} van {page + 1}</p>
+              <p className="text-[7px] text-gray-300 mt-1">{t("source.pageOf", { page: String(page), total: String(page + 1) })}</p>
             </div>
 
             {/* Document lines — the snippet line is highlighted */}
@@ -98,24 +100,24 @@ export function SourcePreview({ field, document: doc, onClose }: SourcePreviewPr
         {/* Citation info below the page */}
         <div className="mt-4 mx-auto max-w-[480px]">
           <div className="border border-[rgba(255,255,255,0.08)] rounded-lg p-4">
-            <p className="text-[10px] text-[#666] font-medium mb-2">Extractie</p>
+            <p className="text-[10px] text-[#666] font-medium mb-2">{t("source.extraction")}</p>
             <div className="space-y-2">
               <div className="flex gap-2">
-                <span className="text-[10px] text-[#666] w-14 shrink-0">Veld</span>
+                <span className="text-[10px] text-[#666] w-14 shrink-0">{t("source.field")}</span>
                 <span className="text-[11px] text-white">{field.field_label}</span>
               </div>
               <div className="flex gap-2">
-                <span className="text-[10px] text-[#666] w-14 shrink-0">Waarde</span>
+                <span className="text-[10px] text-[#666] w-14 shrink-0">{t("source.value")}</span>
                 <span className="text-[11px] text-white font-medium">{field.field_value}</span>
               </div>
               <div className="flex gap-2">
-                <span className="text-[10px] text-[#666] w-14 shrink-0">Bron</span>
+                <span className="text-[10px] text-[#666] w-14 shrink-0">{t("source.source")}</span>
                 <span className="text-[11px] text-[#999]">{doc.file_name} — p. {page}</span>
               </div>
               {field.source_snippet && (
                 <div className="flex gap-2">
-                  <span className="text-[10px] text-[#666] w-14 shrink-0">Citaat</span>
-                  <span className="text-[11px] text-[#999] italic">"{field.source_snippet}"</span>
+                  <span className="text-[10px] text-[#666] w-14 shrink-0">{t("source.citation")}</span>
+                  <span className="text-[11px] text-[#999] italic">&quot;{field.source_snippet}&quot;</span>
                 </div>
               )}
             </div>
@@ -138,7 +140,8 @@ interface MockLine {
 function getMockDocumentLines(docType: string, page: number, field: ExtractedField): MockLine[] {
   const snippet = field.source_snippet || field.field_value || "";
 
-  // Document-type-specific surrounding text to make the preview feel real
+  // Document-type-specific surrounding text — these simulate actual Belgian
+  // government documents, so the content stays in the original language
   const contexts: Record<string, { headers: string[]; lines: string[][] }> = {
     epc: {
       headers: ["Energieprestatiecertificaat", "Gebouwkenmerken"],

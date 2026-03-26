@@ -4,6 +4,8 @@ import type { Document } from "@/lib/types";
 import { DOCUMENT_CONFIGS, DOCUMENT_TYPE_ORDER } from "@/lib/documents/config";
 import { Badge } from "@/components/ui/Badge";
 import { DOC_TYPE_ICONS, IconDocument } from "@/components/ui/Icons";
+import { useT } from "@/lib/i18n";
+import type { TranslationKey } from "@/lib/i18n/locales/nl";
 
 interface DocumentChecklistProps {
   documents: Document[];
@@ -11,19 +13,22 @@ interface DocumentChecklistProps {
   onSelect: (docId: string) => void;
 }
 
-const statusConfig: Record<string, { variant: "success" | "warning" | "error" | "info" | "neutral"; label: string }> = {
-  missing: { variant: "neutral", label: "Ontbreekt" },
-  uploaded: { variant: "warning", label: "Geupload" },
-  extracting: { variant: "info", label: "Verwerken..." },
-  extracted: { variant: "info", label: "Geextraheerd" },
-  verified: { variant: "success", label: "Geverifieerd" },
+// Maps document status to badge variant and i18n key
+const STATUS_MAP: Record<string, { variant: "success" | "warning" | "error" | "info" | "neutral"; key: TranslationKey }> = {
+  missing:    { variant: "neutral", key: "docStatus.missing" },
+  uploaded:   { variant: "warning", key: "docStatus.uploaded" },
+  extracting: { variant: "info",    key: "docStatus.extracting" },
+  extracted:  { variant: "info",    key: "docStatus.extracted" },
+  verified:   { variant: "success", key: "docStatus.verified" },
 };
 
 export function DocumentChecklist({ documents, selectedDocId, onSelect }: DocumentChecklistProps) {
+  const t = useT();
+
   return (
     <div>
       <p className="text-[11px] text-[#666] font-medium mb-3 tracking-[-0.01em]">
-        Vereiste documenten
+        {t("dossier.requiredDocs")}
       </p>
 
       <div className="space-y-px">
@@ -32,7 +37,7 @@ export function DocumentChecklist({ documents, selectedDocId, onSelect }: Docume
           const config = DOCUMENT_CONFIGS[type];
           if (!doc) return null;
 
-          const status = statusConfig[doc.status];
+          const status = STATUS_MAP[doc.status];
           const isSelected = doc.id === selectedDocId;
           const Icon = DOC_TYPE_ICONS[type] || IconDocument;
           const totalFields = doc.fields.length;
@@ -57,7 +62,7 @@ export function DocumentChecklist({ documents, selectedDocId, onSelect }: Docume
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <p className="text-[13px] font-medium truncate">{config.label}</p>
-                    <Badge variant={status.variant}>{status.label}</Badge>
+                    <Badge variant={status.variant}>{t(status.key)}</Badge>
                   </div>
                   {totalFields > 0 && (
                     <div className="flex items-center gap-2 mt-1.5">

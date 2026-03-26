@@ -5,6 +5,7 @@ import type { Property } from "@/lib/types";
 import { Badge } from "@/components/ui/Badge";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { computeCompletion } from "@/lib/documents/config";
+import { useI18n } from "@/lib/i18n";
 
 interface DossierCardProps {
   property: Property;
@@ -12,6 +13,7 @@ interface DossierCardProps {
 }
 
 export function DossierCard({ property, index }: DossierCardProps) {
+  const { locale, t } = useI18n();
   const completion = computeCompletion(property.documents);
   const uploaded = property.documents.filter((d) => d.status !== "missing").length;
   const verified = property.documents.filter((d) => d.status === "verified").length;
@@ -19,10 +21,13 @@ export function DossierCard({ property, index }: DossierCardProps) {
 
   const statusBadge =
     completion === 100
-      ? { variant: "success" as const, label: "Voltooid" }
+      ? { variant: "success" as const, label: t("status.complete") }
       : uploaded > 0
-        ? { variant: "info" as const, label: "In behandeling" }
-        : { variant: "neutral" as const, label: "Nieuw" };
+        ? { variant: "info" as const, label: t("status.inProgress") }
+        : { variant: "neutral" as const, label: t("status.new") };
+
+  // Date locale — nl-BE for Dutch, fr-BE for French
+  const dateLocale = locale === "fr" ? "fr-BE" : "nl-BE";
 
   return (
     <Link href={`/dossier/${property.id}`}>
@@ -44,9 +49,9 @@ export function DossierCard({ property, index }: DossierCardProps) {
         <ProgressBar value={completion} className="mb-2.5" />
 
         <div className="flex items-center justify-between text-[11px] text-[#666]">
-          <span>{uploaded}/{total} documenten &middot; {verified} geverifieerd</span>
+          <span>{t("dossier.cardSummary", { uploaded: String(uploaded), total: String(total), verified: String(verified) })}</span>
           <span>
-            {new Date(property.updated_at).toLocaleDateString("nl-BE", { day: "numeric", month: "short" })}
+            {new Date(property.updated_at).toLocaleDateString(dateLocale, { day: "numeric", month: "short" })}
           </span>
         </div>
       </div>

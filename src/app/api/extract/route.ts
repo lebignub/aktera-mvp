@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { extractFromPdf } from "@/lib/claude/extract";
 import { DocumentType } from "@/lib/types";
 
+// Increase max duration for Claude API call (can take 30s+ for large PDFs)
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

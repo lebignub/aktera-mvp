@@ -9,7 +9,9 @@ import { DossierHeader } from "@/components/dossier/DossierHeader";
 import { DocumentChecklist } from "@/components/dossier/DocumentChecklist";
 import { ExtractionPanel } from "@/components/dossier/ExtractionPanel";
 import { GenerateButton } from "@/components/dossier/GenerateButton";
+import { PartyInfoPanel } from "@/components/dossier/PartyInfoPanel";
 import { ToastContainer, showToast } from "@/components/ui/Toast";
+import { useT } from "@/lib/i18n";
 import type { Property, ExtractedField } from "@/lib/types";
 
 export default function DossierPage({ params }: { params: Promise<{ id: string }> }) {
@@ -20,6 +22,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
   const [extracting, setExtracting] = useState(false);
   const [pdfDataMap, setPdfDataMap] = useState<Record<string, string>>({});
   const mockMode = isMockMode();
+  const t = useT();
 
   useEffect(() => {
     const prop = getProperty(id);
@@ -44,7 +47,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
     reader.readAsDataURL(file);
     updateDocument(property.id, selectedDocId, { status: "uploaded", file_name: file.name, file_url: URL.createObjectURL(file), uploaded_at: new Date().toISOString() });
     refresh();
-    showToast("success", `${file.name} geupload`);
+    showToast("success", t("upload.success", { fileName: file.name }));
   }
 
   async function handleExtract() {
@@ -58,23 +61,36 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
 
     try {
       const pdf_base64 = pdfDataMap[selectedDocId] || null;
+
+      if (!pdf_base64) {
+        // No base64 available — can't call real API, fall back to mock
+        console.warn("No PDF base64 data available for extraction — using mock");
+        generateMockFields(doc.type);
+        showToast("info", t("extract.demoNoPdf"));
+        return;
+      }
+
       const res = await fetch("/api/extract", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ property_id: property.id, document_id: selectedDocId, document_type: doc.type, pdf_base64 }),
       });
+
       if (res.ok) {
         const data = await res.json();
         setDocumentFields(property.id, selectedDocId, data.fields);
         refresh();
-        showToast("success", "Data succesvol geextraheerd");
+        showToast("success", t("extract.success"));
       } else {
+        const errorData = await res.json().catch(() => ({ error: "Unknown error" }));
+        console.error("Extraction API error:", res.status, errorData);
         generateMockFields(doc.type);
-        showToast("info", "Demo-extractie voltooid");
+        showToast("info", `${t("extract.demoComplete")} (API: ${errorData.error || res.status})`);
       }
-    } catch {
+    } catch (err) {
+      console.error("Extraction fetch error:", err);
       generateMockFields(doc.type);
-      showToast("info", "Demo-extractie voltooid");
+      showToast("info", t("extract.demoComplete"));
     } finally {
       setExtracting(false);
     }
@@ -103,7 +119,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
     if (!property || !selectedDocId) return;
     updateField(property.id, selectedDocId, fieldId, newValue);
     refresh();
-    showToast("success", "Veld geverifieerd");
+    showToast("success", t("field.verified"));
   }
 
   if (!property) {
@@ -125,7 +141,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
 
       <div className="flex-1 flex flex-col min-w-0">
         {mockMode && (
-          <div className="mock-banner"><span>Demo</span> — data wordt lokaal opgeslagen</div>
+          <div className="mock-banner"><span>Demo</span> — {t("mock.banner").replace("Demo — ", "")}</div>
         )}
 
         <main className="flex-1 px-10 py-8">
@@ -134,6 +150,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-2">
             <div className="lg:col-span-2">
               <DocumentChecklist documents={property.documents} selectedDocId={selectedDocId} onSelect={setSelectedDocId} />
+              <PartyInfoPanel propertyId={property.id} />
               <GenerateButton property={property} />
             </div>
             <div className="lg:col-span-3">
@@ -148,7 +165,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
                 />
               ) : (
                 <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl p-12 text-center">
-                  <p className="text-[12px] text-[#666]">Selecteer een document</p>
+                  <p className="text-[12px] text-[#666]">{t("dossier.selectDocument")}</p>
                 </div>
               )}
             </div>

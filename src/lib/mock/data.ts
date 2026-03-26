@@ -1,4 +1,4 @@
-import { Property, Document, ExtractedField, DocumentType } from "@/lib/types";
+import { Property, Document, ExtractedField, DocumentType, Party } from "@/lib/types";
 import { DOCUMENT_TYPE_ORDER } from "@/lib/documents/config";
 
 // Helper to create empty docs for all 6 types
@@ -61,13 +61,13 @@ const prop3Docs = createEmptyDocuments("prop-3");
 
 // Mock property 4: fully complete
 const prop4EpcFields: ExtractedField[] = [
-  { id: "f30", document_id: "prop-4-epc", field_name: "epc_score", field_label: "EPC-score", field_value: "95 kWh/m²", original_value: "95 kWh/m²", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z" },
-  { id: "f31", document_id: "prop-4-epc", field_name: "epc_label", field_label: "EPC-label", field_value: "A", original_value: "A", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z" },
-  { id: "f32", document_id: "prop-4-epc", field_name: "epc_nummer", field_label: "Certificaatnummer", field_value: "20250110-0007891", original_value: "20250110-0007891", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z" },
-  { id: "f33", document_id: "prop-4-epc", field_name: "epc_geldig_tot", field_label: "Geldig tot", field_value: "10/01/2035", original_value: "10/01/2035", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z" },
-  { id: "f34", document_id: "prop-4-epc", field_name: "epc_adres", field_label: "Adres", field_value: "Meir 101, 2000 Antwerpen", original_value: "Meir 101, 2000 Antwerpen", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z" },
-  { id: "f35", document_id: "prop-4-epc", field_name: "epc_bouwjaar", field_label: "Bouwjaar", field_value: "2019", original_value: "2019", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z" },
-  { id: "f36", document_id: "prop-4-epc", field_name: "epc_bewoonbare_opp", field_label: "Bewoonbare oppervlakte (m²)", field_value: "210", original_value: "210", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z" },
+  { id: "f30", document_id: "prop-4-epc", field_name: "epc_score", field_label: "EPC-score", field_value: "95 kWh/m²", original_value: "95 kWh/m²", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z", source_page: 1, source_snippet: "Energiescore: 95 kWh/m² per jaar" },
+  { id: "f31", document_id: "prop-4-epc", field_name: "epc_label", field_label: "EPC-label", field_value: "A", original_value: "A", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z", source_page: 1, source_snippet: "Energielabel: A" },
+  { id: "f32", document_id: "prop-4-epc", field_name: "epc_nummer", field_label: "Certificaatnummer", field_value: "20250110-0007891", original_value: "20250110-0007891", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z", source_page: 1, source_snippet: "Certificaatnummer: 20250110-0007891" },
+  { id: "f33", document_id: "prop-4-epc", field_name: "epc_geldig_tot", field_label: "Geldig tot", field_value: "10/01/2035", original_value: "10/01/2035", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z", source_page: 1, source_snippet: "Geldig tot: 10/01/2035" },
+  { id: "f34", document_id: "prop-4-epc", field_name: "epc_adres", field_label: "Adres", field_value: "Meir 101, 2000 Antwerpen", original_value: "Meir 101, 2000 Antwerpen", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z", source_page: 1, source_snippet: "Adres: Meir 101, 2000 Antwerpen" },
+  { id: "f35", document_id: "prop-4-epc", field_name: "epc_bouwjaar", field_label: "Bouwjaar", field_value: "2019", original_value: "2019", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z", source_page: 2, source_snippet: "Bouwjaar van het gebouw: 2019" },
+  { id: "f36", document_id: "prop-4-epc", field_name: "epc_bewoonbare_opp", field_label: "Bewoonbare oppervlakte (m²)", field_value: "210", original_value: "210", confidence: "high", verified: true, updated_at: "2026-03-15T10:00:00Z", source_page: 2, source_snippet: "Bruikbare vloeroppervlakte: 210 m²" },
 ];
 
 const prop4Docs = createEmptyDocuments("prop-4");
@@ -82,10 +82,60 @@ prop4Docs.forEach((doc, i) => {
     extracted_at: "2026-03-15T09:00:00Z",
     fields: i === 0 ? prop4EpcFields : [
       // Minimal verified fields for other doc types
-      { id: `f4${i}0`, document_id: doc.id, field_name: "placeholder", field_label: "Placeholder", field_value: "Geverifieerd", original_value: "Geverifieerd", confidence: "high" as const, verified: true, updated_at: "2026-03-15T10:00:00Z" },
+      { id: `f4${i}0`, document_id: doc.id, field_name: "placeholder", field_label: "Placeholder", field_value: "Geverifieerd", original_value: "Geverifieerd", confidence: "high" as const, verified: true, updated_at: "2026-03-15T10:00:00Z", source_page: 1, source_snippet: "Geverifieerd" },
     ],
   };
 });
+
+// Party data for the complete dossier (prop-4)
+const prop4Parties: Party[] = [
+  {
+    id: "party-seller-1",
+    property_id: "prop-4",
+    role: "seller",
+    first_name: "Marc",
+    last_name: "Janssens",
+    address: "Meir 101",
+    postal_code: "2000",
+    city: "Antwerpen",
+    birth_date: "14/05/1972",
+    birth_place: "Antwerpen",
+    national_register: "72.05.14-123.45",
+    email: "marc.janssens@email.be",
+    phone: "+32 476 12 34 56",
+  },
+  {
+    id: "party-buyer-1",
+    property_id: "prop-4",
+    role: "buyer",
+    first_name: "Sophie",
+    last_name: "De Vries",
+    address: "Lange Nieuwstraat 8",
+    postal_code: "2000",
+    city: "Antwerpen",
+    birth_date: "23/09/1988",
+    birth_place: "Gent",
+    national_register: "88.09.23-456.78",
+    email: "sophie.devries@email.be",
+    phone: "+32 498 76 54 32",
+  },
+  {
+    id: "party-notary-1",
+    property_id: "prop-4",
+    role: "notary",
+    first_name: "Jan",
+    last_name: "Van den Berg",
+    address: "Frankrijklei 55",
+    postal_code: "2000",
+    city: "Antwerpen",
+    birth_date: "",
+    birth_place: "",
+    national_register: "",
+    email: "info@notarisvandenberg.be",
+    phone: "+32 3 225 67 89",
+    office_name: "Notariskantoor Van den Berg",
+  },
+];
 
 export const MOCK_PROPERTIES: Property[] = [
   {
@@ -96,6 +146,7 @@ export const MOCK_PROPERTIES: Property[] = [
     created_at: "2026-03-18T08:00:00Z",
     updated_at: "2026-03-20T10:00:00Z",
     documents: prop1Docs,
+    parties: [],
   },
   {
     id: "prop-2",
@@ -105,6 +156,7 @@ export const MOCK_PROPERTIES: Property[] = [
     created_at: "2026-03-21T07:00:00Z",
     updated_at: "2026-03-21T08:00:00Z",
     documents: prop2Docs,
+    parties: [],
   },
   {
     id: "prop-3",
@@ -114,6 +166,7 @@ export const MOCK_PROPERTIES: Property[] = [
     created_at: "2026-03-21T09:00:00Z",
     updated_at: "2026-03-21T09:00:00Z",
     documents: prop3Docs,
+    parties: [],
   },
   {
     id: "prop-4",
@@ -123,5 +176,6 @@ export const MOCK_PROPERTIES: Property[] = [
     created_at: "2026-03-10T08:00:00Z",
     updated_at: "2026-03-15T10:00:00Z",
     documents: prop4Docs,
+    parties: prop4Parties,
   },
 ];

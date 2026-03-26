@@ -10,12 +10,14 @@ import { CreateDossierModal } from "@/components/dashboard/CreateDossierModal";
 import { Button } from "@/components/ui/Button";
 import { IconPlus } from "@/components/ui/Icons";
 import { ToastContainer, showToast } from "@/components/ui/Toast";
+import { useT } from "@/lib/i18n";
 import type { Property, DossierStats, CreateDossierInput } from "@/lib/types";
 
 export default function Dashboard() {
   const [properties, setProperties] = useState<Property[]>(() => getProperties());
   const [showCreate, setShowCreate] = useState(false);
   const mockMode = isMockMode();
+  const t = useT();
 
   const stats: DossierStats = useMemo(() => {
     const total = properties.length;
@@ -32,7 +34,7 @@ export default function Dashboard() {
   function handleCreate(input: CreateDossierInput) {
     const newProp = createProperty(input);
     setProperties([newProp, ...properties.filter((p) => p.id !== newProp.id)]);
-    showToast("success", `Dossier "${input.address}" aangemaakt`);
+    showToast("success", t("dashboard.dossierCreated", { address: input.address }));
   }
 
   return (
@@ -41,19 +43,19 @@ export default function Dashboard() {
 
       <div className="flex-1 flex flex-col min-w-0">
         {mockMode && (
-          <div className="mock-banner"><strong>Demo</strong> &mdash; data wordt lokaal opgeslagen</div>
+          <div className="mock-banner"><strong>Demo</strong> &mdash; {t("mock.banner").replace("Demo — ", "")}</div>
         )}
 
         <main className="flex-1 px-10 py-8">
           {/* Page header */}
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">Dossiers</h1>
-              <p className="text-[13px] text-[#666] mt-1 tracking-[-0.01em]">Overzicht van uw vastgoeddossiers</p>
+              <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">{t("dashboard.title")}</h1>
+              <p className="text-[13px] text-[#666] mt-1 tracking-[-0.01em]">{t("dashboard.subtitle")}</p>
             </div>
             <Button onClick={() => setShowCreate(true)} size="md">
               <IconPlus size={13} />
-              Nieuw dossier
+              {t("dashboard.newDossier")}
             </Button>
           </div>
 
@@ -64,11 +66,11 @@ export default function Dashboard() {
           <div className="mt-8">
             {properties.length === 0 ? (
               <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl py-16 text-center">
-                <p className="text-[14px] text-[#999] mb-1">Geen dossiers</p>
-                <p className="text-[12px] text-[#666] mb-6">Maak uw eerste dossier aan om te beginnen</p>
+                <p className="text-[14px] text-[#999] mb-1">{t("dashboard.noDossiers")}</p>
+                <p className="text-[12px] text-[#666] mb-6">{t("dashboard.noDossiersHint")}</p>
                 <Button onClick={() => setShowCreate(true)} size="md">
                   <IconPlus size={13} />
-                  Nieuw dossier
+                  {t("dashboard.newDossier")}
                 </Button>
               </div>
             ) : (

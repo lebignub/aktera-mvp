@@ -1,6 +1,7 @@
 "use client";
 
 import type { DossierStats } from "@/lib/types";
+import { useT } from "@/lib/i18n";
 
 interface KPIGridProps {
   stats: DossierStats;
@@ -27,12 +28,13 @@ function KPICard({ label, value, delay }: KPICardProps) {
 }
 
 export function KPIGrid({ stats }: KPIGridProps) {
+  const t = useT();
   return (
     <div className="grid grid-cols-4 gap-8 py-6 border-y border-[rgba(255,255,255,0.1)]">
-      <KPICard label="Totaal" value={stats.total} delay={0} />
-      <KPICard label="Voltooid" value={stats.complete} delay={50} />
-      <KPICard label="In behandeling" value={stats.inProgress} delay={100} />
-      <KPICard label="Nieuw" value={stats.pending} delay={150} />
+      <KPICard label={t("kpi.total")} value={stats.total} delay={0} />
+      <KPICard label={t("kpi.complete")} value={stats.complete} delay={50} />
+      <KPICard label={t("kpi.inProgress")} value={stats.inProgress} delay={100} />
+      <KPICard label={t("kpi.new")} value={stats.pending} delay={150} />
     </div>
   );
 }

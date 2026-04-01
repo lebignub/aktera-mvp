@@ -5,13 +5,11 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
 import { IconFolder, IconFileStack, IconSettings } from "@/components/ui/Icons";
 import { useI18n } from "@/lib/i18n";
-import { useTheme } from "@/lib/theme";
 import type { Locale } from "@/lib/i18n";
 
 export function Sidebar() {
   const pathname = usePathname();
   const { locale, setLocale, t } = useI18n();
-  const { theme, toggleTheme } = useTheme();
 
   return (
     <aside className="w-[220px] h-screen sticky top-0 bg-bg-app border-r border-border flex flex-col shrink-0">
@@ -76,50 +74,32 @@ export function Sidebar() {
         >
           {t("nav.pitch")}
         </Link>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-full bg-bg-hover flex items-center justify-center text-[9px] font-medium text-text-secondary">
-              MA
-            </div>
-            <div>
-              <p className="text-[12px] font-medium text-text-primary leading-none">Matteo</p>
-              <p className="text-[10px] text-text-muted mt-0.5">Pro</p>
-            </div>
+        <div className="flex items-center gap-2.5">
+          <div className="w-6 h-6 rounded-full bg-bg-hover flex items-center justify-center text-[9px] font-medium text-text-secondary">
+            MA
           </div>
-          {/* Language + theme toggles */}
-          <div className="flex items-center gap-0.5">
-            {(["nl", "fr"] as Locale[]).map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setLocale(lang)}
-                className={`
-                  px-1.5 py-0.5 rounded text-[9px] font-medium uppercase tracking-[0.05em] transition-colors
-                  ${locale === lang
-                    ? "bg-[rgba(var(--t-contrast),0.1)] text-text-primary"
-                    : "text-text-muted hover:text-text-primary"
-                  }
-                `}
-              >
-                {lang}
-              </button>
-            ))}
-            <div className="w-px h-3 bg-[rgba(var(--t-contrast),0.1)] mx-0.5" />
+          <div>
+            <p className="text-[12px] font-medium text-text-primary leading-none">Matteo</p>
+            <p className="text-[10px] text-text-muted mt-0.5">Pro</p>
+          </div>
+        </div>
+        {/* Language toggles */}
+        <div className="flex items-center gap-1 mt-3">
+          {(["nl", "fr"] as Locale[]).map((lang) => (
             <button
-              onClick={toggleTheme}
-              className="p-1 rounded text-text-muted hover:text-text-primary transition-colors"
-              title={theme === "dark" ? "Light mode" : "Dark mode"}
+              key={lang}
+              onClick={() => setLocale(lang)}
+              className={`
+                px-2 py-1 rounded text-[10px] font-medium uppercase tracking-[0.05em] transition-colors
+                ${locale === lang
+                  ? "bg-[rgba(var(--t-contrast),0.1)] text-text-primary"
+                  : "text-text-muted hover:text-text-primary"
+                }
+              `}
             >
-              {theme === "dark" ? (
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-                </svg>
-              ) : (
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-                </svg>
-              )}
+              {lang}
             </button>
-          </div>
+          ))}
         </div>
       </div>
     </aside>

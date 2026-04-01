@@ -15,8 +15,7 @@ export function Logo({ size = "md", className = "" }: LogoProps) {
   const s = sizes[size];
 
   return (
-    <div className={`flex items-center ${s.gap} ${className}`}>
-      {/* Clean three-bar icon */}
+    <div className={`flex items-center ${s.gap} text-text-primary ${className}`}>
       <svg
         width={s.icon}
         height={s.icon}
@@ -24,11 +23,11 @@ export function Logo({ size = "md", className = "" }: LogoProps) {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect x="5" y="5.5" width="18" height="3.5" rx="1.75" fill="#FFFFFF" />
-        <rect x="5" y="12.25" width="18" height="3.5" rx="1.75" fill="#FFFFFF" />
-        <rect x="5" y="19" width="18" height="3.5" rx="1.75" fill="#FFFFFF" />
+        <rect x="5" y="5.5" width="18" height="3.5" rx="1.75" fill="currentColor" />
+        <rect x="5" y="12.25" width="18" height="3.5" rx="1.75" fill="currentColor" />
+        <rect x="5" y="19" width="18" height="3.5" rx="1.75" fill="currentColor" />
       </svg>
-      <span className={`${s.text} font-semibold tracking-[-0.02em] text-white`}>
+      <span className={`${s.text} font-semibold tracking-[-0.02em]`}>
         Aktera
       </span>
     </div>

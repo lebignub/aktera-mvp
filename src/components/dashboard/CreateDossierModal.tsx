@@ -13,7 +13,7 @@ interface CreateDossierModalProps {
 }
 
 const inputClass =
-  "w-full bg-[#0A0A0A] border border-[rgba(255,255,255,0.1)] rounded-lg h-10 px-3.5 text-[13px] text-white placeholder-[#444] focus:outline-none focus:border-[rgba(255,255,255,0.3)] transition-colors";
+  "w-full bg-bg-surface border border-[rgba(var(--t-contrast),0.1)] rounded-lg h-10 px-3.5 text-[13px] text-text-primary placeholder-text-muted focus:outline-none focus:border-[rgba(var(--t-contrast),0.3)] transition-colors";
 
 export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierModalProps) {
   const t = useT();
@@ -35,16 +35,16 @@ export function CreateDossierModal({ open, onClose, onCreate }: CreateDossierMod
     <Modal open={open} onClose={onClose} title={t("createDossier.title")}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-[11px] text-[#666] font-medium mb-2">{t("createDossier.address")}</label>
+          <label className="block text-[11px] text-text-muted font-medium mb-2">{t("createDossier.address")}</label>
           <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder={t("createDossier.addressPlaceholder")} className={inputClass} autoFocus />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-[11px] text-[#666] font-medium mb-2">{t("createDossier.city")}</label>
+            <label className="block text-[11px] text-text-muted font-medium mb-2">{t("createDossier.city")}</label>
             <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder={t("createDossier.cityPlaceholder")} className={inputClass} />
           </div>
           <div>
-            <label className="block text-[11px] text-[#666] font-medium mb-2">{t("createDossier.postalCode")}</label>
+            <label className="block text-[11px] text-text-muted font-medium mb-2">{t("createDossier.postalCode")}</label>
             <input type="text" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} placeholder={t("createDossier.postalCodePlaceholder")} className={inputClass} />
           </div>
         </div>

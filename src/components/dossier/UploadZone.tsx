@@ -64,19 +64,19 @@ export function UploadZone({ documentId, propertyId, onUploadComplete, disabled 
 
       {uploading ? (
         <div className="space-y-3">
-          <div className="w-5 h-5 mx-auto rounded-full border-2 border-[rgba(255,255,255,0.1)] border-t-white animate-spin" />
-          <p className="text-[12px] text-[#999]">{t("upload.uploading")}</p>
-          <div className="max-w-[140px] mx-auto h-[2px] bg-[rgba(255,255,255,0.1)] rounded-full overflow-hidden">
-            <div className="h-full bg-white rounded-full transition-all duration-150" style={{ width: `${progress}%` }} />
+          <div className="w-5 h-5 mx-auto rounded-full border-2 border-[rgba(var(--t-contrast),0.1)] border-t-text-primary animate-spin" />
+          <p className="text-[12px] text-text-secondary">{t("upload.uploading")}</p>
+          <div className="max-w-[140px] mx-auto h-[2px] bg-[rgba(var(--t-contrast),0.1)] rounded-full overflow-hidden">
+            <div className="h-full bg-text-primary rounded-full transition-all duration-150" style={{ width: `${progress}%` }} />
           </div>
         </div>
       ) : (
         <div className="space-y-2">
-          <IconUpload size={18} className="mx-auto text-[#666]" />
-          <p className="text-[13px] text-[#999]">
-            {t("upload.dropzone")} {t("upload.dropzoneOr")} <span className="text-white font-medium">{t("upload.browse")}</span>
+          <IconUpload size={18} className="mx-auto text-text-muted" />
+          <p className="text-[13px] text-text-secondary">
+            {t("upload.dropzone")} {t("upload.dropzoneOr")} <span className="text-text-primary font-medium">{t("upload.browse")}</span>
           </p>
-          <p className="text-[11px] text-[#666]">{t("upload.maxSize")}</p>
+          <p className="text-[11px] text-text-muted">{t("upload.maxSize")}</p>
         </div>
       )}
     </div>

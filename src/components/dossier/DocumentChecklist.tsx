@@ -13,7 +13,6 @@ interface DocumentChecklistProps {
   onSelect: (docId: string) => void;
 }
 
-// Maps document status to badge variant and i18n key
 const STATUS_MAP: Record<string, { variant: "success" | "warning" | "error" | "info" | "neutral"; key: TranslationKey }> = {
   missing:    { variant: "neutral", key: "docStatus.missing" },
   uploaded:   { variant: "warning", key: "docStatus.uploaded" },
@@ -27,7 +26,7 @@ export function DocumentChecklist({ documents, selectedDocId, onSelect }: Docume
 
   return (
     <div>
-      <p className="text-[11px] text-[#666] font-medium mb-3 tracking-[-0.01em]">
+      <p className="text-[11px] text-text-muted font-medium mb-3 tracking-[-0.01em]">
         {t("dossier.requiredDocs")}
       </p>
 
@@ -50,8 +49,8 @@ export function DocumentChecklist({ documents, selectedDocId, onSelect }: Docume
               className={`
                 w-full text-left px-3 py-2.5 rounded-lg transition-colors duration-100 cursor-pointer fade-in
                 ${isSelected
-                  ? "bg-[rgba(255,255,255,0.1)] text-white"
-                  : "text-[#999] hover:bg-[rgba(255,255,255,0.03)] hover:text-white"
+                  ? "bg-[rgba(var(--t-contrast),0.1)] text-text-primary"
+                  : "text-text-secondary hover:bg-[rgba(var(--t-contrast),0.03)] hover:text-text-primary"
                 }
               `}
               style={{ animationDelay: `${i * 30}ms` }}
@@ -66,13 +65,13 @@ export function DocumentChecklist({ documents, selectedDocId, onSelect }: Docume
                   </div>
                   {totalFields > 0 && (
                     <div className="flex items-center gap-2 mt-1.5">
-                      <div className="flex-1 h-[2px] bg-[rgba(255,255,255,0.1)] rounded-full overflow-hidden">
+                      <div className="flex-1 h-[2px] bg-[rgba(var(--t-contrast),0.1)] rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-[#00D47E] rounded-full transition-all duration-500"
+                          className="h-full bg-success rounded-full transition-all duration-500"
                           style={{ width: `${(verifiedFields / totalFields) * 100}%` }}
                         />
                       </div>
-                      <span className="text-[10px] text-[#666] tabular-nums">{verifiedFields}/{totalFields}</span>
+                      <span className="text-[10px] text-text-muted tabular-nums">{verifiedFields}/{totalFields}</span>
                     </div>
                   )}
                 </div>

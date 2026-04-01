@@ -85,7 +85,7 @@ export function GenerateButton({ property }: GenerateButtonProps) {
 
   return (
     <>
-      <div className="mt-6 pt-5 border-t border-[rgba(255,255,255,0.1)]">
+      <div className="mt-6 pt-5 border-t border-[rgba(var(--t-contrast),0.1)]">
         <Button onClick={() => setShowVerify(true)} disabled={!hasFields || generating} size="md" className="w-full">
           {generating ? t("generate.generating") : t("generate.button")}
         </Button>
@@ -97,17 +97,17 @@ export function GenerateButton({ property }: GenerateButtonProps) {
           {docReadiness.map((doc) => {
             const Icon = DOC_TYPE_ICONS[doc.type] || IconDocument;
             return (
-              <div key={doc.label} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[rgba(255,255,255,0.02)]">
-                <Icon size={13} className="text-[#666] shrink-0" />
-                <span className="text-[13px] text-white flex-1">{doc.label}</span>
+              <div key={doc.label} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[rgba(var(--t-contrast),0.02)]">
+                <Icon size={13} className="text-text-muted shrink-0" />
+                <span className="text-[13px] text-text-primary flex-1">{doc.label}</span>
                 {doc.status === "missing" ? (
-                  <span className="text-[11px] text-[#666]">{t("generate.missingDoc")}</span>
+                  <span className="text-[11px] text-text-muted">{t("generate.missingDoc")}</span>
                 ) : doc.ready ? (
-                  <span className="flex items-center gap-1 text-[11px] text-[#00D47E]">
+                  <span className="flex items-center gap-1 text-[11px] text-success">
                     <IconCheck size={11} /> {t("generate.ready")}
                   </span>
                 ) : (
-                  <span className="text-[11px] text-[#FFB224]">{doc.verified}/{doc.total}</span>
+                  <span className="text-[11px] text-warning">{doc.verified}/{doc.total}</span>
                 )}
               </div>
             );
@@ -115,25 +115,25 @@ export function GenerateButton({ property }: GenerateButtonProps) {
         </div>
 
         {/* Party info status */}
-        <div className="mb-5 p-3 border border-[rgba(255,255,255,0.1)] rounded-lg">
-          <p className="text-[11px] font-medium text-[#999] mb-2 uppercase tracking-[0.05em]">{t("party.title")}</p>
+        <div className="mb-5 p-3 border border-[rgba(var(--t-contrast),0.1)] rounded-lg">
+          <p className="text-[11px] font-medium text-text-secondary mb-2 uppercase tracking-[0.05em]">{t("party.title")}</p>
           <div className="flex items-center gap-4">
-            <span className={`flex items-center gap-1 text-[11px] ${hasSeller ? "text-[#00D47E]" : "text-[#666]"}`}>
+            <span className={`flex items-center gap-1 text-[11px] ${hasSeller ? "text-success" : "text-text-muted"}`}>
               {hasSeller && <IconCheck size={10} />} {t("party.seller")}
             </span>
-            <span className={`flex items-center gap-1 text-[11px] ${hasBuyer ? "text-[#00D47E]" : "text-[#666]"}`}>
+            <span className={`flex items-center gap-1 text-[11px] ${hasBuyer ? "text-success" : "text-text-muted"}`}>
               {hasBuyer && <IconCheck size={10} />} {t("party.buyer")}
             </span>
           </div>
           {!hasParties && (
-            <p className="text-[10px] text-[#FFB224] mt-1.5">{t("party.title")} — {t("generate.missingDoc").toLowerCase()}</p>
+            <p className="text-[10px] text-warning mt-1.5">{t("party.title")} — {t("generate.missingDoc").toLowerCase()}</p>
           )}
         </div>
 
         {/* Template picker */}
         {templates.length > 0 && (
           <div className="mb-5">
-            <label className="block text-[11px] text-[#666] font-medium mb-2">{t("generate.templateLabel")}</label>
+            <label className="block text-[11px] text-text-muted font-medium mb-2">{t("generate.templateLabel")}</label>
             <div className="space-y-1">
               {templates.map((tpl) => (
                 <button
@@ -142,15 +142,15 @@ export function GenerateButton({ property }: GenerateButtonProps) {
                   className={`
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors
                     ${selectedTemplateId === tpl.id
-                      ? "bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.2)]"
-                      : "border border-transparent hover:bg-[rgba(255,255,255,0.03)]"
+                      ? "bg-[rgba(var(--t-contrast),0.08)] border border-border-hover"
+                      : "border border-transparent hover:bg-[rgba(var(--t-contrast),0.03)]"
                     }
                   `}
                 >
-                  <IconDocument size={13} className="text-[#666] shrink-0" />
-                  <span className="text-[13px] text-white flex-1 truncate">{tpl.name}</span>
+                  <IconDocument size={13} className="text-text-muted shrink-0" />
+                  <span className="text-[13px] text-text-primary flex-1 truncate">{tpl.name}</span>
                   {selectedTemplateId === tpl.id && (
-                    <IconCheck size={12} className="text-[#00D47E] shrink-0" />
+                    <IconCheck size={12} className="text-success shrink-0" />
                   )}
                 </button>
               ))}
@@ -158,12 +158,12 @@ export function GenerateButton({ property }: GenerateButtonProps) {
           </div>
         )}
 
-        <div className="text-[11px] text-[#666] mb-5 p-3 border border-[rgba(255,255,255,0.1)] rounded-lg leading-relaxed">
+        <div className="text-[11px] text-text-muted mb-5 p-3 border border-[rgba(var(--t-contrast),0.1)] rounded-lg leading-relaxed">
           {t("generate.disclaimer")}
         </div>
 
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[11px] text-[#666]">{t("generate.fieldsVerified", { verified: verifiedFields.length, total: allFields.length })}</span>
+          <span className="text-[11px] text-text-muted">{t("generate.fieldsVerified", { verified: verifiedFields.length, total: allFields.length })}</span>
         </div>
 
         <div className="flex justify-end gap-2">

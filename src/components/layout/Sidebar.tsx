@@ -5,14 +5,16 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
 import { IconFolder, IconFileStack, IconSettings } from "@/components/ui/Icons";
 import { useI18n } from "@/lib/i18n";
+import { useTheme } from "@/lib/theme";
 import type { Locale } from "@/lib/i18n";
 
 export function Sidebar() {
   const pathname = usePathname();
   const { locale, setLocale, t } = useI18n();
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <aside className="w-[220px] h-screen sticky top-0 bg-black border-r border-[rgba(255,255,255,0.1)] flex flex-col shrink-0">
+    <aside className="w-[220px] h-screen sticky top-0 bg-bg-app border-r border-border flex flex-col shrink-0">
       {/* Logo */}
       <div className="h-14 flex items-center px-5">
         <Link href="/">
@@ -30,8 +32,8 @@ export function Sidebar() {
           className={`
             flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150
             ${pathname === "/"
-              ? "text-white bg-[rgba(255,255,255,0.1)]"
-              : "text-[#666] hover:text-white"
+              ? "text-text-primary bg-[rgba(var(--t-contrast),0.1)]"
+              : "text-text-muted hover:text-text-primary"
             }
           `}
         >
@@ -43,8 +45,8 @@ export function Sidebar() {
           className={`
             flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150
             ${pathname === "/templates"
-              ? "text-white bg-[rgba(255,255,255,0.1)]"
-              : "text-[#666] hover:text-white"
+              ? "text-text-primary bg-[rgba(var(--t-contrast),0.1)]"
+              : "text-text-muted hover:text-text-primary"
             }
           `}
         >
@@ -56,8 +58,8 @@ export function Sidebar() {
           className={`
             flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] transition-colors duration-150
             ${pathname === "/instellingen"
-              ? "text-white bg-[rgba(255,255,255,0.1)]"
-              : "text-[#666] hover:text-white"
+              ? "text-text-primary bg-[rgba(var(--t-contrast),0.1)]"
+              : "text-text-muted hover:text-text-primary"
             }
           `}
         >
@@ -67,8 +69,8 @@ export function Sidebar() {
       </nav>
 
       {/* Bottom */}
-      <div className="px-5 py-4 border-t border-[rgba(255,255,255,0.1)]">
-        {/* Language toggle */}
+      <div className="px-5 py-4 border-t border-border">
+        {/* Language + theme toggles */}
         <div className="flex items-center gap-1 mb-3">
           {(["nl", "fr"] as Locale[]).map((lang) => (
             <button
@@ -77,29 +79,45 @@ export function Sidebar() {
               className={`
                 px-2 py-1 rounded text-[10px] font-medium uppercase tracking-[0.05em] transition-colors
                 ${locale === lang
-                  ? "bg-[rgba(255,255,255,0.1)] text-white"
-                  : "text-[#666] hover:text-white"
+                  ? "bg-[rgba(var(--t-contrast),0.1)] text-text-primary"
+                  : "text-text-muted hover:text-text-primary"
                 }
               `}
             >
               {lang}
             </button>
           ))}
+          <div className="w-px h-4 bg-[rgba(var(--t-contrast),0.1)] mx-1" />
+          <button
+            onClick={toggleTheme}
+            className="px-2 py-1 rounded text-text-muted hover:text-text-primary transition-colors"
+            title={theme === "dark" ? "Light mode" : "Dark mode"}
+          >
+            {theme === "dark" ? (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+              </svg>
+            ) : (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+              </svg>
+            )}
+          </button>
         </div>
 
         <Link
           href="/pitch"
-          className="text-[11px] text-[#666] hover:text-white transition-colors mb-3 block"
+          className="text-[11px] text-text-muted hover:text-text-primary transition-colors mb-3 block"
         >
           {t("nav.pitch")}
         </Link>
         <div className="flex items-center gap-2.5">
-          <div className="w-6 h-6 rounded-full bg-[#222] flex items-center justify-center text-[9px] font-medium text-[#999]">
+          <div className="w-6 h-6 rounded-full bg-bg-hover flex items-center justify-center text-[9px] font-medium text-text-secondary">
             MA
           </div>
           <div>
-            <p className="text-[12px] font-medium text-white leading-none">Matteo</p>
-            <p className="text-[10px] text-[#666] mt-0.5">Pro</p>
+            <p className="text-[12px] font-medium text-text-primary leading-none">Matteo</p>
+            <p className="text-[10px] text-text-muted mt-0.5">Pro</p>
           </div>
         </div>
       </div>

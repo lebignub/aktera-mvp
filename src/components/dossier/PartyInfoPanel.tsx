@@ -39,13 +39,13 @@ interface PartyFieldProps {
 function PartyField({ label, value, onChange, placeholder, type = "text" }: PartyFieldProps) {
   return (
     <div>
-      <label className="block text-[10px] text-[#666] font-medium mb-1 uppercase tracking-[0.05em]">{label}</label>
+      <label className="block text-[10px] text-text-muted font-medium mb-1 uppercase tracking-[0.05em]">{label}</label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg px-3 py-2 text-[13px] text-white placeholder-[#444] focus:outline-none focus:border-[rgba(255,255,255,0.25)] transition-colors"
+        className="w-full bg-[rgba(var(--t-contrast),0.03)] border border-[rgba(var(--t-contrast),0.1)] rounded-lg px-3 py-2 text-[13px] text-text-primary placeholder-text-muted focus:outline-none focus:border-[rgba(var(--t-contrast),0.25)] transition-colors"
       />
     </div>
   );
@@ -80,14 +80,14 @@ function PartyCard({ party, propertyId, onUpdate }: PartyCardProps) {
   const RoleIcon = party.role === "notary" ? IconScale : IconUser;
 
   return (
-    <div className="border border-[rgba(255,255,255,0.1)] rounded-xl p-4 hover:border-[rgba(255,255,255,0.15)] transition-colors">
+    <div className="border border-[rgba(var(--t-contrast),0.1)] rounded-xl p-4 hover:border-[rgba(var(--t-contrast),0.15)] transition-colors">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <RoleIcon size={13} className="text-[#666]" />
-          <span className="text-[12px] font-medium text-white uppercase tracking-[0.05em]">{roleLabel}</span>
+          <RoleIcon size={13} className="text-text-muted" />
+          <span className="text-[12px] font-medium text-text-primary uppercase tracking-[0.05em]">{roleLabel}</span>
         </div>
-        <button onClick={handleRemove} className="text-[11px] text-[#666] hover:text-[#ff4444] transition-colors">
+        <button onClick={handleRemove} className="text-[11px] text-text-muted hover:text-error transition-colors">
           {t("party.removeParty")}
         </button>
       </div>
@@ -153,9 +153,9 @@ export function PartyInfoPanel({ propertyId }: PartyInfoPanelProps) {
   }));
 
   return (
-    <div className="mt-6 pt-5 border-t border-[rgba(255,255,255,0.1)]">
+    <div className="mt-6 pt-5 border-t border-[rgba(var(--t-contrast),0.1)]">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-[13px] font-semibold text-white tracking-[-0.01em]">{t("party.title")}</h3>
+        <h3 className="text-[13px] font-semibold text-text-primary tracking-[-0.01em]">{t("party.title")}</h3>
       </div>
 
       <div className="space-y-3">
@@ -176,7 +176,7 @@ export function PartyInfoPanel({ propertyId }: PartyInfoPanelProps) {
           <button
             key={role}
             onClick={() => handleAdd(role)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dashed border-[rgba(255,255,255,0.1)] text-[11px] text-[#666] hover:text-white hover:border-[rgba(255,255,255,0.2)] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dashed border-[rgba(var(--t-contrast),0.1)] text-[11px] text-text-muted hover:text-text-primary hover:border-border-hover transition-colors"
           >
             <IconPlus size={10} />
             {t(`party.${role}` as "party.seller" | "party.buyer" | "party.notary")}

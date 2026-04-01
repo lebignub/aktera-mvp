@@ -36,19 +36,19 @@ export function DossierCard({ property, index }: DossierCardProps) {
         style={{ animationDelay: `${index * 50}ms` }}
       >
         <div className="flex items-start justify-between gap-3 mb-1">
-          <h3 className="text-[14px] font-medium text-white tracking-[-0.01em] group-hover:opacity-80 transition-opacity truncate">
+          <h3 className="text-[14px] font-medium text-text-primary tracking-[-0.01em] group-hover:opacity-80 transition-opacity truncate">
             {property.address}
           </h3>
           <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
         </div>
 
-        <p className="text-[12px] text-[#666] mb-4">
+        <p className="text-[12px] text-text-muted mb-4">
           {property.postal_code} {property.city}
         </p>
 
         <ProgressBar value={completion} className="mb-2.5" />
 
-        <div className="flex items-center justify-between text-[11px] text-[#666]">
+        <div className="flex items-center justify-between text-[11px] text-text-muted">
           <span>{t("dossier.cardSummary", { uploaded: String(uploaded), total: String(total), verified: String(verified) })}</span>
           <span>
             {new Date(property.updated_at).toLocaleDateString(dateLocale, { day: "numeric", month: "short" })}

@@ -127,7 +127,7 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
       <div className="flex min-h-screen">
         <Sidebar />
         <div className="flex-1 flex items-center justify-center">
-          <div className="w-5 h-5 rounded-full border-2 border-[rgba(255,255,255,0.1)] border-t-white animate-spin" />
+          <div className="w-5 h-5 rounded-full border-2 border-[rgba(var(--t-contrast),0.1)] border-t-text-primary animate-spin" />
         </div>
       </div>
     );
@@ -164,8 +164,8 @@ export default function DossierPage({ params }: { params: Promise<{ id: string }
                   extracting={extracting}
                 />
               ) : (
-                <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl p-12 text-center">
-                  <p className="text-[12px] text-[#666]">{t("dossier.selectDocument")}</p>
+                <div className="border border-dashed border-[rgba(var(--t-contrast),0.1)] rounded-xl p-12 text-center">
+                  <p className="text-[12px] text-text-muted">{t("dossier.selectDocument")}</p>
                 </div>
               )}
             </div>

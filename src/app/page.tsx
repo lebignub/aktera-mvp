@@ -50,8 +50,8 @@ export default function Dashboard() {
           {/* Page header */}
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">{t("dashboard.title")}</h1>
-              <p className="text-[13px] text-[#666] mt-1 tracking-[-0.01em]">{t("dashboard.subtitle")}</p>
+              <h1 className="text-[20px] font-semibold text-text-primary tracking-[-0.02em]">{t("dashboard.title")}</h1>
+              <p className="text-[13px] text-text-muted mt-1 tracking-[-0.01em]">{t("dashboard.subtitle")}</p>
             </div>
             <Button onClick={() => setShowCreate(true)} size="md">
               <IconPlus size={13} />
@@ -65,9 +65,9 @@ export default function Dashboard() {
           {/* Dossier list */}
           <div className="mt-8">
             {properties.length === 0 ? (
-              <div className="border border-dashed border-[rgba(255,255,255,0.1)] rounded-xl py-16 text-center">
-                <p className="text-[14px] text-[#999] mb-1">{t("dashboard.noDossiers")}</p>
-                <p className="text-[12px] text-[#666] mb-6">{t("dashboard.noDossiersHint")}</p>
+              <div className="border border-dashed border-[rgba(var(--t-contrast),0.1)] rounded-xl py-16 text-center">
+                <p className="text-[14px] text-text-secondary mb-1">{t("dashboard.noDossiers")}</p>
+                <p className="text-[12px] text-text-muted mb-6">{t("dashboard.noDossiersHint")}</p>
                 <Button onClick={() => setShowCreate(true)} size="md">
                   <IconPlus size={13} />
                   {t("dashboard.newDossier")}

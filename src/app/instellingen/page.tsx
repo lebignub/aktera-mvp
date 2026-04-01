@@ -32,23 +32,23 @@ export default function InstellingenPage() {
         <main className="flex-1 px-10 py-8 max-w-[900px]">
           {/* Page header */}
           <div className="mb-8">
-            <h1 className="text-[20px] font-semibold text-white tracking-[-0.02em]">{t("settings.title")}</h1>
-            <p className="text-[13px] text-[#666] mt-1 tracking-[-0.01em]">{t("settings.subtitle")}</p>
+            <h1 className="text-[20px] font-semibold text-text-primary tracking-[-0.02em]">{t("settings.title")}</h1>
+            <p className="text-[13px] text-text-muted mt-1 tracking-[-0.01em]">{t("settings.subtitle")}</p>
           </div>
 
           {/* Agency section */}
           <section className="mb-10">
-            <h2 className="text-[13px] text-[#666] font-medium tracking-[0.04em] uppercase mb-5">{t("settings.sectionOffice")}</h2>
+            <h2 className="text-[13px] text-text-muted font-medium tracking-[0.04em] uppercase mb-5">{t("settings.sectionOffice")}</h2>
 
             <div className="space-y-5">
               {/* Logo placeholder */}
               <div>
-                <label className="block text-[11px] text-[#666] font-medium mb-2">{t("settings.logo")}</label>
+                <label className="block text-[11px] text-text-muted font-medium mb-2">{t("settings.logo")}</label>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] flex items-center justify-center">
-                    <span className="text-[14px] font-semibold text-[#666]">MV</span>
+                  <div className="w-12 h-12 rounded-xl bg-[rgba(var(--t-contrast),0.04)] border border-[rgba(var(--t-contrast),0.08)] flex items-center justify-center">
+                    <span className="text-[14px] font-semibold text-text-muted">MV</span>
                   </div>
-                  <button className="text-[12px] text-[#666] border border-[rgba(255,255,255,0.1)] rounded-lg px-3 py-1.5 hover:text-white hover:border-[rgba(255,255,255,0.2)] transition-colors">
+                  <button className="text-[12px] text-text-muted border border-[rgba(var(--t-contrast),0.1)] rounded-lg px-3 py-1.5 hover:text-text-primary hover:border-border-hover transition-colors">
                     {t("settings.changeLogo")}
                   </button>
                 </div>
@@ -56,23 +56,23 @@ export default function InstellingenPage() {
 
               {/* Agency name */}
               <div>
-                <label className="block text-[11px] text-[#666] font-medium mb-1.5">{t("settings.officeName")}</label>
+                <label className="block text-[11px] text-text-muted font-medium mb-1.5">{t("settings.officeName")}</label>
                 <input
                   type="text"
                   value={agencyName}
                   onChange={(e) => setAgencyName(e.target.value)}
-                  className="w-full bg-transparent border border-[rgba(255,255,255,0.12)] rounded-lg px-3 py-2 text-[13px] text-white placeholder-[#444] focus:outline-none focus:border-[rgba(255,255,255,0.3)] transition-colors"
+                  className="w-full bg-transparent border border-border rounded-lg px-3 py-2 text-[13px] text-text-primary placeholder-text-muted focus:outline-none focus:border-[rgba(var(--t-contrast),0.3)] transition-colors"
                 />
               </div>
 
               {/* Email */}
               <div>
-                <label className="block text-[11px] text-[#666] font-medium mb-1.5">{t("settings.email")}</label>
+                <label className="block text-[11px] text-text-muted font-medium mb-1.5">{t("settings.email")}</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-transparent border border-[rgba(255,255,255,0.12)] rounded-lg px-3 py-2 text-[13px] text-white placeholder-[#444] focus:outline-none focus:border-[rgba(255,255,255,0.3)] transition-colors"
+                  className="w-full bg-transparent border border-border rounded-lg px-3 py-2 text-[13px] text-text-primary placeholder-text-muted focus:outline-none focus:border-[rgba(var(--t-contrast),0.3)] transition-colors"
                 />
               </div>
             </div>
@@ -80,25 +80,25 @@ export default function InstellingenPage() {
 
           {/* Defaults section */}
           <section className="mb-10">
-            <h2 className="text-[13px] text-[#666] font-medium tracking-[0.04em] uppercase mb-5">{t("settings.sectionDefaults")}</h2>
+            <h2 className="text-[13px] text-text-muted font-medium tracking-[0.04em] uppercase mb-5">{t("settings.sectionDefaults")}</h2>
 
             <div>
-              <label className="block text-[11px] text-[#666] font-medium mb-1.5">{t("settings.defaultTemplateLabel")}</label>
+              <label className="block text-[11px] text-text-muted font-medium mb-1.5">{t("settings.defaultTemplateLabel")}</label>
               <select
                 value={defaultTemplate}
                 onChange={(e) => setDefaultTemplate(e.target.value)}
-                className="w-full bg-transparent border border-[rgba(255,255,255,0.12)] rounded-lg px-3 py-2 text-[13px] text-white focus:outline-none focus:border-[rgba(255,255,255,0.3)] transition-colors appearance-none"
+                className="w-full bg-transparent border border-border rounded-lg px-3 py-2 text-[13px] text-text-primary focus:outline-none focus:border-[rgba(var(--t-contrast),0.3)] transition-colors appearance-none"
                 style={{ backgroundImage: "none" }}
               >
-                <option value="compromis" className="bg-[#111]">{t("settings.optionCompromis")}</option>
-                <option value="samenwerkingsovereenkomst" className="bg-[#111]">{t("settings.optionSamenwerkingsovereenkomst")}</option>
-                <option value="bod" className="bg-[#111]">{t("settings.optionBod")}</option>
+                <option value="compromis" className="bg-bg-elevated">{t("settings.optionCompromis")}</option>
+                <option value="samenwerkingsovereenkomst" className="bg-bg-elevated">{t("settings.optionSamenwerkingsovereenkomst")}</option>
+                <option value="bod" className="bg-bg-elevated">{t("settings.optionBod")}</option>
               </select>
             </div>
           </section>
 
           {/* Divider */}
-          <div className="h-px bg-[rgba(255,255,255,0.08)] mb-6" />
+          <div className="h-px bg-[rgba(var(--t-contrast),0.08)] mb-6" />
 
           {/* Save */}
           <div className="flex justify-end">

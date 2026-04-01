@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
+import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -20,9 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl" className={`${geist.variable} h-full`} suppressHydrationWarning>
+    <html lang="nl" className={`${geist.variable} h-full`} data-theme="dark" suppressHydrationWarning>
       <body className="min-h-full font-sans antialiased">
-        <I18nProvider>{children}</I18nProvider>
+        {/* Inline script to prevent theme flash — runs before React hydration */}
+        <script dangerouslySetInnerHTML={{
+          __html: `try{var t=localStorage.getItem('aktera_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}`
+        }} />
+        <ThemeProvider>
+          <I18nProvider>{children}</I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

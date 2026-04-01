@@ -31,17 +31,17 @@ export function SourcePreview({ field, document: doc, onClose }: SourcePreviewPr
       <div className="panel-header px-5 py-3.5 flex items-center gap-3 shrink-0">
         <button
           onClick={onClose}
-          className="text-[#666] hover:text-white transition-colors"
+          className="text-text-muted hover:text-text-primary transition-colors"
         >
           <IconArrowLeft size={14} />
         </button>
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-medium text-white truncate">{doc.file_name}</p>
-          <p className="text-[10px] text-[#666] mt-0.5">
+          <p className="text-[13px] font-medium text-text-primary truncate">{doc.file_name}</p>
+          <p className="text-[10px] text-text-muted mt-0.5">
             {config.label} — {t("source.page", { page: String(page) })}
           </p>
         </div>
-        <span className="text-[10px] text-[#666] border border-[rgba(255,255,255,0.1)] rounded px-2 py-0.5 shrink-0">
+        <span className="text-[10px] text-text-muted border border-[rgba(var(--t-contrast),0.1)] rounded px-2 py-0.5 shrink-0">
           p. {page}
         </span>
       </div>
@@ -99,25 +99,25 @@ export function SourcePreview({ field, document: doc, onClose }: SourcePreviewPr
 
         {/* Citation info below the page */}
         <div className="mt-4 mx-auto max-w-[480px]">
-          <div className="border border-[rgba(255,255,255,0.08)] rounded-lg p-4">
-            <p className="text-[10px] text-[#666] font-medium mb-2">{t("source.extraction")}</p>
+          <div className="border border-[rgba(var(--t-contrast),0.08)] rounded-lg p-4">
+            <p className="text-[10px] text-text-muted font-medium mb-2">{t("source.extraction")}</p>
             <div className="space-y-2">
               <div className="flex gap-2">
-                <span className="text-[10px] text-[#666] w-14 shrink-0">{t("source.field")}</span>
-                <span className="text-[11px] text-white">{field.field_label}</span>
+                <span className="text-[10px] text-text-muted w-14 shrink-0">{t("source.field")}</span>
+                <span className="text-[11px] text-text-primary">{field.field_label}</span>
               </div>
               <div className="flex gap-2">
-                <span className="text-[10px] text-[#666] w-14 shrink-0">{t("source.value")}</span>
-                <span className="text-[11px] text-white font-medium">{field.field_value}</span>
+                <span className="text-[10px] text-text-muted w-14 shrink-0">{t("source.value")}</span>
+                <span className="text-[11px] text-text-primary font-medium">{field.field_value}</span>
               </div>
               <div className="flex gap-2">
-                <span className="text-[10px] text-[#666] w-14 shrink-0">{t("source.source")}</span>
-                <span className="text-[11px] text-[#999]">{doc.file_name} — p. {page}</span>
+                <span className="text-[10px] text-text-muted w-14 shrink-0">{t("source.source")}</span>
+                <span className="text-[11px] text-text-secondary">{doc.file_name} — p. {page}</span>
               </div>
               {field.source_snippet && (
                 <div className="flex gap-2">
-                  <span className="text-[10px] text-[#666] w-14 shrink-0">{t("source.citation")}</span>
-                  <span className="text-[11px] text-[#999] italic">&quot;{field.source_snippet}&quot;</span>
+                  <span className="text-[10px] text-text-muted w-14 shrink-0">{t("source.citation")}</span>
+                  <span className="text-[11px] text-text-secondary italic">&quot;{field.source_snippet}&quot;</span>
                 </div>
               )}
             </div>
